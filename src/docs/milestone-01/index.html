@@ -5,38 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Title</title>
-    <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="styles.css">
-    <!-- JavaScript Files -->
     <script type="module" src="script.js" defer></script>
 </head>
 
 <body>
-    <header>
-        <!-- Navigation bar, logo, etc. -->
+    <header id="vision">
+        <h1><span class="teamName"></span></h1>
     </header>
-
-    <nav>
-        <!-- Links to different sections/pages -->
+    <section>
+        <h2>Team Members</h2>
+        <div class="teamMembers"></div>
+    </section>
+    <nav id="navigationBar">
+        <a href="#vision">Vision</a>
+        <a href="#team">Team</a>
+        <a href="#overview">Overview</a>
     </nav>
-
     <main>
-        <!-- Main content of the document -->
-        <article>
-            <!-- Primary content like a blog post or article -->
+        <article id="overview">
+            <h2>Project Overview</h2>
         </article>
-
-        <section>
-            <!-- Related content or subsections -->
-        </section>
-
-        <aside>
-            <!-- Side content like ads, links to other posts, or author info -->
-        </aside>
+        <article id="application-parts">
+            <h2>Application Parts</h2>
+        </article>
+        <article id="data-requirements">
+            <h2>Data Requirements</h2>
+        </article>
+        <article id="wire-frames">
+            <h2>Wireframes</h2>
+        </article>
+        <article id="real-world">
+            <h2>Connecting to a Real-World Problem</h2>
+        </article>
+        <article id="integrative-experience">
+            <h2>Integrative Experience</h2>
+        </article>
     </main>
-
     <footer>
-        <!-- Footer content like copyright, links to privacy policy, etc. -->
+        <div class="left">
+            <a href="#overview"></a>
+        </div>
+        <div class="right">
+            &copy; 2024 <span class="teamName"></span>
+        </div>
     </footer>
 </body>
 
