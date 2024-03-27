@@ -142,8 +142,9 @@ const navLinksEffects = () => {
 	setTempElemToLink(firstLink);
 
 	function setTempElemToLink(link) {
-		tempElem.style.width = `${link.offsetWidth}px`;
-		tempElem.style.left = `${link.offsetLeft}px`;
+		const offset = 20;
+		tempElem.style.width = `${link.offsetWidth + offset}px`;
+		tempElem.style.left = `${link.offsetLeft - offset / 2}px`;
 	}
 
 	function handleLinkClick(event) {
