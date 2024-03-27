@@ -1,0 +1,323 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tauri&display=swap");
+
+@keyframes opacity0 {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+:root {
+    --pageBackgroundColor: #fff;
+    --navHeight: 60px;
+    --navBackground: rgba(22, 22, 23, 0.8);
+    --navLinkColor: rgba(255, 255, 255, 0.8);
+    --headerHeight: 350px;
+    --headerBackgroundColor: rgba(0, 0, 0, 1);
+    --headerTitleColor: rgba(255, 255, 255, 0.9);
+    --memberBackgroundColor: rgba(225, 225, 225, 0.5);
+    --memberBorderColor: rgba(0, 0, 0, 0.2);
+    --footerBackgroundColor: rgba(225, 225, 225, 0.8);
+    --dialogModalBackdropBackgroundColor: rgba(0, 0, 0, 0.4);
+    --dialogModalContentBackgroundColor: rgba(255, 255, 255, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--pageBackgroundColor);
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+}
+
+body.dialogModal-open {
+    overflow: hidden;
+}
+
+h1,
+h2 {
+    font-family: "Noto Sans", sans-serif;
+    margin: 0;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+nav {
+    width: 100%;
+    height: var(--navHeight);
+    font-family: "Roboto", sans-serif;
+    background-color: var(--navBackground);
+    position: fixed;
+    inset: 0 auto auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    backdrop-filter: saturate(10%) blur(20px);
+    z-index: 999;
+    --linkHeight: 20px;
+    --hoveringTimingDuration: 250ms;
+}
+
+nav a {
+    height: var(--linkHeight);
+    color: var(--navLinkColor);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+nav .tempElem {
+    width: 0;
+    height: 2px;
+    background-color: var(--navLinkColor);
+    border-radius: 5px;
+    position: absolute;
+    inset: auto auto 15px 0;
+    z-index: 1;
+    transition: left var(--hoveringTimingDuration) linear;
+    opacity: 0;
+    animation: opacity0 100ms 500ms linear forwards;
+}
+
+header {
+    width: 100%;
+    height: calc(var(--navHeight) + var(--headerHeight));
+    background-color: var(--headerBackgroundColor);
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header h1 {
+    color: var(--headerTitleColor);
+}
+
+#team {
+    background-color: var(--pageBackgroundColor);
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#team .teamMembers {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+#team h2 {
+    margin: 20px 0;
+}
+
+#team .member {
+    width: 140px;
+    height: 180px;
+    font-family: "Tauri", sans-serif;
+    background-color: var(--memberBackgroundColor);
+    border: 1px solid var(--memberBorderColor);
+    border-radius: 10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transform: scale(1);
+    cursor: pointer;
+    transition: transform 100ms linear;
+}
+
+#team .member:hover {
+    transform: scale(1.05);
+}
+
+#team .member .photo {
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+}
+
+#team .member .name {
+    font-weight: 800;
+    margin: 5px 0;
+}
+
+main {
+    padding: 40px 140px;
+}
+
+main article {
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 50px;
+}
+
+main article h2 {
+    text-align: center;
+    margin: 15px 0;
+}
+
+main article .content {
+    font-size: 1rem;
+}
+
+footer {
+    background-color: var(--footerBackgroundColor);
+    padding: 40px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogModal {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    inset: 0 auto auto 0;
+    z-index: 1000;
+}
+
+.dialogModal .dialogModal-backdrop {
+    width: 100%;
+    height: 100%;
+    background-color: var(--dialogModalBackdropBackgroundColor);
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 1;
+}
+
+.dialogModal .dialogModal-inner {
+    width: 400px;
+    height: 400px;
+    background-color: var(--dialogModalContentBackgroundColor);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: 50% auto auto 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    z-index: 2;
+    animation: opacity0 250ms linear forwards;
+}
+
+/* Dialog Box */
+
+.dialogModal[data-type="memberInfo"] .dialogModal-inner {
+    width: 500px;
+    height: 400px;
+}
+
+.dialogModal .dialogModal-inner .memberInfo {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    --avatarDimension: 100px;
+}
+
+.dialogModal .memberInfo .top {
+    --height: 130px;
+    width: 100%;
+    min-height: var(--height);
+    max-height: var(--height);
+    position: relative;
+    overflow: visible;
+    z-index: 2;
+}
+
+.dialogModal .memberInfo .banner {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    inset: 0 auto auto 0;
+}
+
+.dialogModal .memberInfo .photo {
+    width: var(--avatarDimension);
+    height: var(--avatarDimension);
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    position: absolute;
+    inset: auto auto calc((var(--avatarDimension) / 2) * -1) 25px;
+}
+
+.dialogModal .memberInfo .photo:before {
+    --dimensionOutset: 8px;
+    content: "";
+    width: calc(var(--avatarDimension) + var(--dimensionOutset));
+    height: calc(var(--avatarDimension) + var(--dimensionOutset));
+    border: var(--dimensionOutset) solid #fff;
+    border-radius: 50%;
+    position: absolute;
+    inset: -2px auto auto -2px;
+    pointer-events: none;
+}
+
+.dialogModal .memberInfo .content {
+    --infoHeight: 80px;
+    width: 100%;
+    margin: 60px 0 0 0;
+    position: relative;
+    flex: 1;
+    z-index: 1;
+}
+
+.dialogModal .memberInfo .info {
+    width: 370px;
+    height: var(--infoHeight);
+    font-family: "Tauri", sans-serif;
+    padding: 10px 20px;
+    position: absolute;
+    inset: calc(((var(--avatarDimension) / 2) + 10px) * -1) 0 0 calc((var(--avatarDimension) / 2) + 80px);
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+}
+
+.dialogModal .memberInfo .info .name {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.dialogModal .memberInfo .info .role {
+    font-size: 1.3rem;
+}
+
+.dialogModal .memberInfo .bio {
+    height: calc(100% - (var(--infoHeight) / 2) + 10px);
+    font-size: 1rem;
+    padding: 10px 30px;
+    margin: 30px 0 0 0;
+    position: relative;
+}

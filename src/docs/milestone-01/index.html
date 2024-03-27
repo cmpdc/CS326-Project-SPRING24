@@ -6,48 +6,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Title</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="script.js" defer></script>
+    <script type="module" defer>
+        import init from "./script.js";
+        document.addEventListener("DOMContentLoaded", init);
+    </script>
 </head>
 
 <body>
+    <nav id="navigationBar">
+        <a href="#team">Team</a>
+        <a href="#overview">Project Overview</a>
+        <a href="#application-parts">Application Parts</a>
+        <a href="#data-requirements">Data Requirements</a>
+        <a href="#wire-frames">Wireframes</a>
+        <a href="#real-world">Real World Problems</a>
+        <a href="#integrative-experience">Experience</a>
+        <div class="tempElem"></div>
+    </nav>
     <header id="vision">
-        <h1><span class="teamName"></span></h1>
+        <h1 class="teamName">INSERT PROJECT TITLE HERE</h1>
     </header>
-    <section>
+    <section id="team">
         <h2>Team Members</h2>
         <div class="teamMembers"></div>
     </section>
-    <nav id="navigationBar">
-        <a href="#vision">Vision</a>
-        <a href="#team">Team</a>
-        <a href="#overview">Overview</a>
-    </nav>
     <main>
         <article id="overview">
             <h2>Project Overview</h2>
+            <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Velit ut tortor pretium viverra suspendisse potenti nullam. Donec pretium vulputate
+                sapien nec sagittis aliquam malesuada. Velit euismod in pellentesque massa placerat duis ultricies.
+                Venenatis a condimentum vitae sapien pellentesque habitant morbi. Amet dictum sit amet justo donec enim
+                diam vulputate ut. Aliquam vestibulum morbi blandit cursus risus at ultrices mi. Ornare arcu odio ut sem
+                nulla pharetra diam. Ut lectus arcu bibendum at varius. Sociis natoque penatibus et magnis dis
+                parturient montes nascetur. Feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Tristique magna
+                sit amet purus gravida quis blandit. Magna eget est lorem ipsum dolor sit amet. Sed cras ornare arcu dui
+                vivamus. Pellentesque adipiscing commodo elit at imperdiet dui.
+            </div>
         </article>
         <article id="application-parts">
             <h2>Application Parts</h2>
+            <div class="content">
+                Elit at imperdiet dui accumsan sit. Sapien eget mi proin sed libero enim. Eget velit aliquet sagittis id
+                consectetur. Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Adipiscing elit
+                pellentesque habitant morbi. Est ultricies integer quis auctor elit sed vulputate. Et egestas quis ipsum
+                suspendisse ultrices gravida dictum. Tincidunt tortor aliquam nulla facilisi. Etiam non quam lacus
+                suspendisse faucibus interdum posuere. Vitae et leo duis ut diam quam nulla porttitor. Massa enim nec
+                dui nunc mattis enim ut tellus. Consectetur adipiscing elit ut aliquam. Dictum sit amet justo donec enim
+                diam vulputate. Cursus in hac habitasse platea dictumst quisque sagittis purus. Lorem mollis aliquam ut
+                porttitor leo a diam sollicitudin tempor. Malesuada pellentesque elit eget gravida cum sociis natoque.
+
+                Non blandit massa enim nec dui nunc. Vulputate eu scelerisque felis imperdiet proin fermentum. Volutpat
+                est velit egestas dui id ornare. Donec ultrices tincidunt arcu non sodales neque sodales ut. Pharetra
+                magna ac placerat vestibulum. Cum sociis natoque penatibus et magnis. Purus sit amet luctus venenatis
+                lectus magna. Porta non pulvinar neque laoreet suspendisse interdum consectetur libero id. A lacus
+                vestibulum sed arcu. Eu non diam phasellus vestibulum lorem sed risus ultricies.
+            </div>
         </article>
         <article id="data-requirements">
             <h2>Data Requirements</h2>
+            <div class="content">Sit amet nulla facilisi morbi tempus. Eget arcu dictum varius duis at consectetur lorem
+                donec massa. Turpis in eu mi bibendum neque egestas congue. Lorem mollis aliquam ut porttitor leo a
+                diam. Suspendisse faucibus interdum posuere lorem. Platea dictumst vestibulum rhoncus est pellentesque
+                elit ullamcorper dignissim cras. Odio euismod lacinia at quis. Sed augue lacus viverra vitae. Imperdiet
+                dui accumsan sit amet nulla facilisi morbi tempus iaculis. Diam sit amet nisl suscipit adipiscing
+                bibendum est ultricies integer.
+
+                Sit amet nisl purus in mollis nunc sed id. Dapibus ultrices in iaculis nunc sed. In nisl nisi
+                scelerisque eu ultrices vitae. Et malesuada fames ac turpis egestas maecenas pharetra convallis posuere.
+                Turpis egestas maecenas pharetra convallis posuere morbi leo. Scelerisque eu ultrices vitae auctor eu.
+                Fermentum et sollicitudin ac orci phasellus egestas. Porta lorem mollis aliquam ut porttitor leo.
+                Pellentesque pulvinar pellentesque habitant morbi tristique senectus et netus. Aliquam faucibus purus in
+                massa tempor nec. Viverra adipiscing at in tellus integer. Sed viverra ipsum nunc aliquet bibendum. Sit
+                amet consectetur adipiscing elit pellentesque habitant morbi tristique.
+
+                Id leo in vitae turpis massa sed elementum tempus. At risus viverra adipiscing at. Volutpat odio
+                facilisis mauris sit amet massa vitae tortor. Dui id ornare arcu odio ut sem nulla pharetra. Turpis
+                massa tincidunt dui ut ornare lectus sit amet. Sed enim ut sem viverra aliquet eget sit amet tellus.
+                Amet est placerat in egestas erat imperdiet. Neque convallis a cras semper auctor neque vitae tempus
+                quam. Non curabitur gravida arcu ac tortor. Ultrices sagittis orci a scelerisque purus semper eget.
+                Vulputate mi sit amet mauris commodo quis imperdiet. Mauris commodo quis imperdiet massa tincidunt nunc.
+            </div>
         </article>
         <article id="wire-frames">
             <h2>Wireframes</h2>
+            <div class="content">
+                Amet dictum sit amet justo. Felis donec et odio pellentesque diam volutpat. Malesuada bibendum arcu
+                vitae elementum curabitur vitae nunc sed. Et odio pellentesque diam volutpat commodo sed egestas
+                egestas. Aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat. Vitae purus faucibus
+                ornare suspendisse sed nisi. Congue quisque egestas diam in arcu cursus euismod. Velit dignissim sodales
+                ut eu sem integer. Aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod. Adipiscing
+                diam donec adipiscing tristique risus nec feugiat. Enim nec dui nunc mattis enim ut. Nisi porta lorem
+                mollis aliquam ut. Nibh praesent tristique magna sit amet purus gravida. Ultricies tristique nulla
+                aliquet enim. Laoreet non curabitur gravida arcu ac tortor dignissim convallis. Eget gravida cum sociis
+                natoque penatibus et magnis dis parturient. Netus et malesuada fames ac turpis egestas maecenas. Pretium
+                nibh ipsum consequat nisl vel pretium lectus quam. Nunc pulvinar sapien et ligula ullamcorper malesuada
+                proin libero nunc.
+
+                At ultrices mi tempus imperdiet nulla malesuada. Ridiculus mus mauris vitae ultricies. Non quam lacus
+                suspendisse faucibus interdum posuere lorem ipsum. Ornare quam viverra orci sagittis eu volutpat.
+                Habitant morbi tristique senectus et netus et malesuada fames. Adipiscing tristique risus nec feugiat in
+                fermentum. Duis at tellus at urna condimentum mattis pellentesque id. Lorem sed risus ultricies
+                tristique. Nibh venenatis cras sed felis eget velit aliquet sagittis. Quisque id diam vel quam elementum
+                pulvinar etiam non. Eu tincidunt tortor aliquam nulla facilisi cras. Semper viverra nam libero justo
+                laoreet sit amet cursus sit. Aliquam etiam erat velit scelerisque in dictum non consectetur. Aliquam sem
+                et tortor consequat. Integer feugiat scelerisque varius morbi enim nunc faucibus a pellentesque.
+                Ultricies leo integer malesuada nunc vel risus commodo. Libero nunc consequat interdum varius sit amet.
+                Ac orci phasellus egestas tellus rutrum tellus. Sed sed risus pretium quam vulputate. Nulla porttitor
+                massa id neque aliquam.
+            </div>
         </article>
         <article id="real-world">
             <h2>Connecting to a Real-World Problem</h2>
+            <div class="content">
+                Cras semper auctor neque vitae tempus quam pellentesque nec nam. Adipiscing diam donec adipiscing
+                tristique risus. Elit ullamcorper dignissim cras tincidunt. Integer malesuada nunc vel risus commodo
+                viverra. Curabitur vitae nunc sed velit. Massa tempor nec feugiat nisl. Ut sem viverra aliquet eget sit
+                amet tellus cras adipiscing. Urna condimentum mattis pellentesque id. Arcu non odio euismod lacinia.
+                Nisl vel pretium lectus quam id leo in vitae turpis. Amet risus nullam eget felis eget. At in tellus
+                integer feugiat scelerisque. Lorem ipsum dolor sit amet consectetur adipiscing elit ut. Gravida neque
+                convallis a cras semper auctor. At augue eget arcu dictum varius duis at consectetur.
+
+                Sem integer vitae justo eget. Molestie at elementum eu facilisis sed odio morbi quis commodo. Quis risus
+                sed vulputate odio. Sit amet consectetur adipiscing elit duis. Consectetur a erat nam at lectus urna
+                duis convallis convallis. Cursus in hac habitasse platea dictumst quisque. Cum sociis natoque penatibus
+                et magnis dis parturient. Pulvinar proin gravida hendrerit lectus a. Porta non pulvinar neque laoreet
+                suspendisse interdum. Quam pellentesque nec nam aliquam. Ut ornare lectus sit amet. Tincidunt tortor
+                aliquam nulla facilisi. Congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar.
+                Maecenas sed enim ut sem viverra. Viverra mauris in aliquam sem fringilla ut morbi tincidunt. Morbi leo
+                urna molestie at elementum eu. Mauris in aliquam sem fringilla ut morbi tincidunt augue interdum. Tellus
+                id interdum velit laoreet id donec ultrices tincidunt.
+            </div>
         </article>
         <article id="integrative-experience">
             <h2>Integrative Experience</h2>
+            <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Velit ut tortor pretium viverra suspendisse potenti nullam. Donec pretium vulputate
+                sapien nec sagittis aliquam malesuada. Velit euismod in pellentesque massa placerat duis ultricies.
+                Venenatis a condimentum vitae sapien pellentesque habitant morbi. Amet dictum sit amet justo donec enim
+                diam vulputate ut. Aliquam vestibulum morbi blandit cursus risus at ultrices mi. Ornare arcu odio ut sem
+                nulla pharetra diam. Ut lectus arcu bibendum at varius. Sociis natoque penatibus et magnis dis
+                parturient montes nascetur. Feugiat nibh sed pulvinar proin gravida hendrerit lectus a. Tristique magna
+                sit amet purus gravida quis blandit. Magna eget est lorem ipsum dolor sit amet. Sed cras ornare arcu dui
+                vivamus. Pellentesque adipiscing commodo elit at imperdiet dui.
+            </div>
         </article>
     </main>
     <footer>
-        <div class="left">
-            <a href="#overview"></a>
-        </div>
-        <div class="right">
-            &copy; 2024 <span class="teamName"></span>
+        <div class="copyright">
+            &copy; 2024 <span class="teamName"></span>. All rights reserved.
         </div>
     </footer>
 </body>
