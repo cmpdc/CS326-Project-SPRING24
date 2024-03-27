@@ -69,7 +69,22 @@ const showDialog = (content, dataType) => {
 const injectTeamMembers = () => {
 	const teamMembersElem = document.querySelector("#team .teamMembers");
 
-	const teamMembersSorted = teamMembers.sort((a, b) => a.name.localeCompare(b.name));
+	const teamMembersSorted = teamMembers.sort((a, b) => {
+		const nameA = a.name.split(" ");
+		const nameB = b.name.split(" ");
+
+		const firstNameComparison = nameA[0].localeCompare(nameB[0]);
+		if (firstNameComparison !== 0) {
+			return firstNameComparison;
+		}
+
+		if (nameA.length > 1 && nameB.length > 1) {
+			return nameA[1].localeCompare(nameB[1]);
+		}
+
+		return nameA.length - nameB.length;
+	});
+
 	teamMembersSorted.forEach((member) => {
 		const memberElem = document.createElement("div");
 		memberElem.classList.add(`member`, `member-${member.name.split(" ")[0].toLowerCase()}`);
