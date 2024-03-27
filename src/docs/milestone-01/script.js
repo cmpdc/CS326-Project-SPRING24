@@ -69,8 +69,8 @@ const showDialog = (content, dataType) => {
 const injectTeamMembers = () => {
 	const teamMembersElem = document.querySelector("#team .teamMembers");
 
-	teamMembers.sort((a, b) => a - b);
-	teamMembers.forEach((member) => {
+	const teamMembersSorted = teamMembers.sort((a, b) => a.name.localeCompare(b.name));
+	teamMembersSorted.forEach((member) => {
 		const memberElem = document.createElement("div");
 		memberElem.classList.add(`member`, `member-${member.name.split(" ")[0].toLowerCase()}`);
 
@@ -171,6 +171,10 @@ function init() {
 	injectTeamMembers();
 	navLinksEffects();
 	replaceTeamName();
+
+	window.addEventListener("resize", () => {
+		navLinksEffects();
+	});
 
 	window.addEventListener("scroll", () => {
 		parallaxEffectHeader();
