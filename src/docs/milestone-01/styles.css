@@ -18,6 +18,7 @@
     --navBackground: rgba(22, 22, 23, 0.8);
     --navLinkColor: rgba(255, 255, 255, 0.8);
     --navLinkHighlighterBackgroundColor: rgba(94, 94, 94, 0.9);
+    --highlightedBackgroundColor: rgba(94, 94, 94, 0.2);
     --headerHeight: 350px;
     --headerBackgroundColor: rgba(0, 0, 0, 1);
     --headerTitleColor: rgba(255, 255, 255, 0.9);
@@ -46,10 +47,6 @@ body {
     padding: 0;
     margin: 0;
     scroll-behavior: smooth;
-}
-
-body.dialogModal-open {
-    overflow: hidden;
 }
 
 h1,
@@ -86,6 +83,7 @@ nav a {
     text-decoration: none;
     position: relative;
     z-index: 2;
+    user-select: none;
 }
 
 nav .tempElem {
@@ -98,7 +96,15 @@ nav .tempElem {
     z-index: 1;
     transition: left var(--hoveringTimingDuration) linear;
     opacity: 0;
-    animation: opacity0 100ms 500ms linear forwards;
+    animation: opacity0 100ms 250ms linear forwards;
+}
+
+nav .tempElem:not([style]) {
+    display: none;
+}
+
+nav .tempElem[style] {
+    display: block;
 }
 
 header {
@@ -116,23 +122,35 @@ header h1 {
 }
 
 #team {
-    background-color: var(--pageBackgroundColor);
+    background-color: var(--pageBackgroundColor) !important;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: center;
 }
 
+#team h2 {
+    text-decoration: underline;
+    margin: 20px 0 40px;
+}
+
 #team .teamMembers {
+    padding: 0 0 40px 0;
+    position: relative;
     display: flex;
-    flex-flow: row;
+    flex-flow: row wrap;
     align-items: center;
     justify-content: center;
     gap: 20px;
 }
 
-#team h2 {
-    margin: 20px 0;
+#team .teamMembers:after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: auto auto 0 0;
 }
 
 #team .member {
@@ -169,18 +187,32 @@ header h1 {
     margin: 5px 0;
 }
 
-main {
+.sectionBox {
     padding: 40px 140px;
+    transition: background-color 250ms linear;
+}
+
+.sectionBox.highlighted {
+    background-color: var(--highlightedBackgroundColor);
+}
+
+main .sectionBox {
+    padding: 20px 140px 40px 140px;
+}
+
+main .sectionBox:last-child {
+    margin-bottom: 80px;
 }
 
 main article {
     font-family: "Roboto", sans-serif;
-    margin-bottom: 50px;
 }
 
 main article h2 {
-    text-align: center;
-    margin: 15px 0;
+    text-align: left;
+    text-decoration: underline;
+    margin: 15px 0 30px 0;
+    display: inline-block;
 }
 
 main article .content {

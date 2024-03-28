@@ -29,6 +29,18 @@ const teamMembers = [
 	},
 ];
 
+const teamNameElem = document.querySelectorAll(".teamName");
+
+const navLinks = document.querySelectorAll("#navigationBar a");
+const tempElem = document.querySelector(".tempElem");
+
+const headerElem = document.querySelector("#vision");
+
+const teamElem = document.querySelector("#team");
+const teamMembersElem = document.querySelector("#team .teamMembers");
+
+let lastClickedLink = null;
+
 const showDialog = (content, dataType) => {
 	const dialogClassName = "dialogModal";
 	const dialogIndicatorClassName = `${dialogClassName}-open`;
@@ -67,8 +79,6 @@ const showDialog = (content, dataType) => {
 };
 
 const injectTeamMembers = () => {
-	const teamMembersElem = document.querySelector("#team .teamMembers");
-
 	const teamMembersSorted = teamMembers.sort((a, b) => {
 		const nameA = a.name.split(" ");
 		const nameB = b.name.split(" ");
@@ -118,9 +128,6 @@ const injectTeamMembers = () => {
 };
 
 const parallaxEffectHeader = () => {
-	const headerElem = document.querySelector("#vision");
-	const teamElem = document.querySelector("#team");
-
 	const scrollPosition = window.scrollY;
 	const parallaxSpeed = 0.4;
 	if (headerElem) {
@@ -132,22 +139,16 @@ const parallaxEffectHeader = () => {
 	}
 };
 
-const navLinksEffects = () => {
-	const navLinks = document.querySelectorAll("#navigationBar a");
-	const tempElem = document.querySelector(".tempElem");
+const setTempElemToLink = (targetElem) => {
+	const offset = 20;
+	tempElem.style.width = `${targetElem.offsetWidth + offset}px`;
+	tempElem.style.left = `${targetElem.offsetLeft - offset / 2}px`;
+};
 
+const navLinksEffects = () => {
 	const clickedClassName = "clicked";
 
-	const firstLink = navLinks[0];
-	setTempElemToLink(firstLink);
-
-	function setTempElemToLink(link) {
-		const offset = 20;
-		tempElem.style.width = `${link.offsetWidth + offset}px`;
-		tempElem.style.left = `${link.offsetLeft - offset / 2}px`;
-	}
-
-	function handleLinkClick(event) {
+	const handleLinkClick = (event) => {
 		event.preventDefault();
 		const currentlyClicked = event.target.classList.contains(clickedClassName);
 
@@ -156,8 +157,10 @@ const navLinksEffects = () => {
 		if (!currentlyClicked) {
 			event.target.classList.add(clickedClassName);
 			setTempElemToLink(event.target);
+
+			lastClickedLink = event.target;
 		}
-	}
+	};
 
 	navLinks.forEach((link) => {
 		link.addEventListener("click", function (e) {
@@ -169,15 +172,30 @@ const navLinksEffects = () => {
 			if (href && href.startsWith("#")) {
 				const targetElement = document.querySelector(href);
 				if (targetElement) {
-					targetElement.scrollIntoView({ behavior: "smooth" });
+					targetElement.scrollIntoView({
+						behavior: "smooth",
+						block: "center",
+					});
 				}
+
+				const highlightedClassName = "highlighted";
+
+				targetElement.classList.add(highlightedClassName);
+				setTimeout(() => {
+					targetElement.classList.remove(highlightedClassName);
+				}, 1250);
 			}
 		});
 	});
 };
 
+const updateTempElemPositionOnResize = () => {
+	if (lastClickedLink) {
+		setTempElemToLink(lastClickedLink);
+	}
+};
+
 const replaceTeamName = () => {
-	const teamNameElem = document.querySelectorAll(".teamName");
 	teamNameElem.forEach((elem) => {
 		elem.textContent = "MeetUp";
 	});
@@ -189,7 +207,7 @@ function init() {
 	replaceTeamName();
 
 	window.addEventListener("resize", () => {
-		navLinksEffects();
+		updateTempElemPositionOnResize();
 	});
 
 	window.addEventListener("scroll", () => {
