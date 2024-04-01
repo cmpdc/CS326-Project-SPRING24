@@ -2,6 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tauri&display=swap");
 
+@font-face {
+    font-family: "Google Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url("https://fonts.gstatic.com/s/googlesans/v58/4UaRrENHsxJlGDuGo1OIlJfC6l_24rlCK1Yo_Iq2rgCIlsw.woff2") format("woff2");
+}
+
 @keyframes opacity0 {
     from {
         opacity: 0;
@@ -60,6 +68,8 @@ h2 {
 }
 
 nav {
+    --linkHeight: 20px;
+    --hoveringTimingDuration: 250ms;
     width: 100%;
     height: var(--navHeight);
     font-family: "Roboto", sans-serif;
@@ -72,8 +82,7 @@ nav {
     gap: 20px;
     backdrop-filter: saturate(10%) blur(20px);
     z-index: 999;
-    --linkHeight: 20px;
-    --hoveringTimingDuration: 250ms;
+    transition: height 500ms ease;
 }
 
 nav a {
@@ -84,6 +93,7 @@ nav a {
     position: relative;
     z-index: 2;
     user-select: none;
+    transition: color 100ms linear, font-size 100ms linear;
 }
 
 nav .tempElem {
@@ -105,6 +115,95 @@ nav .tempElem:not([style]) {
 
 nav .tempElem[style] {
     display: block;
+}
+
+nav .hamburger-wrapper {
+    width: 25px;
+    height: 20px;
+    position: absolute;
+    inset: 20px 50px auto auto;
+    display: none;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 500ms 200ms ease;
+}
+
+@media only screen and (max-width: 800px) {
+
+    :root:has(nav .hamburger-wrapper.open) {
+        --navHeight: 100%;
+        --navLinkColor: #fff;
+    }
+
+    body:has(nav .hamburger-wrapper.open) {
+        overflow: none;
+    }
+
+    nav {
+        flex-flow: column;
+        gap: 35px;
+        backdrop-filter: saturate(40%) blur(25px);
+    }
+
+    nav a {
+        font-family: "Noto Sans", sans-serif;
+        font-weight: 800;
+        display: none;
+    }
+
+    nav .tempElem {
+        display: none !important;
+    }
+
+    body:has(nav .hamburger-wrapper.open) nav a {
+        font-size: 30px;
+        display: block;
+    }
+
+    nav .hamburger-wrapper {
+        display: flex;
+        opacity: 1;
+    }
+
+    body:has(nav .hamburger-wrapper.open) header {
+        height: calc(var(--headerHeight) + 60px) !important;
+    }
+}
+
+nav .hamburger-wrapper span {
+    --height: 3px;
+    width: 100%;
+    min-height: var(--height);
+    background-color: #cdcdcd;
+    border-radius: 5px;
+    transform-origin: 4px 0px;
+    transition: opacity 400ms ease, transform 500ms cubic-bezier(0.77, 0.2, 0.05, 1.0);
+    pointer-events: none;
+}
+
+nav .hamburger-wrapper.open span {
+    transform: rotate(45deg) translate(0, 0);
+}
+
+nav .hamburger-wrapper span:first-child {
+    transform-origin: 0% 0%;
+}
+
+nav .hamburger-wrapper span:nth-child(2) {
+    transform-origin: 0% 100%;
+}
+
+nav .hamburger-wrapper.open span:nth-child(2) {
+    transform: rotate(-45deg) translate(calc(var(--height) * -2), calc(var(--height) * 2)) !important;
+}
+
+nav .hamburger-wrapper.open span:last-child {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
 }
 
 header {
@@ -130,7 +229,6 @@ header h1 {
 }
 
 #team h2 {
-    text-decoration: underline;
     margin: 20px 0 40px;
 }
 
@@ -192,12 +290,27 @@ header h1 {
     transition: background-color 250ms linear;
 }
 
+@media screen and (max-width: 600px) {
+    .sectionBox {
+        padding: 40px 80px !important;
+    }
+}
+
 .sectionBox.highlighted {
     background-color: var(--highlightedBackgroundColor);
 }
 
+main {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
 main .sectionBox {
-    padding: 20px 140px 40px 140px;
+    border-radius: 5px;
+    padding: 20px 140px 30px;
 }
 
 main .sectionBox:last-child {
@@ -205,13 +318,13 @@ main .sectionBox:last-child {
 }
 
 main article {
-    font-family: "Roboto", sans-serif;
+    max-width: 1200px;
+    font-family: -apple-system, BlinkMacSystemFont, Google Sans, "Roboto", sans-serif;
 }
 
 main article h2 {
     text-align: left;
-    text-decoration: underline;
-    margin: 15px 0 30px 0;
+    margin: 15px 0 20px 0;
     display: inline-block;
 }
 

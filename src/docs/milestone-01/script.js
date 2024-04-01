@@ -31,13 +31,28 @@ const teamMembers = [
 
 const teamNameElem = document.querySelectorAll(".teamName");
 
-const navLinks = document.querySelectorAll("#navigationBar a");
+const navigation = document.querySelector("#navigationBar");
+const navLinks = navigation.querySelectorAll("a");
 const tempElem = document.querySelector(".tempElem");
 
 const headerElem = document.querySelector("#vision");
 
 const teamElem = document.querySelector("#team");
 const teamMembersElem = document.querySelector("#team .teamMembers");
+
+const hamburgerElem = document.createElement("span");
+hamburgerElem.classList.add("hamburger-wrapper");
+hamburgerElem.addEventListener("click", (e) => {
+	e.stopPropagation();
+	e.target.classList.toggle("open");
+});
+
+for (let i = 0; i < 3; i++) {
+	const spanElem = document.createElement("span");
+	hamburgerElem.appendChild(spanElem);
+}
+
+navigation.appendChild(hamburgerElem);
 
 let lastClickedLink = null;
 
@@ -154,6 +169,8 @@ const navLinksEffects = () => {
 
 		navLinks.forEach((link) => link.classList.remove(clickedClassName));
 
+		if (hamburgerElem.classList.contains("open")) hamburgerElem.classList.remove("open");
+
 		if (!currentlyClicked) {
 			event.target.classList.add(clickedClassName);
 			setTempElemToLink(event.target);
@@ -201,7 +218,7 @@ const replaceTeamName = () => {
 	});
 };
 
-function init() {
+document.addEventListener("DOMContentLoaded", () => {
 	injectTeamMembers();
 	navLinksEffects();
 	replaceTeamName();
@@ -213,6 +230,4 @@ function init() {
 	window.addEventListener("scroll", () => {
 		parallaxEffectHeader();
 	});
-}
-
-export default init;
+});
