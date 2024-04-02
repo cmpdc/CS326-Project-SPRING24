@@ -3,29 +3,29 @@ const teamMembers = [
 		name: "Christian Dela Cruz",
 		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
 		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
-		role: "Role Here",
-		bio: "Hello, my name is Christian but you can call me uri!",
+		role: "Project Lead",
+		bio: "Hi! The name’s Christian. I am a junior computer science student. I am an aspiring front-end developer"
 	},
 	{
-		name: "Jason Juang",
+		name: "Jason Huang",
 		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
 		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
-		role: "Role Here",
-		bio: "Bio here",
+		role: "Backend Developer",
+		bio: " I am a senior CS major and an aspiring full-stack developer. I am currently project lead and full-stack developer for my semester project in CS 320. I strive to be a supportive member for my team.",
 	},
 	{
 		name: "Annanta Budhathoki",
 		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
 		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
-		role: "Role Here",
-		bio: "Bio here",
+		role: "Frontend Developer",
+		bio: "Hello my name is Annanta and I am a 3rd year computer science student. I am interested in cybersecurity and swe. Last semester I took 320 and I worked as a front end developer where I created react components using talewind css to implement them. I learned some things about front end, but I would like to learn more about backend development because I didn’t get much of an opportunity to learn about it. ",
 	},
 	{
 		name: "Justin Baldwin",
 		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
 		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
-		role: "Role Here",
-		bio: "Bio here",
+		role: "Documentation Lead",
+		bio: "My name is Justin. I am a junior compsci major. I have a background in coding. My primary focus is on implementation and functional coding"
 	},
 ];
 
