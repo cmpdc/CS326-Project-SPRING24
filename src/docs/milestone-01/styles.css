@@ -332,6 +332,10 @@ main article .content {
     font-size: 1rem;
 }
 
+main article .content p {
+    text-align: justify;
+}
+
 footer {
     background-color: var(--footerBackgroundColor);
     padding: 40px;
