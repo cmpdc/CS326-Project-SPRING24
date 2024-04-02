@@ -15,8 +15,8 @@ const teamMembers = [
 	},
 	{
 		name: "Annanta Budhathoki",
-		photoURL: "photos/Annanta.HEIC",
-		bannerURL: "photos/AnnantaBackground.heic",
+		photoURL: "photos/Annanta.jpg",
+		bannerURL: "photos/AnnantaBackground.jpg",
 		role: "Frontend Developer",
 		bio: "Hello my name is Annanta and I am a 3rd year computer science student. I am interested in cybersecurity and swe. Last semester I took 320 and I worked as a front end developer where I created react components using talewind css to implement them. I learned some things about front end, but I would like to learn more about backend development because I didn’t get much of an opportunity to learn about it. ",
 	},
