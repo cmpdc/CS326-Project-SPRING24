@@ -54,6 +54,7 @@ for (let i = 0; i < 3; i++) {
 
 navigation.appendChild(hamburgerElem);
 
+let isUserScrolling = false;
 let lastClickedLink = null;
 
 const showDialog = (content, dataType) => {
@@ -171,6 +172,10 @@ const navLinksEffects = () => {
 
 		if (hamburgerElem.classList.contains("open")) hamburgerElem.classList.remove("open");
 
+		if (isUserScrolling && tempElem.classList.contains("scrolled")) {
+			tempElem.classList.remove("scrolled");
+		}
+
 		if (!currentlyClicked) {
 			event.target.classList.add(clickedClassName);
 			setTempElemToLink(event.target);
@@ -189,10 +194,16 @@ const navLinksEffects = () => {
 			if (href && href.startsWith("#")) {
 				const targetElement = document.querySelector(href);
 				if (targetElement) {
+					isUserScrolling = true;
+
 					targetElement.scrollIntoView({
 						behavior: "smooth",
 						block: "center",
 					});
+
+					setTimeout(() => {
+						isUserScrolling = false;
+					}, 1000);
 				}
 
 				const highlightedClassName = "highlighted";
@@ -229,5 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	window.addEventListener("scroll", () => {
 		parallaxEffectHeader();
+
+		tempElem.classList.toggle("scrolled", isUserScrolling);
 	});
 });

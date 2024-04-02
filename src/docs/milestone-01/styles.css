@@ -113,6 +113,10 @@ nav .tempElem {
     animation: opacity0 100ms 250ms linear forwards;
 }
 
+nav .tempElem:not(.scrolled) {
+    opacity: 0 !important;
+}
+
 nav .tempElem:not([style]) {
     display: none;
 }
@@ -294,9 +298,10 @@ header h1 {
     transition: background-color 250ms linear;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     .sectionBox {
-        padding: 40px 80px !important;
+        padding-right: 80px !important;
+        padding-left: 80px !important;
     }
 }
 
