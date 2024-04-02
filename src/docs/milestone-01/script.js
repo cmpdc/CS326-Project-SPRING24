@@ -15,8 +15,8 @@ const teamMembers = [
 	},
 	{
 		name: "Annanta Budhathoki",
-		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
-		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
+		photoURL: "photos/Annanta.HEIC",
+		bannerURL: "photos/AnnantaBackground.heic",
 		role: "Frontend Developer",
 		bio: "Hello my name is Annanta and I am a 3rd year computer science student. I am interested in cybersecurity and swe. Last semester I took 320 and I worked as a front end developer where I created react components using talewind css to implement them. I learned some things about front end, but I would like to learn more about backend development because I didn’t get much of an opportunity to learn about it. ",
 	},
