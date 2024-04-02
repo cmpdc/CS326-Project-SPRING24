@@ -8,8 +8,8 @@ const teamMembers = [
 	},
 	{
 		name: "Jason Huang",
-		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
-		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
+		photoURL: "photos/jason.jpg",
+		bannerURL: "photos/jasonBackground.jpg",
 		role: "Backend Developer",
 		bio: " I am a senior CS major and an aspiring full-stack developer. I am currently project lead and full-stack developer for my semester project in CS 320. I strive to be a supportive member for my team.",
 	},
