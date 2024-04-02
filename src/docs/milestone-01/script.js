@@ -1,31 +1,31 @@
 const teamMembers = [
 	{
 		name: "Christian Dela Cruz",
-		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
-		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
+		photoURL: "photos/Christian.jpg",
+		bannerURL: "photos/ChristianBackground.jpg",
 		role: "Project Lead",
-		bio: "Hi! The name’s Christian. I am a junior computer science student. I am an aspiring front-end developer"
+		bio: "Hi! The name’s Christian. I am a junior computer science student. I am an aspiring front-end developer.",
 	},
 	{
 		name: "Jason Huang",
 		photoURL: "photos/jason.jpg",
 		bannerURL: "photos/jasonBackground.jpg",
 		role: "Backend Developer",
-		bio: " Hi! My name is Jason. I am a senior CS major and an aspiring full-stack developer. I am currently project lead and full-stack developer for my semester project in CS 320. I am responsible for database storage and retrieval and API integration for MeetUp.",
+		bio: "Hi! My name is Jason. I am a senior CS major and an aspiring full-stack developer. I am currently project lead and full-stack developer for my semester project in CS 320. I am responsible for database storage and retrieval and API integration for MeetUp.",
 	},
 	{
 		name: "Annanta Budhathoki",
 		photoURL: "photos/Annanta.jpg",
 		bannerURL: "photos/AnnantaBackground.jpg",
 		role: "Frontend Developer",
-		bio: "Hello my name is Annanta and I am a 3rd year computer science student. I am interested in cybersecurity and swe. Last semester I took 320 and I worked as a front end developer where I created react components using talewind css to implement them. I learned some things about front end, but I would like to learn more about backend development because I didn’t get much of an opportunity to learn about it. ",
+		bio: "Hello my name is Annanta and I am a 3rd year computer science student. I am interested in cybersecurity and swe. Last semester I took 320 and I worked as a front end developer where I created React components using Tailwind to implement them. I learned some things about front end, but I would like to learn more about backend development because I didn’t get much of an opportunity to learn about it.",
 	},
 	{
 		name: "Justin Baldwin",
 		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
 		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
 		role: "Documentation Lead",
-		bio: "My name is Justin. I am a junior compsci major. I have a background in coding. My primary focus is on implementation and functional coding"
+		bio: "My name is Justin. I am a Junior CompSci major. I have a background in coding. My primary focus is on implementation and functional coding.",
 	},
 ];
 

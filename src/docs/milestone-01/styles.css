@@ -67,6 +67,10 @@ h2 {
     font-size: 1.8rem;
 }
 
+p {
+    margin: 0 0 1rem 0;
+}
+
 nav {
     --linkHeight: 20px;
     --hoveringTimingDuration: 250ms;
@@ -310,7 +314,7 @@ main {
 
 main .sectionBox {
     border-radius: 5px;
-    padding: 20px 140px 30px;
+    padding: 10px 140px;
 }
 
 main .sectionBox:last-child {
@@ -330,6 +334,17 @@ main article h2 {
 
 main article .content {
     font-size: 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+main article .content * {
+    flex: 1;
+}
+
+main article .content img {
+    max-width: 100%;
 }
 
 main article .content p {
@@ -383,7 +398,7 @@ footer {
 
 .dialogModal[data-type="memberInfo"] .dialogModal-inner {
     width: 500px;
-    height: 400px;
+    height: 450px;
 }
 
 .dialogModal .dialogModal-inner .memberInfo {

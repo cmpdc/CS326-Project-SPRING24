@@ -23,24 +23,24 @@
 	},
 	"collaborators": [
 		{
+			"name": "Annanta Budhathoki",
+			"email": "abudhathoki@umass.edu",
+			"github": "annantab"
+		},
+		{
 			"name": "Christian Dela Cruz",
 			"email": "cdelacruz@umass.edu",
 			"github": "cmpdc"
 		},
 		{
-			"name": "",
-			"email": "",
-			"github": ""
+			"name": "Jason Huang",
+			"email": "jyhuang@umass.edu",
+			"github": "musicApprentice"
 		},
 		{
-			"name": "",
-			"email": "",
-			"github": ""
-		},
-		{
-			"name": "",
-			"email": "",
-			"github": ""
+			"name": "Justin Baldwin",
+			"email": "jtbaldwin@umass.edu",
+			"github": "Jbaldwin9"
 		}
 	],
 	"scripts": {

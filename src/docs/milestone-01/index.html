@@ -24,7 +24,7 @@
         <h1 class="teamName">MeetUp</h1>
     </header>
     <section id="team" class="sectionBox">
-        <h2>Christian Dela Cruz, Jason Huang, Annanta Budhathoki, and Justin Baldwin</h2>
+        <h2>Team Members</h2>
         <div class="teamMembers"></div>
     </section>
     <main>
@@ -50,57 +50,112 @@
             <h2>Application Parts</h2>
             <div class="content">
                 <p>
-                    The calendar feature stands as a promindent component of Meetup, designed to seamlessly aid in planning of events. The calendar offers an intuitive, user-friendly interface that allows individuals to easily see what upcoming events and things to do for the events. This feature not only simplifies the process of getting prepared for upcoming events with friends but also encourages user engagement since friends are linked to the event. The calendar feature exemplifies how Meetup blends technology with environmental stewardship, making it a cornerstone of the application's mission to promote connection within the community and with friends.
+                    The calendar feature stands as a promindent component of Meetup, designed to seamlessly aid in
+                    planning of events. The calendar offers an intuitive, user-friendly interface that allows
+                    individuals to easily see what upcoming events and things to do for the events. This feature not
+                    only simplifies the process of getting prepared for upcoming events with friends but also encourages
+                    user engagement since friends are linked to the event. The calendar feature exemplifies how Meetup
+                    blends technology with environmental stewardship, making it a cornerstone of the application's
+                    mission to promote connection within the community and with friends.
                 </p>
                 <p>
-                    Another feature that stands as a pivotal component of Meetup, is the real time GPS that begins once an event is starting to begin. By leveraging real-time GPS data, the map offers an intuitive, user-friendly interface that allows individuals to easily get to the event location on time. This feature not only simplifies the process of planning but also makes the event that you are going to less stressful. 
+                    Another feature that stands as a pivotal component of Meetup, is the real time GPS that begins once
+                    an event is starting to begin. By leveraging real-time GPS data, the map offers an intuitive,
+                    user-friendly interface that allows individuals to easily get to the event location on time. This
+                    feature not only simplifies the process of planning but also makes the event that you are going to
+                    less stressful.
                 </p>
 
                 <p>
-                    The last application is the real time reminders for upcomming events or meetings to help users manage their schedule efficiently. After a user has put in an event and the date along with things associated with that event our website will then send users periodic reminders of things they might have to do or items they might need to prepare or get for the upcommeing event, like if it is a potlock, birthday party, or holiday.
+                    The last application is the real time reminders for upcomming events or meetings to help users
+                    manage their schedule efficiently. After a user has put in an event and the date along with things
+                    associated with that event our website will then send users periodic reminders of things they might
+                    have to do or items they might need to prepare or get for the upcommeing event, like if it is a
+                    potlock, birthday party, or holiday.
                 </p>
             </div>
         </article>
         <article id="data-requirements" class="sectionBox">
             <h2>Data Requirements</h2>
-                <div class="content">
-                    <p>
-                        MeetUp, being a cutting-edge event planning app, will require robust API connections and a structured database. For API functionality, the application will use APIs from leading calendar apps, such as Google Calendar and Apple Calendar (iCal), enabling users to input and view their existing calendar data directly on our platform. On the database side, we will have two databases: a user database and an events database. The user database will store each user's information, including data synchronized from APIs, while the events database will store events. The persistent storage of this data will allow users to conveniently utilize our app for efficient and easy event planning.
-                    </p>
-                    <p>
-                        For the calendar APIs, we will integrate the three most used calendar APIs: Google Calendar, Outlook, and Apple Calendar. This will allow for convenience of use among both Android and Apple users. Once the calendars are imported, our application will ensure the data is continuously synchronized and that changes are reflected in both directions. In other words, if a user adds an event in our application, that change should be reflected in the user’s calendar app they use, and vice versa. We will likely use OAuth 2.0 for authentication and authorization to these APIs.
-                    </p>
-                    <p>
-                        In addition to calendar APIs, we will also integrate Google’s rich JavaScript APIs for location and maps. These will include Google Maps API, Places API, Directions API, and Distance Matrix API. The Places API will be used to search for places in the Google Maps database and retrieve information about a specific place. The Directions API will provide directions between multiple locations, supporting various travel modes such as driving, public transportation, and walking. The Distance Matrix API will calculate the distance and time between origins and destinations.
-                    </p>
-                    <p>
-                        The user database will include a user’s basic account information. In addition, a user will have three lists: a friends list, an events list, and an API calendar list. The friends list is a running list of friends the user has. The events list will be a list of events that the user is invited to or has created. For each event, the database will store whether a user has RSVP’d and whether they are the creator of the event or an invitee. The API list is a list of the user’s imported calendars represented as objects.
-                    </p>
-                    <p>
-                        The events database will be a list of event objects, each containing two components: one is the event information, such as the description, start time, end time, etc. The second is the list of participants, represented with the userID and a boolean for whether they are going or not.
-                    </p>
-                    <p>
-                        In short, the backend is responsible for handling database retrieval and modifications such as user creation, event creation, and joining events. It is also responsible for connecting with the calendar and map APIs to allow for the primary functionality of the application. In addition to these, there will also be algorithmic functions that handle the problem of finding the best times/locations for events based on the users invited or going to the event.
-                    </p>
-                </div>
+            <div class="content">
+                <p>
+                    MeetUp, being a cutting-edge event planning app, will require robust API connections and a
+                    structured database. For API functionality, the application will use APIs from leading calendar
+                    apps, such as Google Calendar and Apple Calendar (iCal), enabling users to input and view their
+                    existing calendar data directly on our platform. On the database side, we will have two databases: a
+                    user database and an events database. The user database will store each user's information,
+                    including data synchronized from APIs, while the events database will store events. The persistent
+                    storage of this data will allow users to conveniently utilize our app for efficient and easy event
+                    planning.
+                </p>
+                <p>
+                    For the calendar APIs, we will integrate the three most used calendar APIs: Google Calendar,
+                    Outlook, and Apple Calendar. This will allow for convenience of use among both Android and Apple
+                    users. Once the calendars are imported, our application will ensure the data is continuously
+                    synchronized and that changes are reflected in both directions. In other words, if a user adds an
+                    event in our application, that change should be reflected in the user’s calendar app they use, and
+                    vice versa. We will likely use OAuth 2.0 for authentication and authorization to these APIs.
+                </p>
+                <p>
+                    In addition to calendar APIs, we will also integrate Google’s rich JavaScript APIs for location and
+                    maps. These will include Google Maps API, Places API, Directions API, and Distance Matrix API. The
+                    Places API will be used to search for places in the Google Maps database and retrieve information
+                    about a specific place. The Directions API will provide directions between multiple locations,
+                    supporting various travel modes such as driving, public transportation, and walking. The Distance
+                    Matrix API will calculate the distance and time between origins and destinations.
+                </p>
+                <p>
+                    The user database will include a user’s basic account information. In addition, a user will have
+                    three lists: a friends list, an events list, and an API calendar list. The friends list is a running
+                    list of friends the user has. The events list will be a list of events that the user is invited to
+                    or has created. For each event, the database will store whether a user has RSVP’d and whether they
+                    are the creator of the event or an invitee. The API list is a list of the user’s imported calendars
+                    represented as objects.
+                </p>
+                <p>
+                    The events database will be a list of event objects, each containing two components: one is the
+                    event information, such as the description, start time, end time, etc. The second is the list of
+                    participants, represented with the userID and a boolean for whether they are going or not.
+                </p>
+                <p>
+                    In short, the backend is responsible for handling database retrieval and modifications such as user
+                    creation, event creation, and joining events. It is also responsible for connecting with the
+                    calendar and map APIs to allow for the primary functionality of the application. In addition to
+                    these, there will also be algorithmic functions that handle the problem of finding the best
+                    times/locations for events based on the users invited or going to the event.
+                </p>
+            </div>
 
         </article>
         <article id="wire-frames" class="sectionBox">
             <h2>Wireframes</h2>
             <div class="content">
-                <img src = "photos/MeetUp Mock1.png" alt="Mockup 1" width="900" height="auto"/><br/>
+                <img src="photos/MeetUp Mock1.png" alt="Mockup 1" width="900" height="auto" /><br />
                 <p>
-                    The first wireframe for our  Meet Up application is shown above. It includes the main page landing page that users are shown when they come to our page, a search bar and filter options are opened so then they can create their very first event that they want to host. They can create a name, location, people they want to invite and the date of the event. They can then press create event which will take them to the next wireframe.
-                    
+                    The first wireframe for our MeetUp application is shown above. It includes the main page landing
+                    page that users are shown when they come to our page, a search bar and filter options are opened so
+                    then they can create their very first event that they want to host. They can create a name,
+                    location, people they want to invite and the date of the event. They can then press create event
+                    which will take them to the next wireframe.
+
                 </p>
-                <img src = "photos/MeetUp Mock2.png" alt="Mockup 2" width="900" height="auto"/></br>
+                <img src="photos/MeetUp Mock2.png" alt="Mockup 2" width="900" height="auto" /></br>
                 <p>
-                    The next wireframe is of the login page of our web application. Users can get directed to this page by either pressing the log in button at the top of the launch page or by pressing the create event on the launch page. The user can log in by their user name and password. Or if they are a new user they can press sign up  at the bottom of the page.
+                    The next wireframe is of the login page of our web application. Users can get directed to this page
+                    by either pressing the log in button at the top of the launch page or by pressing the create event
+                    on the launch page. The user can log in by their user name and password. Or if they are a new user
+                    they can press sign up at the bottom of the page.
                 </p>
-                <img src="photos/MeetUp Mock3.png" alt="Mockup 3" width="900" height="auto"/></br>
-                
+                <img src="photos/MeetUp Mock3.png" alt="Mockup 3" width="900" height="auto" /></br>
+
                 <p>
-                    The last wireframe is of the actual Meet Up application, the application has been meticulously designed to provide a clear and intuitive user experience, focusing on ease of navigation and accessibility. The Home Page wireframe sets the stage with a welcoming layout that highlights the application's primary features, including a prominent search function to use to look up what events are happening and what users are attending. This page is designed to immediately engage users, offering a snapshot of the most relevant information and recent community events that is occuring in their town or via their friends.
+                    The last wireframe is of the actual MeetUp application, the application has been meticulously
+                    designed to provide a clear and intuitive user experience, focusing on ease of navigation and
+                    accessibility. The Home Page wireframe sets the stage with a welcoming layout that highlights the
+                    application's primary features, including a prominent search function to use to look up what events
+                    are happening and what users are attending. This page is designed to immediately engage users,
+                    offering a snapshot of the most relevant information and recent community events that is occuring in
+                    their town or via their friends.
                 </p>
             </div>
         </article>
