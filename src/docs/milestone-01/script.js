@@ -11,7 +11,7 @@ const teamMembers = [
 		photoURL: "photos/jason.jpg",
 		bannerURL: "photos/jasonBackground.jpg",
 		role: "Backend Developer",
-		bio: " I am a senior CS major and an aspiring full-stack developer. I am currently project lead and full-stack developer for my semester project in CS 320. I strive to be a supportive member for my team.",
+		bio: " Hi! My name is Jason. I am a senior CS major and an aspiring full-stack developer. I am currently project lead and full-stack developer for my semester project in CS 320. I am responsible for database storage and retrieval and API integration for MeetUp.",
 	},
 	{
 		name: "Annanta Budhathoki",
