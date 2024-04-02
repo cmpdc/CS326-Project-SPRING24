@@ -79,34 +79,27 @@
         </article>
         <article id="data-requirements" class="sectionBox">
             <h2>Data Requirements</h2>
-            <div class="content">
-                <p>
-                    MeetUp, being a cutting-edge event planning app will require robust API connections and a structured database. For API functionality, the application will use API’s from leading calendar apps, such as Google Calendar and Apple Calendar (iCal), enabling user’s input and view their existing calendar data directly on our platform. On the database side, we will have two databases: a user database and an events database. The user database will store each user’s information, including data synchronized from API’s, while the events database will store events. The persistent storage of this data will allow users to conveniently utilize our app for efficient and easy event-planning.
+                <div class="content">
+                    <p>
+                        MeetUp, being a cutting-edge event planning app, will require robust API connections and a structured database. For API functionality, the application will use APIs from leading calendar apps, such as Google Calendar and Apple Calendar (iCal), enabling users to input and view their existing calendar data directly on our platform. On the database side, we will have two databases: a user database and an events database. The user database will store each user's information, including data synchronized from APIs, while the events database will store events. The persistent storage of this data will allow users to conveniently utilize our app for efficient and easy event planning.
+                    </p>
+                    <p>
+                        For the calendar APIs, we will integrate the three most used calendar APIs: Google Calendar, Outlook, and Apple Calendar. This will allow for convenience of use among both Android and Apple users. Once the calendars are imported, our application will ensure the data is continuously synchronized and that changes are reflected in both directions. In other words, if a user adds an event in our application, that change should be reflected in the user’s calendar app they use, and vice versa. We will likely use OAuth 2.0 for authentication and authorization to these APIs.
+                    </p>
+                    <p>
+                        In addition to calendar APIs, we will also integrate Google’s rich JavaScript APIs for location and maps. These will include Google Maps API, Places API, Directions API, and Distance Matrix API. The Places API will be used to search for places in the Google Maps database and retrieve information about a specific place. The Directions API will provide directions between multiple locations, supporting various travel modes such as driving, public transportation, and walking. The Distance Matrix API will calculate the distance and time between origins and destinations.
+                    </p>
+                    <p>
+                        The user database will include a user’s basic account information. In addition, a user will have three lists: a friends list, an events list, and an API calendar list. The friends list is a running list of friends the user has. The events list will be a list of events that the user is invited to or has created. For each event, the database will store whether a user has RSVP’d and whether they are the creator of the event or an invitee. The API list is a list of the user’s imported calendars represented as objects.
+                    </p>
+                    <p>
+                        The events database will be a list of event objects, each containing two components: one is the event information, such as the description, start time, end time, etc. The second is the list of participants, represented with the userID and a boolean for whether they are going or not.
+                    </p>
+                    <p>
+                        In short, the backend is responsible for handling database retrieval and modifications such as user creation, event creation, and joining events. It is also responsible for connecting with the calendar and map APIs to allow for the primary functionality of the application. In addition to these, there will also be algorithmic functions that handle the problem of finding the best times/locations for events based on the users invited or going to the event.
+                    </p>
+                </div>
 
-                </p>
-                <p>
-                    For the calendar APIs we will integrate the three most used calendar APIs: Google Calendar, Outlook, and Apple Calendar. This will allow for convenience of use among both android and apple users. Once the calendars are imported, our application will ensure the data is continuously synchronized and that changes are reflected in both directions. In other words, if a user adds an event in our application, that change should be reflected in the user’s calendar app that they use, and vice versa. We will likely use OAuth2.0 for authentication and authorization to these APIs.
-
-                </p>
-                <p>
-                    In addition to calendar APIs, we will also integrate Google’s rich javascript API’s for location and maps. These will include Google Maps API, Places API, Directions API, and Distance Matrix API. Places API will be used to search for places in the Google Maps database and retrieve information about a specific place. Directions API will provide directions between multiple locations, supporting various travel modes such as driving, public transportation and walking. Distance Matrix API will calculate the distance and time between origins and destinations.
-
-                </p>
-                <p>
-                    The user database will include a user’s basic account information: their id, first and last name, username, email, time zone, and hashed password. In addition a user will have three lists: a friends list, an events list and an API calendar list  The friends list is a running list of friends the user has. The events list will be a list of events that the user is invited to or has created. For each event, the database will store whether a user has RSVP’d and whether they are the creator of the event or invitee. The API list is a list of the user’s imported calendars represented as objects. For each calendar object, the database will store a unique calendar ID, the provider of the API, the userID associated with it, a last updated field, and an access and refresh token.
-   
-                </p>
-                <p>
-                    
-                The events database will be a list of event objects with each one containing two components: One is the event information, such as the description, start time, end time etc. The second, is the list of participants, represented with the userID and a boolean for whether they are going or not. 
-            
-                </p>
-                <p>
-                In short, the backend is responsible for handling database retrieval and modifications such as user creation, event creation, and joining events. It is also responsible for connecting with the calendar and map APIs to allow for the primary functionality of the application. In addition to these, there will also be algorithmic functions that handle the problem of finding the best times/locations for events based on the users invited or going to the event.
-    
-                </p>
-
-            </div>
         </article>
         <article id="wire-frames" class="sectionBox">
             <h2>Wireframes</h2>
