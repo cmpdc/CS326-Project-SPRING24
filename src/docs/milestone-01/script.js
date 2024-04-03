@@ -22,7 +22,7 @@ const teamMembers = [
 	},
 	{
 		name: "Justin Baldwin",
-		photoURL: "https://gifdb.com/images/high/ponyo-curious-watch-wp9eayuzb6wre0b2.gif",
+		photoURL: "photos/Justin.jpg",
 		bannerURL: "https://64.media.tumblr.com/943c4aee81da35bab1d0a864ed98f339/tumblr_o2xtj5KT6L1qhgh8jo1_500.gif",
 		role: "Documentation Lead",
 		bio: "My name is Justin. I am a Junior CompSci major. I have a background in coding. My primary focus is on implementation and functional coding.",
