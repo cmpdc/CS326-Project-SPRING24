@@ -1,1 +1,3 @@
-# CS326-Project-SPRING24
+# MeetUp
+
+-   add details here
