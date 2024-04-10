@@ -1,7 +1,5 @@
+import { addComponent, createRef } from "../../../utils.js";
 import { loadEventComponent } from "../../components/newEvent.js";
-
-const logoElem = document.createElement("div");
-logoElem.classList.add("logo");
 
 const sidebarLinks = [
 	{
@@ -37,38 +35,73 @@ const sidebarLinks = [
 ];
 
 export const sidebarComponent = () => {
-	const sidebarComponent = document.createElement("aside");
-	sidebarComponent.classList.add("sidebar");
+	const sidebarLinksContainerRef = createRef();
+	const upcomingEventsContainerRef = createRef();
 
-	const sidebarLinksContainer = document.createElement("ul");
-	sidebarLinksContainer.classList.add("sidebar-links");
+	const sidebarComponent = addComponent({
+		type: "aside",
+		props: {
+			classList: ["sidebar"],
+			children: [
+				{
+					type: "div",
+					props: {
+						classList: ["logo"],
+					},
+				},
+				{
+					type: "ul",
+					ref: sidebarLinksContainerRef,
+					props: {
+						classList: ["sidebar-links"],
+					},
+				},
+				{
+					type: "div",
+					ref: upcomingEventsContainerRef,
+					props: {
+						classList: ["upcomingEvents"],
+					},
+				},
+			],
+		},
+	});
 
 	let activeLinkIndex = 0;
 	let activeLinkName = "link-active";
 
 	sidebarLinks.forEach((link, linkIndex) => {
-		const linkElem = document.createElement("li");
-		linkElem.classList.add("link-item");
-		linkElem.id = String(link.name).replace(" ", "_").toLowerCase();
-
-		const linkIconElem = document.createElement("span");
-		linkIconElem.classList.add("link-icon");
-		if (link.icon) {
-			linkIconElem.innerHTML = link.icon();
-		}
-
-		const linkNameElem = document.createElement("span");
-		linkNameElem.classList.add("link-title");
-		linkNameElem.textContent = link.name;
-
-		linkElem.appendChild(linkIconElem);
-		linkElem.appendChild(linkNameElem);
+		const linkIconElemRef = createRef();
+		const linkElem = addComponent({
+			type: "li",
+			props: {
+				classList: ["link-item"],
+				id: String(link.name).replace(" ", "_").toLowerCase(),
+				children: [
+					{
+						type: "span",
+						ref: linkIconElemRef,
+						props: {
+							classList: ["link-icon"],
+							innerHTML: link.icon ? link.icon() : "",
+						},
+					},
+					{
+						type: "span",
+						props: {
+							classList: ["link-title"],
+							textContent: link.name,
+						},
+					},
+				],
+			},
+		});
 
 		linkElem.addEventListener("click", () => {
 			link.click();
 
 			if (activeLinkIndex !== null) {
-				const previousActive = sidebarLinksContainer.children[activeLinkIndex];
+				const previousActive = sidebarLinksContainerRef.current.children[activeLinkIndex];
 				previousActive.classList.remove(activeLinkName);
 			}
 
@@ -77,11 +110,8 @@ export const sidebarComponent = () => {
 			activeLinkIndex = linkIndex;
 		});
 
-		sidebarLinksContainer.appendChild(linkElem);
+		sidebarLinksContainerRef.current.appendChild(linkElem);
 	});
-
-	sidebarComponent.appendChild(logoElem);
-	sidebarComponent.appendChild(sidebarLinksContainer);
 
 	return sidebarComponent;
 };

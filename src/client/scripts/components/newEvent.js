@@ -1,5 +1,5 @@
 import { insertModal } from "../../app.js";
-import { addComponent } from "../../utils.js";
+import { addComponent, createRef } from "../../utils.js";
 
 const maximizeIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
 
@@ -157,29 +157,60 @@ const eventElementContent = (element) => {
 };
 
 const eventElementComponent = () => {
-	const element = document.createElement("div");
-	element.classList.add("eventContainerInner");
+	const eventHandleRef = createRef();
+	const eventHandleButtonsRef = createRef();
 
-	const elementHandle = document.createElement("div");
-	elementHandle.classList.add("eventContainerHandle");
+	const element = addComponent({
+		type: "div",
+		props: {
+			classList: ["eventContainerInner"],
+			children: [
+				{
+					type: "div",
+					ref: eventHandleRef,
+					props: {
+						classList: ["eventContainerHandle"],
+						children: [
+							{
+								type: "div",
+								props: {
+									children: [
+										{
+											type: "div",
+											ref: eventHandleButtonsRef,
+											props: {
+												classList: ["eventHandleButtons"],
+											},
+										},
+									],
+								},
+							},
+						],
+					},
+				},
+			],
+		},
+	});
 
-	const elementHandleContainer = document.createElement("div");
-	elementHandleContainer.classList.add("eventHandleButtons");
+	const elementHandleClose = addComponent({
+		type: "span",
+		props: {
+			id: "close",
+			innerHTML: minimizeIcon,
+		},
+	});
 
-	const elementHandleClose = document.createElement("span");
-	elementHandleClose.innerHTML = minimizeIcon;
-	elementHandleClose.id = "close";
+	const elementHandleMax = addComponent({
+		type: "span",
+		props: {
+			id: "max",
+			innerHTML: maximizeIcon,
+		},
+	});
 
-	const elementHandleMax = document.createElement("span");
-	elementHandleMax.innerHTML = maximizeIcon;
-	elementHandleMax.id = "max";
+	eventHandleButtonsRef.current.appendChild(elementHandleMax);
+	eventHandleButtonsRef.current.appendChild(elementHandleClose);
 
-	elementHandleContainer.appendChild(elementHandleMax);
-	elementHandleContainer.appendChild(elementHandleClose);
-
-	elementHandle.appendChild(elementHandleContainer);
-
-	element.appendChild(elementHandle);
 	eventElementContent(element);
 
 	return element;
@@ -190,8 +221,14 @@ export const loadEventComponent = () => {
 	if (!eventButtonElem) return;
 
 	eventButtonElem.classList.add("link-modal-open");
-	const elem = document.createElement("div");
-	elem.classList.add(eventContainerClassName);
+
+	const elem = addComponent({
+		type: "div",
+		props: {
+			classList: [eventContainerClassName],
+		},
+	});
+
 	elem.appendChild(eventElementComponent());
 
 	const initialRect = eventButtonElem.getBoundingClientRect();

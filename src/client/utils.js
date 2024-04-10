@@ -1,5 +1,15 @@
-export const addComponent = ({ type, props }) => {
+export const createRef = () => {
+	return {
+		current: null,
+	};
+};
+
+export const addComponent = ({ type, ref, props }) => {
 	const elem = document.createElement(type);
+
+	if (ref) {
+		ref.current = elem;
+	}
 
 	if (props) {
 		Object.entries(props).forEach(([key, value]) => {

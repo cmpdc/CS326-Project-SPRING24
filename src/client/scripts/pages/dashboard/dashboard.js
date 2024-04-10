@@ -1,10 +1,13 @@
+import { addComponent } from "../../../utils.js";
 import { sidebarComponent } from "./sidebar.js";
 
 const contentComponent = () => {
-	const elem = document.createElement("div");
-	elem.classList.add("container");
-
-	return elem;
+	return addComponent({
+		type: "div",
+		props: {
+			classList: ["container"],
+		},
+	});
 };
 
 export const loadDashboardPage = (element) => {
