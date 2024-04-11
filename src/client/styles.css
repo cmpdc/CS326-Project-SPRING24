@@ -468,10 +468,13 @@ body {
 }
 
 .calendar {
+    width: 280px;
+    max-width: 280px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0 0 0;
+    --spacing: 15px;
 }
 
 .calendar-header,
@@ -482,6 +485,11 @@ body {
     justify-content: space-between;
 }
 
+.day-names-row,
+.date-week {
+    gap: var(--spacing);
+}
+
 .calendar-header,
 .day-names-row,
 .date-grid {
@@ -489,7 +497,9 @@ body {
 }
 
 .date-grid {
+    margin: var(--spacing) 0 0 0;
     flex-flow: column;
+    gap: var(--spacing);
 }
 
 .date-week {
@@ -502,10 +512,96 @@ body {
     text-align: center;
 }
 
+.day-name {
+    font-weight: 600;
+}
+
+.calender {
+    position: relative;
+}
+
+.calendar .current-view {
+    display: block;
+}
+
+.calendar.monthViewRevealed .current-view {
+    display: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.calendar-header {
+    height: 30px;
+    flex-flow: row;
+    align-items: center;
+}
+
+.calendar-header .month-year {
+    flex: 1;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.calendar-header .month-year>* {
+    color: rgba(0, 0, 0, 1) !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    cursor: pointer;
+}
+
+.calendar-header .month-year .year {
+    margin: 0 0 0 5px;
+}
+
+.calendar-header .buttonContainer {
+    width: 40px;
+    min-width: 40px;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-header .buttonContainer>div {
+    width: 20px;
+    height: 20px;
+    flex: 1;
+    transition: opacity 100ms linear;
+    transform: none;
+    cursor: pointer;
+}
+
+.calendar-header .buttonContainer>div:active {
+    transform: translate(0, 2px);
+}
+
+.calendar-header .buttonContainer>div.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+
+}
+
+.calendar-header .buttonContainer svg {
+    width: 100%;
+    height: 100%;
+}
+
 .day.selected {
     background-color: #add8e6;
 }
 
 .day.outside {
     color: #aaa;
+}
+
+.month-view {
+    width:
+        display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
 }

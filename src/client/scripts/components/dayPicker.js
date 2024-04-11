@@ -1,5 +1,9 @@
 import { addComponent, createRef } from "../../utils.js";
 
+const caretUpIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"></path></svg>`;
+
+const caretDownIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"></path></svg>`;
+
 export class DayPicker {
 	constructor({ fixedWeeks, showWeekNumber, mode, min, max, date, renderCalendar, renderButton, showOldDays = false }) {
 		this.fixedWeeks = fixedWeeks;
@@ -90,7 +94,7 @@ export class DayPicker {
 			props: {
 				classList: ["prev-button", canShowPrevButton ? "allowed" : "disabled"],
 				onClick: (e) => this.changeMonth(e, -1),
-				children: ["<"],
+				children: [caretUpIcon],
 			},
 		});
 
@@ -99,7 +103,15 @@ export class DayPicker {
 			props: {
 				classList: ["next-button"],
 				onClick: (e) => this.changeMonth(e, 1),
-				children: [">"],
+				children: [caretDownIcon],
+			},
+		});
+
+		const buttonContainer = addComponent({
+			type: "div",
+			props: {
+				classList: ["buttonContainer"],
+				children: [prevButton, nextButton],
 			},
 		});
 
@@ -132,7 +144,7 @@ export class DayPicker {
 			type: "div",
 			props: {
 				classList: ["calendar-header"],
-				children: [prevButton, monthYearDisplay, nextButton],
+				children: [monthYearDisplay, buttonContainer],
 			},
 		});
 	}
