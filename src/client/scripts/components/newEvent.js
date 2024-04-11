@@ -1,5 +1,6 @@
 import { insertModal } from "../../app.js";
 import { addComponent, createRef } from "../../utils.js";
+import { DayPicker } from "./calendar.js";
 
 const maximizeIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
 
@@ -19,11 +20,16 @@ const eventElementContent = (element) => {
 	const iconClassName = "event-icon";
 
 	const titleWrapperRef = createRef();
+	const dateComponentRef = createRef();
+	const timeComponentRef = createRef();
 	const dateTimeWrapperRef = createRef();
+	const dateTimeComponentRendererRef = createRef();
 	const guestWrapperRef = createRef();
 	const locationWrapperRef = createRef();
 	const descriptionWrapperRef = createRef();
 	const saveButtonRef = createRef();
+
+	let dayPicker = null;
 
 	const addInputComponent = (obj) => {
 		obj.props.classList = ["input"];
@@ -55,6 +61,7 @@ const eventElementContent = (element) => {
 
 	const dateComponent = addComponent({
 		type: "span",
+		ref: dateComponentRef,
 		props: {
 			textContent: "Date Component",
 		},
@@ -62,6 +69,7 @@ const eventElementContent = (element) => {
 
 	const timeComponent = addComponent({
 		type: "span",
+		ref: timeComponentRef,
 		props: {
 			textContent: "Time Component",
 		},
@@ -71,7 +79,22 @@ const eventElementContent = (element) => {
 		type: "div",
 		props: {
 			classList: ["dateTimeComponent"],
-			children: [dateComponent, timeComponent],
+			children: [
+				{
+					type: "div",
+					props: {
+						classList: ["dateTimeComponentInner"],
+						children: [dateComponent, timeComponent],
+					},
+				},
+				{
+					type: "div",
+					ref: dateTimeComponentRendererRef,
+					props: {
+						classList: ["dateTimeComponentRenderer"],
+					},
+				},
+			],
 		},
 	});
 
@@ -128,6 +151,19 @@ const eventElementContent = (element) => {
 			case "dateTime":
 				targetRef = dateTimeWrapperRef;
 				newContent = dateTimeComponent;
+
+				dayPicker = new DayPicker({
+					numberOfWeeks: 1,
+					fixedWeeks: true,
+					showWeekNumber: false,
+					mode: "multiple",
+					min: 1,
+					max: 3,
+					selected: new Date(),
+					renderCalendar: dateComponentRef.current,
+					renderButton: dateTimeComponentRendererRef.current,
+				});
+
 				break;
 
 			case "guests":

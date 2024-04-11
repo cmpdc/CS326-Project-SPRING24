@@ -14,7 +14,7 @@ export const addComponent = ({ type, ref, props }) => {
 	if (props) {
 		Object.entries(props).forEach(([key, value]) => {
 			if (key === "classList") {
-				value.forEach((className) => elem.classList.add(className));
+				value.filter(Boolean).forEach((className) => elem.classList.add(className));
 			} else if (key.startsWith("on") && typeof value === "function") {
 				const eventName = key.substring(2).toLowerCase();
 				elem.addEventListener(eventName, value);

@@ -421,7 +421,7 @@ body {
     resize: none;
 }
 
-.eventContent .dateTimeComponent {
+.eventContent .dateTimeComponentInner {
     display: flex;
     flex-flow: row;
     gap: 10px;
@@ -444,4 +444,40 @@ body {
     padding: 8px 10px;
     cursor: pointer;
     user-select: none;
+}
+
+/* Calendar */
+.day-picker-toggle {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ccc;
+    display: inline-block;
+}
+
+.calendar {
+    display: none;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.calendar-header,
+.day-names-row,
+.date-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.day,
+.day-name {
+    width: 30px;
+    text-align: center;
+}
+
+.day.selected {
+    background-color: #add8e6;
+}
+
+.day.outside {
+    color: #aaa;
 }
