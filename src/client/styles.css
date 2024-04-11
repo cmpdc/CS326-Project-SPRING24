@@ -446,26 +446,54 @@ body {
     user-select: none;
 }
 
+.dateTimeComponentRenderer {
+    transition: height 100ms linear;
+}
+
+.dateTimeComponentRenderer:empty {
+    height: 0;
+}
+
+.dateTimeComponentRenderer:not(:empty) {
+    height: 100%;
+}
+
 /* Calendar */
 .day-picker-toggle {
-    cursor: pointer;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     display: inline-block;
+    cursor: pointer;
 }
 
 .calendar {
-    display: none;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     padding: 10px;
+    margin: 10px 0 0 0;
+}
+
+.calendar-header,
+.day-names-row,
+.date-grid,
+.date-week {
+    display: flex;
+    justify-content: space-between;
 }
 
 .calendar-header,
 .day-names-row,
 .date-grid {
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 5px;
+}
+
+.date-grid {
+    flex-flow: column;
+}
+
+.date-week {
+    flex-flow: row;
 }
 
 .day,

@@ -1,6 +1,6 @@
 import { insertModal } from "../../app.js";
 import { addComponent, createRef } from "../../utils.js";
-import { DayPicker } from "./calendar.js";
+import { DayPicker } from "./dayPicker.js";
 
 const maximizeIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
 
@@ -60,7 +60,7 @@ const eventElementContent = (element) => {
 	});
 
 	const dateComponent = addComponent({
-		type: "span",
+		type: "div",
 		ref: dateComponentRef,
 		props: {
 			textContent: "Date Component",
@@ -153,15 +153,14 @@ const eventElementContent = (element) => {
 				newContent = dateTimeComponent;
 
 				dayPicker = new DayPicker({
-					numberOfWeeks: 1,
 					fixedWeeks: true,
 					showWeekNumber: false,
 					mode: "multiple",
 					min: 1,
 					max: 3,
-					selected: new Date(),
-					renderCalendar: dateComponentRef.current,
-					renderButton: dateTimeComponentRendererRef.current,
+					date: new Date(),
+					renderCalendar: dateTimeComponentRendererRef.current,
+					renderButton: dateComponentRef.current,
 				});
 
 				break;
