@@ -26,6 +26,9 @@ export const addComponent = ({ type, ref, props }) => {
 				value.forEach((child) => {
 					if (typeof child === "string") {
 						elem.innerHTML += child;
+					} else if (child instanceof Node) {
+						// If "child" is already a DOM element, append it directly
+						elem.appendChild(child);
 					} else {
 						const childElement = addComponent(child);
 						elem.appendChild(childElement);
