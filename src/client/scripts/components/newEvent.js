@@ -53,7 +53,27 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const dateTimeComponent = "Soon";
+	const dateComponent = addComponent({
+		type: "span",
+		props: {
+			textContent: "Date Component",
+		},
+	});
+
+	const timeComponent = addComponent({
+		type: "span",
+		props: {
+			textContent: "Time Component",
+		},
+	});
+
+	const dateTimeComponent = addComponent({
+		type: "div",
+		props: {
+			classList: ["dateTimeComponent"],
+			children: [dateComponent, timeComponent],
+		},
+	});
 
 	const guestComponent = addInputComponent({
 		type: "input",

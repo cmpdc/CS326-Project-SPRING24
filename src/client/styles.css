@@ -163,7 +163,7 @@ body {
 
 .eventContainer {
     width: 400px;
-    min-height: 385px;
+    min-height: 360px;
     max-height: calc(100% - 100px);
     background-color: #fff;
     border-radius: 5px;
@@ -238,7 +238,6 @@ body {
     display: flex;
     flex-flow: column;
     align-items: flex-start;
-    gap: 10px;
     --iconWidth: 20px;
     --iconGap: 20px;
     --rightSidePaddingRight: 20px;
@@ -267,7 +266,7 @@ body {
 }
 
 .eventContent .column {
-    min-height: 45px;
+    min-height: 40px;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     margin: 5px 0 0 0;
@@ -280,8 +279,6 @@ body {
 
 .eventContent .column.revealed {
     --borderRevealColor: rgba(0, 0, 0, 0.15);
-    border-top-color: var(--borderRevealColor);
-    border-bottom-color: var(--borderRevealColor);
     user-select: text;
 }
 
@@ -424,9 +421,15 @@ body {
     resize: none;
 }
 
+.eventContent .dateTimeComponent {
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+}
+
 .eventContent .buttonContainer {
     height: 40px;
-    margin: -5px 0 20px 0;
+    margin: 10px 0;
     display: flex;
     align-items: center;
     justify-content: center;
