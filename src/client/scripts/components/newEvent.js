@@ -1,6 +1,7 @@
 import { insertModal } from "../../app.js";
 import { addComponent, createRef } from "../../utils.js";
 import { DayPicker } from "./dayPicker.js";
+import { TimePicker } from "./timePicker.js";
 
 const maximizeIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
 
@@ -19,17 +20,17 @@ const eventContainerClassName = "eventContainer";
 const eventElementContent = (element) => {
 	const iconClassName = "event-icon";
 
-	const titleWrapperRef = createRef();
-	const dateComponentRef = createRef();
-	const timeComponentRef = createRef();
+	let dayPickerFrom = null;
+	let timePickerFrom = null;
+	let dayPickerTo = null;
+	let timePickerTo = null;
+
 	const dateTimeWrapperRef = createRef();
 	const dateTimeComponentRendererRef = createRef();
 	const guestWrapperRef = createRef();
 	const locationWrapperRef = createRef();
 	const descriptionWrapperRef = createRef();
 	const saveButtonRef = createRef();
-
-	let dayPicker = null;
 
 	const addInputComponent = (obj) => {
 		obj.props.classList = ["input"];
@@ -59,19 +60,33 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const dateComponent = addComponent({
+	const dateComponentFrom = addComponent({
 		type: "div",
-		ref: dateComponentRef,
 		props: {
+			classList: ["dateComponent", "dateComponentFrom"],
 			textContent: "Date Component",
 		},
 	});
 
-	const timeComponent = addComponent({
-		type: "span",
-		ref: timeComponentRef,
+	const timeComponentFrom = addComponent({
+		type: "div",
 		props: {
-			textContent: "Time Component",
+			classList: ["timeComponent", "timeComponentFrom"],
+		},
+	});
+
+	const dateComponentTo = addComponent({
+		type: "div",
+		props: {
+			classList: ["dateComponent", "dateComponentTo"],
+			textContent: "Date Component",
+		},
+	});
+
+	const timeComponentTo = addComponent({
+		type: "div",
+		props: {
+			classList: ["timeComponent", "timeComponentTo"],
 		},
 	});
 
@@ -84,7 +99,22 @@ const eventElementContent = (element) => {
 					type: "div",
 					props: {
 						classList: ["dateTimeComponentInner"],
-						children: [dateComponent, timeComponent],
+						children: [
+							{
+								type: "div",
+								props: {
+									classList: ["row"],
+									children: [{ type: "span", props: { textContent: "From" } }, dateComponentFrom, timeComponentFrom],
+								},
+							},
+							{
+								type: "div",
+								props: {
+									classList: ["row"],
+									children: [{ type: "span", props: { textContent: "To" } }, dateComponentTo, timeComponentTo],
+								},
+							},
+						],
 					},
 				},
 				{
@@ -152,15 +182,39 @@ const eventElementContent = (element) => {
 				targetRef = dateTimeWrapperRef;
 				newContent = dateTimeComponent;
 
-				dayPicker = new DayPicker({
+				const dateFrom = new Date();
+				const dateTo = new Date();
+
+				dayPickerFrom = new DayPicker({
 					fixedWeeks: true,
 					showWeekNumber: false,
-					mode: "multiple",
-					min: 1,
-					max: 3,
-					date: new Date(),
+					date: dateFrom,
 					renderCalendar: dateTimeComponentRendererRef.current,
-					renderButton: dateComponentRef.current,
+					renderButton: dateComponentFrom,
+				});
+
+				timePickerFrom = new TimePicker({
+					date: dateFrom,
+					increment: 15,
+					showCurrentTime: true,
+					renderButton: timeComponentFrom,
+					renderTime: dateTimeComponentRendererRef.current,
+				});
+
+				dayPickerTo = new DayPicker({
+					fixedWeeks: true,
+					showWeekNumber: false,
+					date: dateTo,
+					renderCalendar: dateTimeComponentRendererRef.current,
+					renderButton: dateComponentTo,
+				});
+
+				timePickerTo = new TimePicker({
+					date: dateTo,
+					increment: 15,
+					showCurrentTime: true,
+					renderButton: timeComponentTo,
+					renderTime: dateTimeComponentRendererRef.current,
 				});
 
 				break;
@@ -203,7 +257,6 @@ const eventElementContent = (element) => {
 			children: [
 				{
 					type: "div",
-					ref: titleWrapperRef,
 					props: {
 						classList: ["titleInner", "titleWrapper"],
 						children: [titleComponent],
@@ -534,11 +587,11 @@ export const loadEventComponent = () => {
 			let newLeft = originalLeft + dx;
 			let newTop = originalTop + dy;
 
-			newLeft = Math.max(newLeft + offset, 0);
-			newLeft = Math.min(newLeft + offset, window.innerWidth - elem.offsetWidth - offset);
+			newLeft = Math.max(newLeft, offset);
+			newLeft = Math.min(newLeft, window.innerWidth - elem.offsetWidth - offset);
 
-			newTop = Math.max(newTop + offset, 0);
-			newTop = Math.min(newTop + offset, window.innerHeight - elem.offsetHeight - offset);
+			newTop = Math.max(newTop, offset);
+			newTop = Math.min(newTop, window.innerHeight - elem.offsetHeight - offset);
 
 			elem.style.left = `${newLeft}px`;
 			elem.style.top = `${newTop}px`;
