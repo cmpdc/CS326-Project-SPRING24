@@ -1,13 +1,8 @@
-import { addComponent, createRef } from "../../utils.js";
-
-const resetIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.54-.313 1.232.066 1.232.696v7.384c0 .63-.692 1.01-1.232.697L5 8.753V12a.5.5 0 0 1-1 0V4z"></path></svg>`;
-
-const caretUpIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"></path></svg>`;
-
-const caretDownIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"></path></svg>`;
+import { caretDownIcon, caretUpIcon, resetIcon } from "../icons.js";
+import { addComponent, createRef } from "../utils.js";
 
 export class DayPicker {
-	constructor({ fixedWeeks, showWeekNumber, date, renderCalendar, renderButton, showOldDays = false }) {
+	constructor({ fixedWeeks, showWeekNumber, date, renderCalendar, renderButton, renderButtonClick, onDateChangeConfirm, showOldDays = false }) {
 		this.fixedWeeks = fixedWeeks;
 		this.showWeekNumber = showWeekNumber;
 		this.date = date;
@@ -15,16 +10,22 @@ export class DayPicker {
 		this.renderButton = renderButton;
 		this.showOldDays = showOldDays;
 
+		this.onDateChangeConfirm = onDateChangeConfirm;
+		this.renderButtonClick = renderButtonClick;
+
 		this.isMonthViewOpen = false;
 		this.isYearViewOpen = false;
 
-		this.selectedDate = [];
 		this.rangeStart = null;
 		this.rangeEnd = null;
 
 		this.calendarRef = createRef();
 		this.buttonRef = createRef();
 		this.initialRender();
+	}
+
+	getPickedDate() {
+		return this.date;
 	}
 
 	getWeekNumber(d) {
@@ -36,14 +37,28 @@ export class DayPicker {
 		return weekNo;
 	}
 
+	setMinDate(newDate) {
+		this.date = newDate;
+		this.updateCalendar();
+	}
+
 	initialRender() {
 		const formattedDate = this.date.toLocaleDateString("default", { year: "numeric", month: "long", day: "numeric" });
 		const buttonElement = addComponent({
 			type: "div",
 			ref: this.buttonRef,
 			props: {
-				classList: ["day-picker-toggle"],
-				onClick: () => this.render(),
+				classList: ["day-picker-toggle", "picker-button"],
+				onClick: (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+
+					if (this.renderButtonClick) {
+						this.renderButtonClick(e);
+					}
+
+					this.render();
+				},
 				children: [formattedDate],
 			},
 		});
@@ -53,8 +68,18 @@ export class DayPicker {
 	}
 
 	render() {
-		if (this.renderCalendar.querySelector(".calendar")) return;
+		const calendarElementRef = this.renderCalendar.querySelector(".calendar");
+		const activeClassName = "active";
 
+		if (calendarElementRef) {
+			document.querySelectorAll(".picker-button").forEach((elem) => {
+				elem.classList.remove(activeClassName);
+			});
+
+			this.hideCalendar();
+
+			return;
+		}
 		const componentButton = this.renderButton.querySelector(".day-picker-toggle");
 
 		const saveButton = addComponent({
@@ -66,15 +91,19 @@ export class DayPicker {
 					e.stopPropagation();
 					e.preventDefault();
 
-					if (this.selectedDate) {
-						const formattedDate = this.selectedDate.toLocaleDateString("default", { year: "numeric", month: "long", day: "numeric" });
-						this.buttonRef.current.textContent = formattedDate;
+					if (!this.date) return;
 
-						componentButton.classList.remove("active");
-
-						this.calendarRef.current.remove();
-						this.calendarRef.current = null;
+					if (this.onDateChangeConfirm) {
+						this.onDateChangeConfirm(this.date);
 					}
+
+					const formattedDate = this.date.toLocaleDateString("default", { year: "numeric", month: "long", day: "numeric" });
+					this.buttonRef.current.textContent = formattedDate;
+
+					componentButton.classList.remove("active");
+
+					this.calendarRef.current.remove();
+					this.calendarRef.current = null;
 				},
 			},
 		});
@@ -103,7 +132,7 @@ export class DayPicker {
 			},
 		});
 
-		componentButton.classList.add("active");
+		componentButton.classList.add(activeClassName);
 		this.renderCalendar.appendChild(calendarElement);
 	}
 
@@ -305,6 +334,7 @@ export class DayPicker {
 		});
 
 		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 		months.forEach((month, index) => {
 			// Disable past months based on showOldDays and the current date
 			const isDisabled = !this.showOldDays && (selectedYear < currentYear || (selectedYear === currentYear && index < currentMonth));
@@ -323,9 +353,12 @@ export class DayPicker {
 
 						this.isMonthViewOpen = false;
 
+						if (this.calendarRef.current && this.calendarRef.current.classList.contains("monthViewRevealed")) {
+							this.calendarRef.current.classList.remove("monthViewRevealed");
+						}
+
 						this.changeMonthTo(index);
 						monthViewElement.remove(); // Remove month view after selection
-						this.calendarRef.current.classList.remove("monthViewRevealed");
 					},
 					children: [month.substring(0, 3)],
 				},
@@ -388,7 +421,7 @@ export class DayPicker {
 		e.preventDefault();
 		e.stopPropagation();
 
-		this.selectedDate = date;
+		this.date = date;
 
 		const dayElement = e.target;
 		const isOutsideDay = dayElement.classList.contains("outside");
@@ -415,9 +448,7 @@ export class DayPicker {
 				this.updateCalendar(); // Re-render the calendar to the new month/year
 				return; // Exit the function to avoid further logic meant for current month days
 			}
-		}
-
-		if (!isOutsideDay) {
+		} else {
 			// Only apply selection logic if it's not an outside day
 			if (this.previousSelected && this.previousSelected !== dayElement) {
 				this.previousSelected.classList.remove("selected");
@@ -439,7 +470,9 @@ export class DayPicker {
 		if (this.calendarRef.current) {
 			this.calendarRef.current.remove(); // Remove the current calendar from the DOM
 		}
-		this.calendarRef.current = null; // Reset the reference to allow reinitialization
+
+		// Re-render the calendar element
+		this.render();
 	}
 
 	changeMonth(e, direction) {
@@ -477,5 +510,12 @@ export class DayPicker {
 
 		// Re-render the calendar to reflect the reset
 		this.updateCalendar();
+	}
+
+	hideCalendar() {
+		const calendarElementRef = this.renderCalendar.querySelector(".calendar");
+		if (!calendarElementRef) return;
+
+		calendarElementRef.remove();
 	}
 }

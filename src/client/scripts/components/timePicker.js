@@ -1,18 +1,20 @@
-import { addComponent, createRef } from "../../utils.js";
+import { addComponent } from "../utils.js";
 
 export class TimePicker {
-	constructor({ date, increment, showCurrentTime, renderButton, renderTime, disablePast = false }) {
+	constructor({ date, increment, showCurrentTime, renderButton, renderButtonClick, renderTime, onTimeSelect, disablePast = false, date2 = null }) {
 		if (![15, 30].includes(increment)) {
 			throw new Error("Increment value must be 15 or 30.");
 		}
 
 		this.date = date;
+		this.date2 = date2;
 		this.increment = increment;
 		this.showCurrentTime = showCurrentTime;
 		this.renderButton = renderButton;
+		this.renderButtonClick = renderButtonClick;
 		this.renderTime = renderTime;
+		this.onTimeSelect = onTimeSelect;
 		this.disablePast = disablePast;
-		this.selectedTime = this.formatTime(this.date);
 
 		if (this.showCurrentTime) {
 			this.initializeButton();
@@ -22,7 +24,11 @@ export class TimePicker {
 	}
 
 	get currentSelectedTime() {
-		return this.selectedTime;
+		return this.date;
+	}
+
+	setMinTime(newDate) {
+		this.date = newDate;
 	}
 
 	formatTime(date) {
@@ -36,25 +42,44 @@ export class TimePicker {
 	}
 
 	initializeButton() {
-		const buttonRef = createRef();
 		const button = addComponent({
 			type: "div",
-			ref: buttonRef,
 			props: {
-				classList: ["time-picker-button"],
-				onClick: () => this.renderTimePicker(),
-				children: [this.selectedTime],
+				classList: ["time-picker-button", "picker-button"],
+				onClick: (e) => {
+					e.stopPropagation();
+					e.preventDefault();
+
+					if (this.renderButtonClick) {
+						this.renderButtonClick(e);
+					}
+
+					this.renderTimePicker();
+				},
+				children: [this.formatTime(this.date)],
 			},
 		});
+
+		if (this.renderButton.childNodes.length) {
+			this.renderButton.innerHTML = "";
+		}
+
 		this.renderButton.appendChild(button);
 	}
 
 	renderTimePicker() {
-		if (this.renderTime.querySelector(".time-picker-container")) return;
+		const pickerElemRef = this.renderTime.querySelector(".time-picker-container");
+		const activeClassName = "active";
+
+		if (pickerElemRef) {
+			this.hideTimePicker();
+
+			return;
+		}
 
 		this.renderTime.innerHTML = "";
 
-		this.renderButton.querySelector(".time-picker-button").classList.add("active");
+		this.renderButton.querySelector(".time-picker-button").classList.add(activeClassName);
 
 		const pickerContainer = addComponent({
 			type: "div",
@@ -64,6 +89,7 @@ export class TimePicker {
 		});
 
 		const now = new Date();
+
 		for (let hour = 0; hour < 24; hour++) {
 			const hourContainer = addComponent({
 				type: "div",
@@ -75,15 +101,25 @@ export class TimePicker {
 			for (let minute = 0; minute < 60; minute += this.increment) {
 				const timeOption = new Date(this.date);
 				timeOption.setHours(hour, minute);
-				const timeString = this.formatTime(timeOption);
+				timeOption.setSeconds(0, 0);
 
-				const isPast = this.disablePast && timeOption < now;
+				let isDisable;
+				if (this.disablePast) {
+					if (now) {
+						isDisable = timeOption < this.date2;
+					} else {
+						isDisable = timeOption > this.date2;
+					}
+				} else {
+					isDisable = false;
+				}
+
 				const timeButton = addComponent({
 					type: "div",
 					props: {
-						textContent: timeString,
-						classList: ["time-picker-option", isPast ? "disabled" : ""],
-						onclick: isPast
+						textContent: this.formatTime(timeOption),
+						classList: ["time-picker-option", isDisable ? "disabled" : ""],
+						onclick: isDisable
 							? null
 							: (e) => {
 									this.selectTime(e, timeOption);
@@ -106,7 +142,11 @@ export class TimePicker {
 		e.stopPropagation();
 		e.preventDefault();
 
-		this.selectedTime = this.formatTime(time);
+		this.date = time;
+		if (this.onTimeSelect) {
+			this.onTimeSelect(time);
+		}
+
 		this.updateButton();
 		this.hideTimePicker();
 	}
@@ -114,12 +154,15 @@ export class TimePicker {
 	updateButton() {
 		const button = this.renderButton.querySelector(".time-picker-button");
 		if (button) {
-			button.textContent = this.selectedTime;
+			button.textContent = this.formatTime(this.date);
 		}
 	}
 
 	hideTimePicker() {
-		this.renderTime.innerHTML = "";
+		const pickerElemRef = this.renderTime.querySelector(".time-picker-container");
+
+		if (!pickerElemRef) return;
+		pickerElemRef.remove();
 	}
 
 	setupObserver() {

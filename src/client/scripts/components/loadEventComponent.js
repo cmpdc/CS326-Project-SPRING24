@@ -1,35 +1,37 @@
-import { insertModal } from "../../app.js";
-import { addComponent, createRef } from "../../utils.js";
+import { descriptionIcon, guestsIcon, locationIcon, locationPinIcon, maximizeIcon, minimizeIcon, timeIcon, trackingIcon } from "../icons.js";
+import { geocode } from "../location.js";
+import { addComponent, createRef, debounce, insertModal, removeModalComponent } from "../utils.js";
 import { DayPicker } from "./dayPicker.js";
+import { InviteComponent } from "./inviteComponent.js";
 import { TimePicker } from "./timePicker.js";
-
-const maximizeIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
-
-const minimizeIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49z"></path></svg>`;
-
-const timeIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path></svg>`;
-
-const guestsIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path d="M64.12,147.8a4,4,0,0,1-4,4.2H16a8,8,0,0,1-7.8-6.17,8.35,8.35,0,0,1,1.62-6.93A67.79,67.79,0,0,1,37,117.51a40,40,0,1,1,66.46-35.8,3.94,3.94,0,0,1-2.27,4.18A64.08,64.08,0,0,0,64,144C64,145.28,64,146.54,64.12,147.8Zm182-8.91A67.76,67.76,0,0,0,219,117.51a40,40,0,1,0-66.46-35.8,3.94,3.94,0,0,0,2.27,4.18A64.08,64.08,0,0,1,192,144c0,1.28,0,2.54-.12,3.8a4,4,0,0,0,4,4.2H240a8,8,0,0,0,7.8-6.17A8.33,8.33,0,0,0,246.17,138.89Zm-89,43.18a48,48,0,1,0-58.37,0A72.13,72.13,0,0,0,65.07,212,8,8,0,0,0,72,224H184a8,8,0,0,0,6.93-12A72.15,72.15,0,0,0,157.19,182.07Z"></path></svg>`;
-
-const locationIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M20.891 2.006l.106 -.006l.13 .008l.09 .016l.123 .035l.107 .046l.1 .057l.09 .067l.082 .075l.052 .059l.082 .116l.052 .096c.047 .1 .077 .206 .09 .316l.005 .106c0 .075 -.008 .149 -.024 .22l-.035 .123l-6.532 18.077a1.55 1.55 0 0 1 -1.409 .903a1.547 1.547 0 0 1 -1.329 -.747l-.065 -.127l-3.352 -6.702l-6.67 -3.336a1.55 1.55 0 0 1 -.898 -1.259l-.006 -.149c0 -.56 .301 -1.072 .841 -1.37l.14 -.07l18.017 -6.506l.106 -.03l.108 -.018z" stroke-width="0" fill="currentColor"></path></svg>`;
-
-const descriptionIcon = `<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>`;
 
 const eventContainerClassName = "eventContainer";
 
 const eventElementContent = (element) => {
 	const iconClassName = "event-icon";
 
-	let dayPickerFrom = null;
-	let timePickerFrom = null;
-	let dayPickerTo = null;
-	let timePickerTo = null;
+	const today = new Date();
+	let eventStartGlobal = new Date();
+	eventStartGlobal.setHours(today.getHours() + 1, 0, 0, 0);
+
+	let eventEndGlobal = new Date();
+	eventEndGlobal.setHours(today.getHours() + 2, 0, 0, 0);
+
+	let locationSelection = null;
+	const debouncedGeocode = debounce(geocode, 500);
+
+	let trackingSelection = false;
+
+	const inviteComponent = new InviteComponent();
 
 	const dateTimeWrapperRef = createRef();
 	const dateTimeComponentRendererRef = createRef();
 	const guestWrapperRef = createRef();
 	const locationWrapperRef = createRef();
+	const locationResultsRef = createRef();
+	const trackingWrapperRef = createRef();
 	const descriptionWrapperRef = createRef();
+
 	const saveButtonRef = createRef();
 
 	const addInputComponent = (obj) => {
@@ -75,14 +77,6 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const dateComponentTo = addComponent({
-		type: "div",
-		props: {
-			classList: ["dateComponent", "dateComponentTo"],
-			textContent: "Date Component",
-		},
-	});
-
 	const timeComponentTo = addComponent({
 		type: "div",
 		props: {
@@ -103,15 +97,22 @@ const eventElementContent = (element) => {
 							{
 								type: "div",
 								props: {
-									classList: ["row"],
-									children: [{ type: "span", props: { textContent: "From" } }, dateComponentFrom, timeComponentFrom],
+									classList: ["col"],
+									children: [{ type: "span", props: { textContent: "Date", classList: ["title"] } }, dateComponentFrom],
 								},
 							},
 							{
 								type: "div",
 								props: {
-									classList: ["row"],
-									children: [{ type: "span", props: { textContent: "To" } }, dateComponentTo, timeComponentTo],
+									classList: ["col"],
+									children: [{ type: "span", props: { textContent: "From", classList: ["title"] } }, timeComponentFrom],
+								},
+							},
+							{
+								type: "div",
+								props: {
+									classList: ["col"],
+									children: [{ type: "span", props: { textContent: "To", classList: ["title"] } }, timeComponentTo],
 								},
 							},
 						],
@@ -128,19 +129,140 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const guestComponent = addInputComponent({
-		type: "input",
+	const locationComponent = addComponent({
+		type: "div",
 		props: {
-			id: "guests",
-			placeholder: "Enter email address",
+			classList: ["locationContainer"],
+			children: [
+				addInputComponent({
+					type: "input",
+					props: {
+						id: "location",
+						placeholder: "Where do you want to go?",
+						onInput: async (locationEvent) => {
+							locationEvent.stopPropagation();
+							locationEvent.preventDefault();
+
+							const query = locationEvent.target.value;
+							if (!query) return;
+
+							const infoElem = addComponent({
+								type: "li",
+								props: {
+									classList: ["info"],
+									children: [
+										{
+											type: "span",
+											props: {
+												textContent: "Searching...",
+											},
+										},
+									],
+								},
+							});
+
+							if (!locationResultsRef.current.firstChild) {
+								locationResultsRef.current.appendChild(infoElem);
+							}
+
+							const results = await debouncedGeocode(query);
+							if (results && Object.prototype.toString.call(results) === "[object Array]") {
+								locationResultsRef.current.innerHTML = "";
+
+								results.forEach((result) => {
+									const resultElem = addComponent({
+										type: "li",
+										props: {
+											onClick: (resultEvent) => {
+												resultEvent.stopPropagation();
+												resultEvent.preventDefault();
+
+												locationSelection = result;
+
+												locationComponent.querySelector("#location").value = result.formatted;
+												locationResultsRef.current.innerHTML = "";
+											},
+											classList: ["result"],
+											children: [
+												{
+													type: "span",
+													props: {
+														classList: ["icon"],
+														children: [locationPinIcon],
+													},
+												},
+												{
+													type: "span",
+													props: {
+														textContent: result.formatted,
+													},
+												},
+											],
+										},
+									});
+
+									locationResultsRef.current.appendChild(resultElem);
+								});
+							} else {
+								locationResultsRef.current.innerHTML = "";
+							}
+						},
+					},
+				}),
+				{
+					type: "ul",
+					ref: locationResultsRef,
+					props: {
+						classList: ["locationsResults"],
+					},
+				},
+			],
 		},
 	});
 
-	const locationComponent = addInputComponent({
-		type: "input",
+	const handleTrackingSelection = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+
+		const activeName = "active";
+
+		trackingWrapperRef.current.querySelectorAll("span").forEach((item) => {
+			if (item.textContent !== e.target.textContent) {
+				if (item.classList.contains(activeName)) {
+					item.classList.remove(activeName);
+				}
+			} else {
+				e.target.classList.add(activeName);
+			}
+		});
+	};
+
+	const trackingComponent = addComponent({
+		type: "div",
 		props: {
-			id: "location",
-			placeholder: "Where do you want to go?",
+			classList: ["trackingContainer"],
+			children: [
+				{
+					type: "span",
+					props: {
+						textContent: "Yes",
+						onClick: (e) => {
+							handleTrackingSelection(e);
+							trackingSelection = true;
+						},
+					},
+				},
+				{
+					type: "span",
+					props: {
+						textContent: "No",
+						onClick: (e) => {
+							handleTrackingSelection(e);
+							trackingSelection = false;
+						},
+					},
+				},
+			],
 		},
 	});
 
@@ -152,14 +274,16 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const handleClick = (e, type) => {
+	const handleComponentClick = (e, type) => {
 		e.preventDefault();
+		e.stopPropagation();
 
-		if (!e.target.classList.contains("default")) return;
-		e.target.classList.remove("default");
+		if (!e.target.parentElement.classList.contains("default")) return;
+		e.target.parentElement.classList.remove("default");
+		saveButtonRef.current.disabled = false;
 
-		if (!e.target.parentElement.classList.contains("revealed")) {
-			e.target.parentElement.classList.add("revealed");
+		if (!e.target.parentElement.parentElement.classList.contains("revealed")) {
+			e.target.parentElement.parentElement.classList.add("revealed");
 		}
 
 		const replaceContent = (ref, newContent) => {
@@ -182,51 +306,131 @@ const eventElementContent = (element) => {
 				targetRef = dateTimeWrapperRef;
 				newContent = dateTimeComponent;
 
-				const dateFrom = new Date();
-				const dateTo = new Date();
+				let calendarPicker = null;
+				let timePickerEndTime = null;
+				let timePickerStartTime = null;
 
-				dayPickerFrom = new DayPicker({
-					fixedWeeks: true,
-					showWeekNumber: false,
-					date: dateFrom,
-					renderCalendar: dateTimeComponentRendererRef.current,
-					renderButton: dateComponentFrom,
-				});
+				const hideCalendar = () => {
+					const calendarElem = dateTimeComponentRendererRef.current.querySelector(".calendar");
+					const calendarButtonElem = dateComponentFrom.querySelector(".day-picker-toggle");
 
-				timePickerFrom = new TimePicker({
-					date: dateFrom,
-					increment: 15,
-					showCurrentTime: true,
-					renderButton: timeComponentFrom,
-					renderTime: dateTimeComponentRendererRef.current,
-				});
+					if (calendarElem) {
+						calendarElem.remove();
+					}
 
-				dayPickerTo = new DayPicker({
-					fixedWeeks: true,
-					showWeekNumber: false,
-					date: dateTo,
-					renderCalendar: dateTimeComponentRendererRef.current,
-					renderButton: dateComponentTo,
-				});
+					if (calendarButtonElem) {
+						if (calendarButtonElem.classList.contains("active")) {
+							calendarButtonElem.classList.remove("active");
+						}
+					}
+				};
 
-				timePickerTo = new TimePicker({
-					date: dateTo,
+				const hideTimePickers = () => {
+					const pickerElem = dateTimeComponentRendererRef.current.querySelector(".time-picker-container");
+					const pickerButtonElems = document.querySelectorAll(".time-picker-button");
+
+					if (pickerElem) {
+						pickerElem.remove();
+					}
+
+					if (pickerButtonElems) {
+						pickerButtonElems.forEach((elem) => {
+							if (elem.classList.contains("active")) {
+								elem.classList.remove("active");
+							}
+						});
+					}
+				};
+
+				timePickerEndTime = new TimePicker({
+					date: eventEndGlobal,
+					date2: eventEndGlobal,
 					increment: 15,
 					showCurrentTime: true,
 					renderButton: timeComponentTo,
+					renderButtonClick: (event) => {
+						hideCalendar();
+					},
 					renderTime: dateTimeComponentRendererRef.current,
+					disablePast: true,
+					onTimeSelect: (selectedTime) => {
+						const newTime = new Date(selectedTime);
+
+						eventStartGlobal.setDate(newTime.getDate());
+						eventEndGlobal = newTime;
+					},
+				});
+
+				timePickerStartTime = new TimePicker({
+					date: eventStartGlobal,
+					increment: 15,
+					showCurrentTime: true,
+					renderButton: timeComponentFrom,
+					renderButtonClick: (event) => {
+						hideCalendar();
+					},
+					disablePast: true,
+					renderTime: dateTimeComponentRendererRef.current,
+					onTimeSelect: (selectedTime) => {
+						const newDate = new Date(selectedTime);
+
+						// default to 30 minutes later
+						newDate.setHours(newDate.getHours(), newDate.getMinutes() + 30);
+
+						timePickerEndTime.setMinTime(newDate);
+						timePickerEndTime.initializeButton();
+
+						eventEndGlobal = newDate;
+						eventStartGlobal = newDate;
+					},
+				});
+
+				calendarPicker = new DayPicker({
+					fixedWeeks: true,
+					showWeekNumber: false,
+					date: eventStartGlobal,
+					renderButton: dateComponentFrom,
+					renderButtonClick: (event) => {
+						hideTimePickers();
+					},
+					renderCalendar: dateTimeComponentRendererRef.current,
+					onDateChangeConfirm: (selectedDate) => {
+						const newDate = new Date(selectedDate);
+
+						const dateForTo = new Date(selectedDate);
+						dateForTo.setHours(newDate.getHours() + 1);
+
+						eventStartGlobal.setDate(newDate.getDate());
+						eventEndGlobal = newDate < today ? today : newDate;
+
+						if (newDate < today) {
+							newDate.setHours(today.getHours() + 1, 0);
+							dateForTo.setHours(newDate.getHours() + 1, 0);
+						}
+
+						timePickerStartTime.setMinTime(newDate);
+						timePickerStartTime.initializeButton();
+
+						timePickerEndTime.setMinTime(dateForTo);
+						timePickerEndTime.initializeButton();
+					},
 				});
 
 				break;
 
-			case "guests":
+			case "invites":
 				targetRef = guestWrapperRef;
-				newContent = guestComponent;
+				newContent = inviteComponent.render();
 				break;
 
 			case "location":
 				targetRef = locationWrapperRef;
 				newContent = locationComponent;
+				break;
+
+			case "tracking":
+				targetRef = trackingWrapperRef;
+				newContent = trackingComponent;
 				break;
 
 			case "description":
@@ -283,14 +487,14 @@ const eventElementContent = (element) => {
 					ref: dateTimeWrapperRef,
 					props: {
 						classList: ["rightSide", "componentWrapper", "default"],
-						onClick: (e) => {
-							handleClick(e, "dateTime");
-						},
 						children: [
 							{
 								type: "span",
 								props: {
 									textContent: "Add time and calendar",
+									onClick: (e) => {
+										handleComponentClick(e, "dateTime");
+									},
 								},
 							},
 						],
@@ -300,10 +504,10 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const guestsContainer = addComponent({
+	const inviteContainer = addComponent({
 		type: "div",
 		props: {
-			classList: ["guestsContainer", "column"],
+			classList: ["inviteContainer", "column"],
 			children: [
 				{
 					type: "div",
@@ -317,14 +521,14 @@ const eventElementContent = (element) => {
 					ref: guestWrapperRef,
 					props: {
 						classList: ["rightSide", "componentWrapper", "default"],
-						onClick: (e) => {
-							handleClick(e, "guests");
-						},
 						children: [
 							{
 								type: "span",
 								props: {
-									textContent: "Add invite event guests",
+									textContent: "Invite friends or guests",
+									onClick: (e) => {
+										handleComponentClick(e, "invites");
+									},
 								},
 							},
 						],
@@ -351,14 +555,48 @@ const eventElementContent = (element) => {
 					ref: locationWrapperRef,
 					props: {
 						classList: ["rightSide", "componentWrapper", "default"],
-						onClick: (e) => {
-							handleClick(e, "location");
-						},
 						children: [
 							{
 								type: "span",
 								props: {
 									textContent: "Add location",
+									onClick: (e) => {
+										handleComponentClick(e, "location");
+									},
+								},
+							},
+						],
+					},
+				},
+			],
+		},
+	});
+
+	const trackingContainer = addComponent({
+		type: "div",
+		props: {
+			classList: ["trackingContainer", "column"],
+			children: [
+				{
+					type: "div",
+					props: {
+						classList: [iconClassName],
+						children: [trackingIcon],
+					},
+				},
+				{
+					type: "div",
+					ref: trackingWrapperRef,
+					props: {
+						classList: ["rightSide", "componentWrapper", "default"],
+						children: [
+							{
+								type: "span",
+								props: {
+									textContent: "Allow tracking",
+									onClick: (e) => {
+										handleComponentClick(e, "tracking");
+									},
 								},
 							},
 						],
@@ -385,14 +623,14 @@ const eventElementContent = (element) => {
 					ref: descriptionWrapperRef,
 					props: {
 						classList: ["rightSide", "componentWrapper", "default"],
-						onClick: (e) => {
-							handleClick(e, "description");
-						},
 						children: [
 							{
 								type: "span",
 								props: {
 									textContent: "Add meeting notes",
+									onClick: (e) => {
+										handleComponentClick(e, "description");
+									},
 								},
 							},
 						],
@@ -401,6 +639,27 @@ const eventElementContent = (element) => {
 			],
 		},
 	});
+
+	const handleSaveButtonClick = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+
+		const data = {
+			title: titleComponent.querySelector("#title").value,
+			dateTime: {
+				from: eventStartGlobal,
+				to: eventEndGlobal,
+			},
+			invites: inviteComponent.getInviteList(),
+			location: locationSelection,
+			tracking: trackingSelection,
+			description: descriptionComponent.querySelector("#description").value,
+		};
+
+		Object.freeze(data);
+
+		console.log(data);
+	};
 
 	const buttonContainer = addComponent({
 		type: "div",
@@ -412,17 +671,23 @@ const eventElementContent = (element) => {
 					ref: saveButtonRef,
 					props: {
 						type: "button",
+						disabled: true,
 						classList: ["button", "saveButton"],
 						textContent: "Save",
+						onClick: (e) => {
+							handleSaveButtonClick(e);
+						},
 					},
 				},
 			],
 		},
 	});
 
-	[titleContainer, dateTimeContainer, guestsContainer, locationContainer, descriptionContainer, buttonContainer].forEach((elem) => {
-		contentContainer.appendChild(elem);
-	});
+	[titleContainer, dateTimeContainer, inviteContainer, locationContainer, trackingContainer, descriptionContainer, buttonContainer].forEach(
+		(elem) => {
+			contentContainer.appendChild(elem);
+		},
+	);
 
 	element.appendChild(contentContainer);
 };
@@ -503,9 +768,9 @@ export const loadEventComponent = () => {
 	elem.appendChild(eventElementComponent());
 
 	const initialRect = eventButtonElem.getBoundingClientRect();
-	elem.style.position = "absolute";
+	elem.style.position = "fixed";
 	elem.style.top = `${initialRect.top}px`;
-	elem.style.left = `${initialRect.left + 55}px`;
+	elem.style.left = `${initialRect.left + 45}px`;
 
 	// variables to track the original and maximized states
 	let isMaximized = false;
@@ -524,7 +789,6 @@ export const loadEventComponent = () => {
 
 	const removeClassesAndElement = () => {
 		eventButtonElem.classList.remove("link-active", "link-modal-open");
-		elem.remove();
 	};
 
 	const handleClickOutside = (event) => {
@@ -533,6 +797,8 @@ export const loadEventComponent = () => {
 			document.removeEventListener("click", handleClickOutside);
 		}
 	};
+
+	const hasVerticalScrollbar = document.body.scrollHeight > window.innerHeight;
 
 	const handleFullScreen = () => {
 		if (isMaximized) {
@@ -561,7 +827,7 @@ export const loadEventComponent = () => {
 			elem.style.height = `${window.innerHeight - fullScreenOffset * 2}px`;
 			elem.style.maxHeight = `${window.innerHeight}px`;
 			elem.style.top = `${fullScreenOffset}px`;
-			elem.style.left = `${sidebarRect.width + offset}px`;
+			elem.style.left = `${sidebarRect.width + (hasVerticalScrollbar ? offset - 15 : offset)}px`;
 		}
 	};
 
@@ -588,7 +854,7 @@ export const loadEventComponent = () => {
 			let newTop = originalTop + dy;
 
 			newLeft = Math.max(newLeft, offset);
-			newLeft = Math.min(newLeft, window.innerWidth - elem.offsetWidth - offset);
+			newLeft = Math.min(newLeft, window.innerWidth - elem.offsetWidth - (hasVerticalScrollbar ? offset + 15 : offset));
 
 			newTop = Math.max(newTop, offset);
 			newTop = Math.min(newTop, window.innerHeight - elem.offsetHeight - offset);
@@ -609,7 +875,7 @@ export const loadEventComponent = () => {
 
 	elementHandleClose.addEventListener("click", () => {
 		removeClassesAndElement();
-		document.removeEventListener("click", handleClickOutside);
+		removeModalComponent(elem);
 	});
 
 	elementHandleMax.addEventListener("click", () => {
