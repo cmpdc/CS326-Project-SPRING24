@@ -1,4 +1,3 @@
-import { loadEventPage } from "./scripts/pages/_event/loadEventPage.js";
 import { loadAccessPage } from "./scripts/pages/access/access.js";
 import { loadDashboardPage } from "./scripts/pages/dashboard/dashboard.js";
 import { currentTab } from "./scripts/pages/dashboard/tabs/current.js";
@@ -30,9 +29,7 @@ const navigate = () => {
 	if (!appElement) return;
 
 	if (path.startsWith("/dashboard/event/")) {
-		const eventName = path.split("/")[3]; //  "/dashboard/event/<event-name>" path
 		loadDashboardPage(appElement);
-		loadEventPage(eventName);
 	} else {
 		switch (path) {
 			case "":

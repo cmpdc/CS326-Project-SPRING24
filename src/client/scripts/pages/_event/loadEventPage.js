@@ -1,8 +1,10 @@
-export const loadEventPage = (eventName) => {
+export const loadEventPage = (event) => {
 	const appElement = document.querySelector("#app");
 	const contentAreaElement = appElement.querySelector(".contentWrapper .content");
 
 	if (!contentAreaElement) return;
 
-	contentAreaElement.textContent = eventName;
+	contentAreaElement.textContent = event.title;
+
+	console.log(event);
 };
