@@ -1,3 +1,4 @@
+import { loadEventPage } from "./scripts/pages/_event/loadEventPage.js";
 import { loadAccessPage } from "./scripts/pages/access/access.js";
 import { loadDashboardPage } from "./scripts/pages/dashboard/dashboard.js";
 import { currentTab } from "./scripts/pages/dashboard/tabs/current.js";
@@ -28,25 +29,31 @@ const navigate = () => {
 
 	if (!appElement) return;
 
-	switch (path) {
-		case "":
-		case "/":
-			loadLandingPage(appElement);
-			break;
-		case "/access":
-			loadAccessPage(appElement);
-			break;
-		case "/dashboard":
-			goToPage("/dashboard/current");
-			break;
-		case "/dashboard/current":
-		case "/dashboard/shared":
-		case "/dashboard/pending":
-			loadDashboardPage(appElement);
-			updateDashboardContent(path.split("/").pop());
-			break;
-		default:
-			appElement.innerHTML = "Page Not Found";
+	if (path.startsWith("/dashboard/event/")) {
+		const eventName = path.split("/")[3]; //  "/dashboard/event/<event-name>" path
+		loadDashboardPage(appElement);
+		loadEventPage(eventName);
+	} else {
+		switch (path) {
+			case "":
+			case "/":
+				loadLandingPage(appElement);
+				break;
+			case "/access":
+				loadAccessPage(appElement);
+				break;
+			case "/dashboard":
+				goToPage("/dashboard/current");
+				break;
+			case "/dashboard/current":
+			case "/dashboard/shared":
+			case "/dashboard/pending":
+				loadDashboardPage(appElement);
+				updateDashboardContent(path.split("/").pop());
+				break;
+			default:
+				appElement.innerHTML = "Page Not Found";
+		}
 	}
 
 	updateActiveLink();
