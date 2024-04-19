@@ -1,3 +1,5 @@
+import { goToPage } from "../../app.js";
+import { loadEventPage } from "../pages/_event/loadEventPage.js";
 import { addComponent, createRef, formatAMPM, getDateWithSuffix, getDayName } from "../utils.js";
 
 const eventDisplayCardComponent = (data) => {
@@ -82,6 +84,15 @@ const eventDisplayCardComponent = (data) => {
 		props: {
 			classList: ["button", "details"],
 			textContent: "View Details",
+			onClick: (e) => {
+				e.preventDefault();
+
+				const eventPath = encodeURIComponent(data.title);
+
+				goToPage(`/dashboard/event/${eventPath}`);
+
+				loadEventPage(data); // pass the event object here
+			},
 		},
 	});
 
