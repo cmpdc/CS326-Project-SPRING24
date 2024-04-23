@@ -15,7 +15,7 @@ const contentComponent = () => {
 	});
 };
 
-const contentComponent_ = () => {
+const contentComponentWrapper = () => {
 	return addComponent({
 		type: "div",
 		props: {
@@ -41,19 +41,26 @@ const contentComponent_ = () => {
 };
 
 export const loadDashboardPage = (element) => {
-	const modalElem = document.querySelector("#modal");
+	if (!element) return;
 
-	if (
-		element.querySelector(`.${headerComponent().classList[0]}`) ||
-		element.querySelector(`.${sidebarComponent().classList[0]}`) ||
-		element.querySelector(`.${contentComponent().classList[0]}`)
-	)
-		return;
+	let modalElem = document.querySelector("#modal");
+	if (!modalElem) {
+		modalElem = addComponent({
+			type: "div",
+			props: {
+				id: "modal",
+			},
+		});
 
-	if (element && modalElem) {
-		element.insertBefore(headerComponent(), modalElem);
-		element.insertBefore(contentComponent_(), modalElem);
+		element.appendChild(modalElem);
 	}
+
+	if (element.querySelector(`.${headerComponent().classList[0]}`) || element.querySelector(`.${sidebarComponent().classList[0]}`)) {
+		return;
+	}
+
+	element.insertBefore(headerComponent(), modalElem);
+	element.insertBefore(contentComponentWrapper(), modalElem);
 
 	const sidebarElem = document.querySelector(".sidebar");
 	if (sidebarElem) {

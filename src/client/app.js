@@ -45,6 +45,8 @@ const navigate = () => {
 			case "/dashboard/current":
 			case "/dashboard/shared":
 			case "/dashboard/pending":
+				appElement.innerHTML = "";
+
 				loadDashboardPage(appElement);
 				updateDashboardContent(path.split("/").pop());
 				break;
@@ -58,6 +60,9 @@ const navigate = () => {
 
 export const updateActiveLink = () => {
 	const sidebarLinksContainerRef = document.querySelector(".sidebar-links");
+
+	if (!sidebarLinksContainerRef) return;
+
 	const currentPath = window.location.pathname.split("/").filter(Boolean);
 	const activeLinkName = "link-active";
 
@@ -76,12 +81,9 @@ export const updateActiveLink = () => {
 
 export const updateDashboardContent = (path) => {
 	const contentWrapper = document.querySelector(".contentWrapper .content");
-
 	if (!contentWrapper) return;
-	contentWrapper.innerHTML = "";
 
 	let elemToAppend = null;
-
 	switch (path) {
 		case "current":
 			elemToAppend = currentTab();
