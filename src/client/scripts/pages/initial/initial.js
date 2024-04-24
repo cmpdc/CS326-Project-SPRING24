@@ -13,6 +13,10 @@ export const loadInitialPage = (element) => {
         }
     });
 
+    wrapper.style.backgroundImage = "url('../../../images/istockphoto-513550806-612x612.jpg')";
+    wrapper.style.backgroundSize = "cover";
+    wrapper.style.backgroundPosition = "center";
+
 	// Create the header
 	const header = addComponent({
 		type: "header",
