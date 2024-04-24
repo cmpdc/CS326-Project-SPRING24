@@ -17,7 +17,12 @@ export const loadInitialPage = (element) => {
 	const header = addComponent({
 		type: "header",
 		props: {
-			classList: ["app-header"],
+			classList: ["app-header", "inital-header"],
+            style: { // Apply the flex styles directly here
+                display: 'flex',
+                justifyContent: 'center', 
+                alignItems: 'center'
+            }
 		},
 	});
 
@@ -31,6 +36,20 @@ export const loadInitialPage = (element) => {
 			innerHTML: `<div class="icon">${logoIcon}</div>`,
 		},
 	});
+
+    const meetupText = addComponent({
+        type: "h1",
+        props: {
+            classList: ["meetup-header-text"],
+            textContent: "MeetUp" // The text you want to display
+        }
+    });
+
+
+    header.style.display = 'flex';
+    header.style.justifyContent = 'space-between';
+    header.style.alignItems = 'center';
+
 
 	// Sign Up button inside the header
 	const signUpButton = addComponent({
@@ -51,8 +70,10 @@ export const loadInitialPage = (element) => {
 	});
 
 	header.appendChild(logoPlaceholder);
+    header.appendChild(meetupText);
 	header.appendChild(signUpButton);
 	header.appendChild(userPlaceholder);
+    
 
     // Main form container
     const formContainer = addComponent({
