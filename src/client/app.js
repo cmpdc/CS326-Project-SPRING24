@@ -4,7 +4,6 @@ import { currentTab } from "./scripts/pages/dashboard/tabs/current.js";
 import { pendingTab } from "./scripts/pages/dashboard/tabs/pending.js";
 import { sharedTab } from "./scripts/pages/dashboard/tabs/shared.js";
 import { loadInitialPage } from "./scripts/pages/initial/initial.js";
-import { loadLandingPage } from "./scripts/pages/landing/landing.js";
 
 /**
  * A function that can be use as an anchor between pages/tabs
@@ -36,9 +35,6 @@ const navigate = () => {
 			case "":
 			case "/":
 				loadInitialPage(appElement);
-				break;
-			case "/signup":
-				loadLandingPage(appElement);
 				break;
 			case "/access":
 				loadAccessPage(appElement);
