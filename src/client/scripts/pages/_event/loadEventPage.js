@@ -1,5 +1,6 @@
 import { eventDisplayPrimaryComponent } from "../../components/eventDisplayPrimaryComponent.js";
 import { addComponent, createRef } from "../../utils.js";
+
 export const loadEventPage = (event) => {
 	const appElement = document.querySelector("#app");
 	const contentAreaElement = appElement.querySelector(".contentWrapper .content");
@@ -25,11 +26,10 @@ export const loadEventPage = (event) => {
 				},
 			],
 		},
-	})
+	});
 
-    // primaryContainerRef.getElementByClass("icon").style.height = "20px";
+	// primaryContainerRef.getElementByClass("icon").style.height = "20px";
 
-	
 	// const locationComponent = addComponent({
 	// 	type: "div",
 	// 	props: {
@@ -73,7 +73,6 @@ export const loadEventPage = (event) => {
 	// 	}
 
 	// })
-
 
 	// const mapRef = createRef();
 	// const elem = addComponent({
@@ -123,11 +122,7 @@ export const loadEventPage = (event) => {
 	// 	}
 	// }, 100);
 
-
 	contentAreaElement.appendChild(primaryElem);
 
-
 	return primaryElem;
-
-	
 };

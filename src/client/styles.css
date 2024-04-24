@@ -406,17 +406,17 @@ body {
     gap: 20px;
 }
 
-.currentTab .primary {
+.primary {
     width: 100%;
 }
 
-.currentTab .primaryEventContainer {
+.primaryEventContainer {
     width: 100%;
     margin-bottom: 20px;
     overflow: hidden;
 }
 
-.currentTab .primaryEvent {
+.primaryEvent {
     width: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -432,12 +432,12 @@ body {
     }
 }
 
-.currentTab .primaryEvent>div {
+.primaryEvent>div {
     height: fit-content;
     flex: 1;
 }
 
-.currentTab .primaryEvent .left {
+.primaryEvent .left {
     --dimension: 400px;
     width: var(--dimension);
     min-width: var(--dimension);
@@ -452,17 +452,17 @@ body {
     overflow: hidden;
 }
 
-.currentTab .primaryEvent .left .leaflet-control {
+.primaryEvent .left .leaflet-control {
     display: none;
 }
 
 @media screen and (max-width: 800px) {
-    .currentTab .primaryEvent .left {
+    .primaryEvent .left {
         --dimension: 335px;
     }
 }
 
-.currentTab .primaryEvent .right {
+.primaryEvent .right {
     min-height: 100%;
     margin: 0 20px;
     display: flex;
@@ -472,30 +472,35 @@ body {
 }
 
 @media screen and (max-width: 800px) {
-    .currentTab .primaryEvent .right {
+    .primaryEvent .right {
         margin: 20px 0;
     }
 }
 
-.currentTab .primaryEvent .right h2 {
+.primaryEvent .right h2 {
     margin-bottom: 15px;
 }
 
-.currentTab .primaryEvent .icon {
+.primaryEvent .icon {
     min-width: 20px;
     max-width: 20px;
     height: 20px;
     position: relative;
 }
 
-.currentTab .primaryEvent .right .row {
+.primary .icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.primaryEvent .right .row {
     margin-bottom: 15px;
     display: flex;
     flex-flow: row;
     gap: 15px;
 }
 
-.currentTab .primaryEvent .invitesComponent .info {
+.primaryEvent .invitesComponent .info {
     display: flex;
     flex-flow: column;
     align-items: flex-start;
@@ -1671,12 +1676,12 @@ button:hover {
     align-items: center;
 }
 
-span {
+#formsContainer span {
     color: #0275d8;
     cursor: pointer;
 }
 
-span:hover {
+#formsContainer span:hover {
     text-decoration: underline;
 }
 
