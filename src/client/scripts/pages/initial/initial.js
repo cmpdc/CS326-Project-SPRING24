@@ -4,6 +4,7 @@ import { addComponent } from "../../utils.js";
 
 export const loadInitialPage = (element) => {
     element.innerHTML = ''; // Clear the content
+    element.classList.add("event-form-container");
 
     // Create the header
     const header = addComponent({
@@ -87,7 +88,7 @@ export const loadInitialPage = (element) => {
                         attributes: {
                             type: "text",
                             name: "people",
-                            placeholder: "People",
+                            placeholder: "People (comma-separated)",
                         }
                     }
                 },

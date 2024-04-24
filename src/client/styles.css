@@ -1587,42 +1587,54 @@ button {
     width: auto; /* Adjust width as needed, or remove the width property to allow natural sizing */
 }
 
+.event-form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	position: relative;
+    min-height: 100vh; /* This makes sure your container takes at least the full height of the viewport */
+    padding: 20px;
+}
+
 .event-form{
-	background-color: #eee;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	background-color: rgb(0,132,132);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 100%;
+	max-width: 900px;
 	padding: 20px;
 	border-radius: 5px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	
 }
 
 .event-form input,
 .event-form button {
     padding: 10px; /* Add more padding inside the fields and button */
     margin: 0; /* Adjust margin as needed */
+	border: 1px solid #ddd;
+	font-size: 1rem;
 }
 
-.event-form input,
-.event-form button {
-    /* background-color: #f5f5f5; Light grey background for the inputs */
-    border: 1px solid #ddd; /* Softer border color */
-}
-
-.event-form button {
-    background-color: #1a01dd; /*Darker grey for the button, adjust as needed */
-    color: black; /* Text color for the button */
-}
-
-.event-form input,
-.event-form button {
-    font-size: 1rem; /* Adjust the font size as needed */
+.event-form input[type='date'] {
+    border-radius: 5px; /* Adjust the pixel value to get the desired roundness */
+	color: #979393;
 }
 
 .event-form button {
-    background: none;
+    background: rgb(255, 255, 255);
     border: none;
-    color: #007bff; /* Bootstrap's default link color */
+    color: #979393; /* Bootstrap's default link color */
     text-decoration: underline;
     text-align: left; /* Align text to the left */
 }
+
 
 event-form {
     display: grid; /* Use grid layout for better control */
@@ -1635,16 +1647,9 @@ event-form {
     grid-column: span 1; /* Each input and button spans one column */
 }
 
-.event-form {
-    background-color: #eee; /* Light background for the entire form */
-    padding: 20px; /* Padding around the form */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional: adds shadow for depth */
-}∑
-
 
 button:hover {
-	background-color: #025aa5;
+	background-color: rgb(248, 246, 246);
 }
 
 #formsContainer {
