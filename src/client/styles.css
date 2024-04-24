@@ -1539,15 +1539,11 @@ body {
 
 /* start css for landing.js below */
 #formsContainer {
-    text-align: center;
     margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center;
 }
 
-
-#formsContainer .form {
+.form {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
@@ -1558,9 +1554,9 @@ body {
     /* Separate forms visually when both are visible */
 }
 
-#formsContainer input[type="text"],
-#formsContainer input[type="password"],
-#formsContainer input[type="email"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -1568,7 +1564,7 @@ body {
     border-radius: 5px;
 }
 
-#formsContainer button {
+button {
     width: 100%;
     padding: 10px;
     background-color: #0275d8;
@@ -1578,17 +1574,23 @@ body {
     cursor: pointer;
 }
 
-#formsContainer .sign-up-button {
+.sign-up-button {
     width: 150px;
     margin-left: 1100px;
 
 }
 
-#formsContainer .landingUser {
+.landingUser {
     margin-right: 30px;
 }
 
-#formsContainer .event-form-container {
+.event-form input,
+.event-form button {
+    width: auto;
+    /* Adjust width as needed, or remove the width property to allow natural sizing */
+}
+
+.event-form-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1599,7 +1601,7 @@ body {
     padding: 20px;
 }
 
-#formsContainer .event-form {
+.event-form {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1614,20 +1616,10 @@ body {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
-
-    display: grid;
-    /* Use grid layout for better control */
-    grid-template-columns: repeat(4, 1fr) auto;
-    /* 4 equal columns for inputs, auto for button */
-    gap: 5px;
-    /* Adjust the gap between grid items */
-
 }
 
-#formsContainer .event-form input,
-#formsContainer .event-form button {
-    width: auto;
-    /* Adjust width as needed, or remove the width property to allow natural sizing */
+.event-form input,
+.event-form button {
     padding: 10px;
     /* Add more padding inside the fields and button */
     margin: 0;
@@ -1636,13 +1628,13 @@ body {
     font-size: 1rem;
 }
 
-#formsContainer .event-form input[type='date'] {
+.event-form input[type='date'] {
     border-radius: 5px;
     /* Adjust the pixel value to get the desired roundness */
     color: #979393;
 }
 
-#formsContainer .event-form button {
+.event-form button {
     background: rgb(255, 255, 255);
     border: none;
     color: #979393;
@@ -1652,24 +1644,39 @@ body {
     /* Align text to the left */
 }
 
-#formsContainer button:hover {
-    background-color: rgb(248, 246, 246);
+
+.event-form {
+    display: grid;
+    /* Use grid layout for better control */
+    grid-template-columns: repeat(4, 1fr) auto;
+    /* 4 equal columns for inputs, auto for button */
+    gap: 5px;
+    /* Adjust the gap between grid items */
 }
 
-#formsContainer .event-form input,
-#formsContainer .event-form button {
+.event-form input,
+.event-form button {
     grid-column: span 1;
     /* Each input and button spans one column */
 }
 
 
+button:hover {
+    background-color: rgb(248, 246, 246);
+}
 
-#formsContainer span {
+#formsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+span {
     color: #0275d8;
     cursor: pointer;
 }
 
-#formsContainer span:hover {
+span:hover {
     text-decoration: underline;
 }
 
