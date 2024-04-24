@@ -123,9 +123,10 @@ export const loadInitialPage = (element) => {
         }
     });
     
-    // Add all components to the main element
-    element.appendChild(header);
-    element.appendChild(formContainer);
+    wrapper.appendChild(header);
+    wrapper.appendChild(formContainer);
+
+    element.appendChild(wrapper);
     
     formContainer.addEventListener('submit', function(event) {
 
