@@ -1,3 +1,4 @@
+import { goToPage } from "../../../app.js";
 import { logoIcon, userIcon } from "../../icons.js";
 import { addComponent } from "../../utils.js";
 
