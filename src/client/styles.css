@@ -65,6 +65,11 @@ body {
     backdrop-filter: blur(50px);
     z-index: 999;
     --padding: 15px;
+    
+}
+
+.inital-header{
+    background: linear-gradient(to right, rgba(250, 250, 250,1), rgba(48, 144, 142, 1), rgba(250, 250, 250,1));
 }
 
 .app-header .icon {
@@ -1599,6 +1604,10 @@ button {
     position: relative;
     width: 100%;
     height: 100vh; 
+}
+
+.meetup-header-text{
+    color: #058484;
 }
 
 .event-form{
