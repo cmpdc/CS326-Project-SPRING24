@@ -65,10 +65,10 @@ body {
     backdrop-filter: blur(50px);
     z-index: 999;
     --padding: 15px;
-    
+
 }
 
-.inital-header{
+.initial-header {
     background-color: white;
 }
 
@@ -1547,13 +1547,109 @@ body {
     pointer-events: none !important;
 }
 
-/* start css for landing.js below */
-#formsContainer {
-    margin-top: 100px;
-    text-align: center;
+/* Landing Page */
+.landing-page.centered-container {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    transition: background-image 2000ms ease-in-out;
 }
 
-.form {
+.landing-page .sign-up-button {
+    width: 120px;
+    background-color: #058484;
+    transition: background-color 100ms linear;
+}
+
+.landing-page .sign-up-button:hover {
+    background-color: #069c9c;
+}
+
+.landing-page .event-form {
+    width: 100%;
+    max-width: 900px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: absolute;
+    background-color: rgba(0, 132, 132, 0.5);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    backdrop-filter: blur(50px);
+}
+
+@media (max-width: 980px) {
+    .landing-page .event-form {
+        max-width: calc(100% - 40px);
+    }
+}
+
+.landing-page .event-form input,
+.landing-page .event-form button {
+    width: auto;
+    /* Adjust width as needed, or remove the width property to allow natural sizing */
+    padding: 10px;
+    /* Add more padding inside the fields and button */
+    margin: 0;
+    /* Adjust margin as needed */
+    border: 1px solid #ddd;
+    font-size: 1rem;
+
+    grid-column: span 1;
+}
+
+.landing-page .event-form button {
+    color: #979393;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+    background: rgb(255, 255, 255);
+    border: none;
+}
+
+.landing-page .event-form input[type="date"] {
+    border-radius: 5px;
+    /* Adjust the pixel value to get the desired roundness */
+    color: #979393;
+}
+
+.landing-page .event-form input[name="eventName"] {
+    width: 150px;
+}
+
+.landing-page .event-form input[name="location"] {
+    width: 150px;
+}
+
+.landing-page button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0275d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* start css for "access" (login/registration) page */
+.homepage-background #formsContainer {
+    text-align: center;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.homepage-background .form {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
@@ -1564,9 +1660,9 @@ body {
     /* Separate forms visually when both are visible */
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"] {
+.homepage-background input[type="text"],
+.homepage-background input[type="password"],
+.homepage-background input[type="email"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -1574,119 +1670,13 @@ input[type="email"] {
     border-radius: 5px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #0275d8;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.sign-up-button {
-	width: 300px;
-	margin-left: 1100px;
-    background-color: #058484;
-}
-
-.landingUser {
-    margin-right: 30px;
-}
-
-.event-form input,
-.event-form button {
-    width: auto;
-    /* Adjust width as needed, or remove the width property to allow natural sizing */
-}
-
-.centered-container {
-    position: relative;
-    width: 100%;
-    height: 100vh; 
-}
-
-.meetup-header-text{
-    color: #058484;
-}
-
-.event-form{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	position: absolute;
-	background-color: rgb(0,132,132);
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-	width: 100%;
-	max-width: 900px;
-	padding: 20px;
-	border-radius: 5px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	
-}
-
-.event-form input,
-.event-form button {
-    padding: 10px;
-    /* Add more padding inside the fields and button */
-    margin: 0;
-    /* Adjust margin as needed */
-    border: 1px solid #ddd;
-    font-size: 1rem;
-}
-
-.event-form input[type='date'] {
-    border-radius: 5px;
-    /* Adjust the pixel value to get the desired roundness */
-    color: #979393;
-}
-
-.event-form button {
-    background: rgb(255, 255, 255);
-    border: none;
-    color: #979393;
-    /* Bootstrap's default link color */
-    text-decoration: underline;
-    text-align: left;
-    /* Align text to the left */
-}
-
-
-.event-form {
-    display: grid;
-    /* Use grid layout for better control */
-    grid-template-columns: repeat(4, 1fr) auto;
-    /* 4 equal columns for inputs, auto for button */
-    gap: 5px;
-    /* Adjust the gap between grid items */
-}
-
-.event-form input,
-.event-form button {
-    grid-column: span 1;
-    /* Each input and button spans one column */
-}
-
-
-button:hover {
-    background-color: rgb(248, 246, 246);
-}
-
-#formsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#formsContainer span {
+.homepage-background #formsContainer span {
     color: #0275d8;
     cursor: pointer;
 }
 
-#formsContainer span:hover {
+.homepage-background #formsContainer span:hover {
     text-decoration: underline;
 }
 
-/* end css for landing.js below */
+/* end css for "access" (login/registration) */

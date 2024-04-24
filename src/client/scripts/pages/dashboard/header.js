@@ -3,7 +3,7 @@ import { logoIcon, searchIcon, userIcon } from "../../icons.js";
 import { addComponent, createRef, insertModal } from "../../utils.js";
 import { accountSettingsPopup } from "./accountSettings.js";
 
-export const headerComponent = () => {
+export const headerComponent = ({ rightSideContent }) => {
 	const searchInputRef = createRef();
 	const userAccountComponentRef = createRef();
 
@@ -136,7 +136,7 @@ export const headerComponent = () => {
 					type: "div",
 					props: {
 						classList: ["rightSide"],
-						children: [searchComponent, userAccountComponent],
+						children: !rightSideContent ? [searchComponent, userAccountComponent] : rightSideContent,
 					},
 				},
 			],

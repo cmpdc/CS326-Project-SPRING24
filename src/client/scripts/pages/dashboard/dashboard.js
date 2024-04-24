@@ -55,11 +55,17 @@ export const loadDashboardPage = (element) => {
 		element.appendChild(modalElem);
 	}
 
-	if (element.querySelector(`.${headerComponent().classList[0]}`) || element.querySelector(`.${sidebarComponent().classList[0]}`)) {
+	const headerContainerElem = headerComponent({
+		rightSideContent: null,
+	});
+
+	const sidebarContainerElem = sidebarComponent();
+
+	if (element.querySelector(`.${headerContainerElem?.classList[0]}`) || element.querySelector(`.${sidebarContainerElem.classList[0]}`)) {
 		return;
 	}
 
-	element.insertBefore(headerComponent(), modalElem);
+	if (headerContainerElem) element.insertBefore(headerContainerElem, modalElem);
 	element.insertBefore(contentComponentWrapper(), modalElem);
 
 	const sidebarElem = document.querySelector(".sidebar");
