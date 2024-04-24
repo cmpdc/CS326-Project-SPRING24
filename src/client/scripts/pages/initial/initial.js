@@ -87,7 +87,7 @@ export const loadInitialPage = (element) => {
                         attributes: {
                             type: "text",
                             name: "people",
-                            placeholder: "People (comma-separated)",
+                            placeholder: "People",
                         }
                     }
                 },

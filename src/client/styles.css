@@ -1587,6 +1587,13 @@ button {
     width: auto; /* Adjust width as needed, or remove the width property to allow natural sizing */
 }
 
+.event-form{
+	background-color: #eee;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .event-form input,
 .event-form button {
     padding: 10px; /* Add more padding inside the fields and button */
