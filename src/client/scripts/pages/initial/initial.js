@@ -4,9 +4,8 @@ import { addComponent } from "../../utils.js";
 
 export const loadInitialPage = (element) => {
     element.innerHTML = ''; // Clear the content
-
-
-    //creating a wrapper container that will act as a parent to the form
+    
+	//creating a wrapper container that will act as a parent to the form
     const wrapper = addComponent({
         type: "div",
         props: {
@@ -14,48 +13,46 @@ export const loadInitialPage = (element) => {
         }
     });
 
+	// Create the header
+	const header = addComponent({
+		type: "header",
+		props: {
+			classList: ["app-header"],
+		},
+	});
 
-    // Create the header
-    const header = addComponent({
-        type: "header",
-        props: {
-            classList: ["app-header"]
-        }
-    });
+	// Logo placeholder inside the header
+	// Assuming logoIcon is a string containing the SVG element
 
-    // Logo placeholder inside the header
-    // Assuming logoIcon is a string containing the SVG element
+	const logoPlaceholder = addComponent({
+		type: "div",
+		props: {
+			classList: ["logoContainer"],
+			innerHTML: `<div class="icon">${logoIcon}</div>`,
+		},
+	});
 
-    const logoPlaceholder = addComponent({
-        type: "div",
-        props: {
-            classList: ["logoContainer"],
-            innerHTML: `<div class="icon">${logoIcon}</div>`
-        }
-    });
+	// Sign Up button inside the header
+	const signUpButton = addComponent({
+		type: "button",
+		props: {
+			classList: ["button", "sign-up-button"], // Added a more specific class
+			textContent: "Sign Up",
+			onClick: () => goToPage("/access"),
+		},
+	});
 
+	const userPlaceholder = addComponent({
+		type: "div",
+		props: {
+			classList: ["userContainer", "landingUser"],
+			innerHTML: `<div class="icon">${userIcon}</div>`,
+		},
+	});
 
-    // Sign Up button inside the header
-    const signUpButton = addComponent({
-        type: "button",
-        props: {
-            classList: ["button", "sign-up-button"], // Added a more specific class
-            textContent: "Sign Up",
-            onClick: () => goToPage('/signup')
-        }
-    });
-
-    const userPlaceholder = addComponent({
-        type: "div",
-        props: {
-            classList: ["userContainer", "landingUser"],
-            innerHTML: `<div class="icon">${userIcon}</div>`
-        }
-    });
-
-    header.appendChild(logoPlaceholder);
-    header.appendChild(signUpButton);
-    header.appendChild(userPlaceholder);
+	header.appendChild(logoPlaceholder);
+	header.appendChild(signUpButton);
+	header.appendChild(userPlaceholder);
 
     // Main form container
     const formContainer = addComponent({
@@ -125,13 +122,10 @@ export const loadInitialPage = (element) => {
             ]
         }
     });
-
-    // Append the header and form to the wrapper, not directly to the main element
-    wrapper.appendChild(header);
-    wrapper.appendChild(formContainer);
-
-    // Append the wrapper to the main element
-    element.appendChild(wrapper);
+    
+    // Add all components to the main element
+    element.appendChild(header);
+    element.appendChild(formContainer);
     
     formContainer.addEventListener('submit', function(event) {
 
@@ -150,7 +144,6 @@ export const loadInitialPage = (element) => {
         console.log(eventData); // For demonstration purposes
         // You would typically send this data to a server here
 
-        goToPage('/signup');
-    });
+		goToPage("/access");
+	});
 };
-

@@ -249,37 +249,3 @@ export const eventDisplayPrimaryComponent = (data) => {
 
 	return elem;
 };
-
-function computeOPT(grid) {
-	const k = grid.length;
-	const memo = Array.from({ length: k }, () => new Array(k).fill(null));
-
-	function OPT(i, j) {
-		const memoI = i - 1;
-		const memoJ = j - 1;
-
-		if (memo[memoI][memoJ] !== null) return memo[memoI][memoJ];
-
-		if (i === 1 && j === 1) {
-			if (k > 1) {
-				const down = grid[memoI][memoJ].down + OPT(i + 1, j);
-				const across = grid[memoI][memoJ].across + OPT(i, j + 1);
-				memo[memoI][memoJ] = Math.min(down, across);
-			} else {
-				memo[memoI][memoJ] = 0;
-			}
-		} else {
-			let down = Infinity;
-			let across = Infinity;
-
-			if (i > 1) down = grid[memoI - 1][memoJ].down + OPT(i - 1, j);
-			if (j > 1) across = grid[memoI][memoJ - 1].across + OPT(i, j - 1);
-
-			memo[memoI][memoJ] = Math.min(down, across);
-		}
-
-		return memo[memoI][memoJ];
-	}
-
-	return OPT(k, k);
-}
