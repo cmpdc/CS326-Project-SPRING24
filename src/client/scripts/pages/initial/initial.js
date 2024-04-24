@@ -122,6 +122,7 @@ export const loadInitialPage = (element) => {
     element.appendChild(formContainer);
     
     formContainer.addEventListener('submit', function(event) {
+
         event.preventDefault();
         const formData = new FormData(formContainer);
     
@@ -136,6 +137,8 @@ export const loadInitialPage = (element) => {
         // Handle the event data, e.g., send it to a server or store it locally
         console.log(eventData); // For demonstration purposes
         // You would typically send this data to a server here
+
+        goToPage('/signup');
     });
 };
 
