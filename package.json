@@ -56,5 +56,8 @@
 		"pouchdb": "^8.0.1",
 		"prettier": "^3.2.5",
 		"uuid": "^9.0.1"
+	},
+	"dependencies": {
+		"bcrpyt": "^2.0.0"
 	}
 }
