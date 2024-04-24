@@ -4,7 +4,16 @@ import { addComponent } from "../../utils.js";
 
 export const loadInitialPage = (element) => {
     element.innerHTML = ''; // Clear the content
-    element.classList.add("event-form-container");
+
+
+    //creating a wrapper container that will act as a parent to the form
+    const wrapper = addComponent({
+        type: "div",
+        props: {
+            classList: ["centered-container"], // This class will set the relative positioning
+        }
+    });
+
 
     // Create the header
     const header = addComponent({
@@ -116,10 +125,13 @@ export const loadInitialPage = (element) => {
             ]
         }
     });
-    
-    // Add all components to the main element
-    element.appendChild(header);
-    element.appendChild(formContainer);
+
+    // Append the header and form to the wrapper, not directly to the main element
+    wrapper.appendChild(header);
+    wrapper.appendChild(formContainer);
+
+    // Append the wrapper to the main element
+    element.appendChild(wrapper);
     
     formContainer.addEventListener('submit', function(event) {
 

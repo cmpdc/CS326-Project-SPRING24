@@ -1573,8 +1573,9 @@ button {
 }
 
 .sign-up-button {
-	width: 150px;
+	width: 125px;
 	margin-left: 1100px;
+	background-color: #058484;
     
 }
 
@@ -1587,14 +1588,10 @@ button {
     width: auto; /* Adjust width as needed, or remove the width property to allow natural sizing */
 }
 
-.event-form-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-	position: relative;
-    min-height: 100vh; /* This makes sure your container takes at least the full height of the viewport */
-    padding: 20px;
+.centered-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; 
 }
 
 .event-form{
@@ -1602,10 +1599,10 @@ button {
 	justify-content: space-between;
 	align-items: center;
 	position: absolute;
-	background-color: rgb(0,132,132);
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%,-50%);
+	transform: translate(-50%, -50%);
+	background-color: rgb(0,132,132);
 	width: 100%;
 	max-width: 900px;
 	padding: 20px;
