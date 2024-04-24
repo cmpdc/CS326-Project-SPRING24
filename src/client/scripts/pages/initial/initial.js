@@ -136,6 +136,6 @@ export const loadInitialPage = (element) => {
 		console.log(eventData); // For demonstration purposes
 		// You would typically send this data to a server here
 
-		goToPage("/signup");
+		goToPage("/access");
 	});
 };
