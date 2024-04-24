@@ -1572,6 +1572,70 @@ button {
 	cursor: pointer;
 }
 
+.sign-up-button {
+	width: 150px;
+	margin-left: 1100px;
+    
+}
+
+.landingUser{
+	margin-right: 30px;
+}
+
+.event-form input,
+.event-form button {
+    width: auto; /* Adjust width as needed, or remove the width property to allow natural sizing */
+}
+
+.event-form input,
+.event-form button {
+    padding: 10px; /* Add more padding inside the fields and button */
+    margin: 0; /* Adjust margin as needed */
+}
+
+.event-form input,
+.event-form button {
+    /* background-color: #f5f5f5; Light grey background for the inputs */
+    border: 1px solid #ddd; /* Softer border color */
+}
+
+.event-form button {
+    background-color: #1a01dd; /*Darker grey for the button, adjust as needed */
+    color: black; /* Text color for the button */
+}
+
+.event-form input,
+.event-form button {
+    font-size: 1rem; /* Adjust the font size as needed */
+}
+
+.event-form button {
+    background: none;
+    border: none;
+    color: #007bff; /* Bootstrap's default link color */
+    text-decoration: underline;
+    text-align: left; /* Align text to the left */
+}
+
+event-form {
+    display: grid; /* Use grid layout for better control */
+    grid-template-columns: repeat(4, 1fr) auto; /* 4 equal columns for inputs, auto for button */
+    gap: 5px; /* Adjust the gap between grid items */
+}
+
+.event-form input,
+.event-form button {
+    grid-column: span 1; /* Each input and button spans one column */
+}
+
+.event-form {
+    background-color: #eee; /* Light background for the entire form */
+    padding: 20px; /* Padding around the form */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional: adds shadow for depth */
+}∑
+
+
 button:hover {
 	background-color: #025aa5;
 }
