@@ -1,51 +1,69 @@
-import PouchDB from "pouchdb";
-
-const db = new PouchDB("app");
-
-export const createDocument = async (doc) => {
-	try {
-		const response = await db.put({
-			...doc,
-			_id: new Date().toISOString(), // Using timestamp as unique id
-		});
-
-		return response;
-	} catch (error) {
-		console.error("Error creating document:", error);
+class Database {
+	constructor(key) {
+		this.db = new PouchDB(key);
 	}
-};
 
-export const getDocument = async (docId) => {
-	try {
-		const doc = await db.get(docId);
+	async create(doc) {
+		try {
+			const response = await this.db.post(doc);
 
-		return doc;
-	} catch (error) {
-		console.error("Error retrieving document:", error);
+			return response;
+		} catch (error) {
+			console.error("Error creating document:", error);
+			throw new Error(error.message);
+		}
 	}
-};
 
-export const updateDocument = async (docId, newData) => {
-	try {
-		const doc = await db.get(docId);
-		const response = await db.put({
-			...doc,
-			...newData,
-		});
+	async read(id) {
+		try {
+			const doc = await this.db.get(id);
 
-		return response;
-	} catch (error) {
-		console.error("Error updating document:", error);
+			return doc;
+		} catch (error) {
+			console.error("Error reading document:", error);
+		}
 	}
-};
 
-export const deleteDocument = async (docId) => {
-	try {
-		const doc = await db.get(docId);
-		const response = await db.remove(doc);
-
-		return response;
-	} catch (error) {
-		console.error("Error deleting document:", error);
+	async documentExists(docTitle, docDate) {
+		try {
+			const result = await this.db.find({
+				selector: {
+					title: docTitle,
+					"dateTime.from": docDate,
+				},
+			});
+			return result.docs.length > 0;
+		} catch (error) {
+			console.error("Error finding document:", error);
+			return false;
+		}
 	}
-};
+
+	async update(id, newData) {
+		try {
+			const doc = await this.db.get(id);
+
+			const response = await this.db.put({
+				...doc,
+				...newData,
+			});
+
+			return response;
+		} catch (error) {
+			console.error("Error updating document:", error);
+		}
+	}
+
+	async delete(docId) {
+		try {
+			const doc = await this.db.get(docId);
+			const response = await this.db.remove(doc);
+
+			return response;
+		} catch (error) {
+			console.error("Error deleting document:", error);
+		}
+	}
+}
+
+export default Database;

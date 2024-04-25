@@ -498,7 +498,7 @@ export const mockUp = [
 		description: "Do not forget the drink!",
 	},
 	{
-		id: "5",
+		id: 5,
 		title: "Study Group (CS 311)",
 		dateTime: {
 			from: "2024-04-15T19:45:00.000Z",

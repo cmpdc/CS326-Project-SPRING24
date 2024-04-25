@@ -1,12 +1,13 @@
 import { readFile } from "fs";
-import { createServer } from "http";
+import * as http from "http";
 import path, { join } from "path";
 
 const __dirname = "src/client";
 
-const server = createServer((req, res) => {
+async function basicServer(req, res) {
 	// Normalize the request URL to remove trailing slashes for non-root paths
 	const sanitizedUrl = req.url.endsWith("/") && req.url.length > 1 ? req.url.slice(0, -1) : req.url;
+
 	let filePath = join(__dirname, sanitizedUrl);
 
 	// Better checking for file requests by looking for known file extensions
@@ -17,6 +18,8 @@ const server = createServer((req, res) => {
 			filePath += ".html";
 		}
 	}
+
+	console.log(sanitizedUrl);
 
 	const ext = path.extname(filePath).toLowerCase();
 	let contentType = "text/html"; // Default content type
@@ -55,8 +58,8 @@ const server = createServer((req, res) => {
 		res.writeHead(200, { "Content-Type": contentType });
 		res.end(content, "utf8");
 	});
-});
+}
 
-server.listen(3000, () => {
+http.createServer(basicServer).listen(3000, () => {
 	console.log("Server started on port 3000");
 });

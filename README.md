@@ -16,18 +16,23 @@ In this milestone, the files can be located in the `client` folder.
 
 ### Tasks List:
 
+_Server:_
+
+-   [ ] Properly implement the use **PouchDB**
+
 _Pages:_
 
 -   [x] SPA implementation for each pages
 -   [ ] Window history manager
--   [x] Landing page - `client/initial` folder
+-   [x] Landing page - `client/initial` folder (Annanta)
     -   [x] should work when accessing the `/` route or without any subsequent paths.
--   [x] Login/Registration page - `client/access` folder
+-   [x] Login/Registration page - `client/access` folder (Jason)
     -   [x] `/access` route
--   [x] Dashboard page - `client/dashboard` folder
+-   [x] Dashboard page - `client/dashboard` folder (Christian and Justin)
     -   [x] `/dashboard` route
     -   [x] Dynamic pages for each selected event (This should only be accessible inside `/dashboard` route)
     -   [x] Current page - should be in `/current` route.
+        -   [ ] Should update when new events are created. Use PouchDB.
     -   [ ] A way to "logout" once users are inside the the `/dashboard` route — perhaps backend?
 
 _Components:_
@@ -37,7 +42,7 @@ _Components:_
 
 _API:_
 
--   [x] Geolocation (Map)
+-   [x] Geolocation (Map) - [Leaflet](https://leafletjs.com/)
 -   [ ] Geolocation (Tracker)
 
 ## Milestone #03 (Back-End)

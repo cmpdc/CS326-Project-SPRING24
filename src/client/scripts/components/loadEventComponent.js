@@ -1,3 +1,4 @@
+import Database from "../../server/database.js";
 import { descriptionIcon, guestsIcon, locationIcon, locationPinIcon, maximizeIcon, minimizeIcon, timeIcon, trackingIcon } from "../icons.js";
 import { geocode } from "../location.js";
 import { addComponent, createRef, debounce, insertModal, removeModalComponent } from "../utils.js";
@@ -640,7 +641,7 @@ const eventElementContent = (element) => {
 		},
 	});
 
-	const handleSaveButtonClick = (e) => {
+	const handleSaveButtonClick = async (e) => {
 		e.stopPropagation();
 		e.preventDefault();
 
@@ -658,7 +659,13 @@ const eventElementContent = (element) => {
 
 		Object.freeze(data);
 
-		console.log(data);
+		const db = new Database("events");
+
+		const createdEvent = await db.create(data);
+
+		const readNewEvent = await db.read(createdEvent.id);
+
+		console.log(readNewEvent);
 	};
 
 	const buttonContainer = addComponent({
@@ -674,8 +681,8 @@ const eventElementContent = (element) => {
 						disabled: true,
 						classList: ["button", "saveButton"],
 						textContent: "Save",
-						onClick: (e) => {
-							handleSaveButtonClick(e);
+						onClick: async (e) => {
+							await handleSaveButtonClick(e);
 						},
 					},
 				},
