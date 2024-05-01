@@ -19,8 +19,6 @@ async function basicServer(req, res) {
 		}
 	}
 
-	console.log(sanitizedUrl);
-
 	const ext = path.extname(filePath).toLowerCase();
 	let contentType = "text/html"; // Default content type
 
@@ -61,5 +59,5 @@ async function basicServer(req, res) {
 }
 
 http.createServer(basicServer).listen(3000, () => {
-	console.log("Server started on port 3000");
+	console.log("Server (frontend) started on port 3000");
 });

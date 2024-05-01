@@ -44,18 +44,26 @@
 		}
 	],
 	"scripts": {
+		"start": "concurrently \"npm run milestone-02\" \"npm run milestone-03\"",
 		"milestone-01": "http-server ./src/docs/milestone-01 -p 3000 -c-1 -o -s",
 		"milestone-02": "http-server src/client -p 3000 -c-1 -o -s --proxy http://127.0.0.1:3000?",
+		"milestone-03": "node src/server/_index.js",
 		"validate-html": "html-validate src/**/*.html",
 		"prettier": "prettier src —write"
 	},
 	"dependencies": {
 		"@types/pouchdb": "^6.4.2",
+		"bcrypt": "^5.1.1",
+		"cors": "^2.8.5",
+		"express": "^4.19.2",
 		"html-validate": "^8.18.2",
 		"http-server": "^14.1.1",
 		"leaflet": "^1.9.4",
 		"pouchdb": "^8.0.1",
 		"prettier": "^3.2.5",
 		"uuid": "^9.0.1"
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2"
 	}
 }

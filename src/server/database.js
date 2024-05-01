@@ -1,3 +1,5 @@
+import PouchDB from "pouchdb";
+
 class Database {
 	constructor(key) {
 		this.db = new PouchDB(key);

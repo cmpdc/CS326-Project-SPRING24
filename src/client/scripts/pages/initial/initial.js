@@ -1,5 +1,4 @@
 import { goToPage } from "../../../app.js";
-import Database from "../../../server/database.js";
 import { addComponent } from "../../utils.js";
 import { headerComponent } from "../dashboard/header.js";
 
@@ -122,8 +121,6 @@ export const loadInitialPage = (element) => {
 
 	element.appendChild(wrapper);
 
-	const db = new Database("events");
-
 	formContainer.addEventListener("submit", async function (event) {
 		event.preventDefault();
 		const formData = new FormData(formContainer);
@@ -136,19 +133,21 @@ export const loadInitialPage = (element) => {
 			date: formData.get("date"),
 		};
 
-		try {
-			// Create a new document in the database with the event data
-			const response = await db.create(eventData);
+		console.log(eventData);
 
-			if (response) {
-				const newResponse = await db.read(response.id);
-				console.log("Read document:", newResponse);
+		// try {
+		// 	// Create a new document in the database with the event data
+		// 	const response = await db.create(eventData);
 
-				// After storing, navigate to another page
-				goToPage("/access");
-			}
-		} catch (error) {
-			console.error("Failed to store event data:", error);
-		}
+		// 	if (response) {
+		// 		const newResponse = await db.read(response.id);
+		// 		console.log("Read document:", newResponse);
+
+		// 		// After storing, navigate to another page
+		// 		goToPage("/access");
+		// 	}
+		// } catch (error) {
+		// 	console.error("Failed to store event data:", error);
+		// }
 	});
 };

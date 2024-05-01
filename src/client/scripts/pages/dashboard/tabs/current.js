@@ -1,15 +1,29 @@
 import { eventDisplayCardsComponent } from "../../../components/eventDisplayCardsComponent.js";
 import { eventDisplayPrimaryComponent } from "../../../components/eventDisplayPrimaryComponent.js";
-import { mockUp } from "../../../mockup.js";
 import { addComponent, createRef, findCurrentlyHappeningEvent, findFutureEvents, findPastEvents, findSoonestEvent } from "../../../utils.js";
 
-export const currentTab = () => {
+const fetchEvents = async () => {
+	try {
+		const response = await fetch("http://127.0.0.1:3001/events");
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error("Error fetching events: ", error);
+		throw new Error("Error fetching events");
+	}
+};
+
+const resultElem = (list) => {
 	const primaryContainerRef = createRef();
 
-	const happeningRightNowEvent = findCurrentlyHappeningEvent(mockUp);
-	const comingSoonEvent = findSoonestEvent(mockUp);
-	const futureEvents = findFutureEvents(mockUp);
-	const pastEvents = findPastEvents(mockUp);
+	const happeningRightNowEvent = findCurrentlyHappeningEvent(list);
+	const comingSoonEvent = findSoonestEvent(list);
+	const futureEvents = findFutureEvents(list);
+	const pastEvents = findPastEvents(list);
 
 	const today = new Date();
 
@@ -83,10 +97,88 @@ export const currentTab = () => {
 	const elem = addComponent({
 		type: "div",
 		props: {
-			classList: ["currentTab", "contentTab"],
+			classList: ["eventList"],
 			children: [primaryElem, upcomingElem, pastElem],
 		},
 	});
+
+	return elem;
+};
+
+const noResultElem = () => {
+	const elem = addComponent({
+		type: "div",
+		props: {
+			classList: ["noResult-message"],
+			children: [
+				addComponent({
+					type: "h1",
+					props: {
+						textContent: "Events",
+					},
+				}),
+				addComponent({
+					type: "div",
+					props: {
+						classList: ["noResult-content"],
+						children: [
+							addComponent({
+								type: "h2",
+								props: {
+									textContent: "No Events",
+								},
+							}),
+						],
+					},
+				}),
+			],
+		},
+	});
+
+	return elem;
+};
+
+const updateCurrentTabContent = async (childRef) => {
+	try {
+		const results = await fetchEvents();
+
+		console.log("Event List:", results);
+
+		if (results && results.length) {
+			const element = resultElem(results);
+
+			if (childRef.current) {
+				childRef.current.innerHTML = "";
+
+				childRef.current.appendChild(element);
+			}
+		} else {
+			childRef.current.innerHTML = "";
+			childRef.current.appendChild(noResultElem());
+		}
+	} catch (error) {
+		console.error("Error updating current tab:", error);
+
+		if (childRef.current) {
+			childRef.current.innerHTML = "";
+			childRef.current.appendChild(noResultElem());
+		}
+	}
+};
+
+export const currentTab = () => {
+	const childRef = createRef();
+
+	const elem = addComponent({
+		type: "div",
+		ref: childRef,
+		props: {
+			classList: ["currentTab", "contentTab"],
+			children: [],
+		},
+	});
+
+	updateCurrentTabContent(childRef);
 
 	return elem;
 };

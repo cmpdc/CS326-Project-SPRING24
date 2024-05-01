@@ -2,7 +2,7 @@ import { goToPage } from "../../app.js";
 import { loadEventPage } from "../pages/_event/loadEventPage.js";
 import { addComponent, createRef, formatAMPM, getDateWithSuffix, getDayName } from "../utils.js";
 
-const eventDisplayCardComponent = (data) => {
+const eventDisplayCardComponent = (data, index) => {
 	const mapRef = createRef();
 
 	const locationComponent = addComponent({
@@ -14,7 +14,7 @@ const eventDisplayCardComponent = (data) => {
 					type: "div",
 					ref: mapRef,
 					props: {
-						id: `map-${data.id}`,
+						id: `map-${index}`,
 						classList: ["mapView"],
 					},
 				},
@@ -23,7 +23,7 @@ const eventDisplayCardComponent = (data) => {
 	});
 
 	setTimeout(() => {
-		if (mapRef.current) {
+		if (mapRef.current && data.location) {
 			const map = L.map(mapRef.current.id, {
 				center: true,
 				zoomControl: false, // Disable zoom control
@@ -109,6 +109,31 @@ const eventDisplayCardComponent = (data) => {
 		props: {
 			classList: ["button", "delete"],
 			textContent: "Delete",
+			onClick: async (e) => {
+				e.stopPropagation();
+				e.preventDefault();
+
+				const deleteEvent = async (eventId) => {
+					try {
+						const response = await fetch(`http://127.0.0.1:3001/events/${eventId}`, {
+							method: "DELETE",
+						});
+
+						if (response.ok) {
+							console.log("Event deleted successfully");
+						} else {
+							throw new Error("Failed to delete event");
+						}
+					} catch (error) {
+						console.error("Error deleting event:", error);
+					}
+				};
+
+				const eventID = data._id;
+				await deleteEvent(eventID);
+
+				goToPage("/dashboard/current");
+			},
 		},
 	});
 
@@ -144,7 +169,9 @@ const eventDisplayCardComponent = (data) => {
 										{
 											type: "span",
 											props: {
-												textContent: `${data.location.components.town}, ${data.location.components.state}`,
+												textContent: data.location
+													? `${data.location.components.town}, ${data.location.components.state}`
+													: "",
 											},
 										},
 									],
@@ -184,8 +211,8 @@ export const eventDisplayCardsComponent = ({ list, emptyText }) => {
 	});
 
 	if (list.length > 0) {
-		list.forEach((data) => {
-			const card = eventDisplayCardComponent(data);
+		list.forEach((data, index) => {
+			const card = eventDisplayCardComponent(data, index);
 			container.appendChild(card);
 		});
 	} else {

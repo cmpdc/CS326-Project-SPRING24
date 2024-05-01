@@ -1,4 +1,4 @@
-import Database from "../../server/database.js";
+import { goToPage } from "../../app.js";
 import { descriptionIcon, guestsIcon, locationIcon, locationPinIcon, maximizeIcon, minimizeIcon, timeIcon, trackingIcon } from "../icons.js";
 import { geocode } from "../location.js";
 import { addComponent, createRef, debounce, insertModal, removeModalComponent } from "../utils.js";
@@ -180,7 +180,7 @@ const eventElementContent = (element) => {
 
 												locationSelection = result;
 
-												locationComponent.querySelector("#location").value = result.formatted;
+												locationComponent.querySelector("#location").value = result ? result.formatted : "";
 												locationResultsRef.current.innerHTML = "";
 											},
 											classList: ["result"],
@@ -195,7 +195,7 @@ const eventElementContent = (element) => {
 												{
 													type: "span",
 													props: {
-														textContent: result.formatted,
+														textContent: result ? result.formatted : "",
 													},
 												},
 											],
@@ -657,15 +657,30 @@ const eventElementContent = (element) => {
 			description: descriptionComponent.querySelector("#description").value,
 		};
 
-		Object.freeze(data);
+		try {
+			const response = await fetch("http://127.0.0.1:3001/events", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
 
-		const db = new Database("events");
+			if (!response.ok) {
+				console.error("Failed to create event");
+				return;
+			}
 
-		const createdEvent = await db.create(data);
+			const responseData = await response.json();
 
-		const readNewEvent = await db.read(createdEvent.id);
+			console.log("Event created successfully!");
 
-		console.log(readNewEvent);
+			console.log(responseData);
+
+			goToPage("/dashboard/current");
+		} catch (error) {
+			console.error("Error creating an event", error);
+		}
 	};
 
 	const buttonContainer = addComponent({

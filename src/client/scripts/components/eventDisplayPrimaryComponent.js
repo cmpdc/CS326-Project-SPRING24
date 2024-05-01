@@ -79,7 +79,7 @@ const eventDisplayElemComponent = (eventData) => {
 							{
 								type: "span",
 								props: {
-									textContent: eventData.location.formatted,
+									textContent: eventData.location ? eventData.location.formatted : "",
 								},
 							},
 						],
