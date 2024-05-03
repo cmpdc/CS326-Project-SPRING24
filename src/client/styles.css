@@ -716,6 +716,53 @@ body {
     background-color: rgb(158, 2, 2);
 }
 
+#toastContainer {
+    position: absolute;
+    inset: 0 auto auto 0;
+}
+
+#toastContainer .toast {
+    padding: 15px 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+    overflow: hidden;
+    transition: transform 100ms linear;
+    z-index: 10001;
+}
+
+#toastContainer .toast .closeButton {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+#toastContainer .toast .closeButton svg {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#toastContainer .toast .slider {
+    background-color: var(--tealColor);
+    position: absolute;
+    inset: auto auto 0 0;
+    transition: width 100ms linear;
+}
+
+#toastContainer .toast-inner {
+    height: 20px;
+}
+
+#toastContainer .toast-inner>span {
+    height: 20px;
+    display: block;
+}
+
 #modal {
     position: absolute;
     inset: 0 auto auto 0;

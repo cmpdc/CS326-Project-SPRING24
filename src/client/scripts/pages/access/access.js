@@ -1,4 +1,5 @@
 import { goToPage } from "../../../app.js";
+import Toast from "../../components/toast.js";
 
 // NOTE: don't forget that when importing modules, there needs to have ".js" at the end
 
@@ -131,17 +132,27 @@ const createAccount = async () => {
 			const data = await response.json();
 			console.log(data);
 
-			console.log("Account created for:", username);
+			new Toast({
+				text: `Account Created for ${username}`,
+			});
 
 			goToPage("/access");
 		} else if (response.status === 409) {
-			alert("Username already exist. Try again.");
+			new Toast({
+				text: "Username already exist. Try again.",
+			});
 		} else {
 			console.error(await response.text());
-			console.error("Failed to register");
+
+			new Toast({
+				text: "Failed to register",
+			});
 		}
 	} catch (error) {
-		console.error("Failed to create an account. Please try again later.");
+		new Toast({
+			text: "Failed to create an account. Please try again later.",
+		});
+
 		console.error(error);
 	}
 };

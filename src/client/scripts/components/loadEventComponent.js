@@ -4,6 +4,7 @@ import { addComponent, createRef, debounce, insertModal, removeModalComponent } 
 import { DayPicker } from "./dayPicker.js";
 import { InviteComponent } from "./inviteComponent.js";
 import { TimePicker } from "./timePicker.js";
+import Toast from "./toast.js";
 
 const eventContainerClassName = "eventContainer";
 
@@ -660,42 +661,55 @@ const eventElementContent = (element) => {
 		};
 
 		if (data.title === "") {
-			console.log(`Cannot create event with an empty title.`);
+			new Toast({
+				text: `Cannot create event with an empty title.`,
+			});
+
 			return;
 		}
 
 		if (eventStartGlobal === eventEndGlobal) {
-			console.log(`Both "from" and "to" time are the same. Cannot create ${data.title}`);
+			new Toast({
+				text: `Both "from" and "to" time are the same. Cannot create ${data.title}`,
+			});
 
 			return;
 		}
 
 		console.log(data);
 
-		// try {
-		// 	const response = await fetch("http://127.0.0.1:3001/events", {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify(data),
-		// 	});
+		try {
+			const response = await fetch("http://127.0.0.1:3001/events", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
 
-		// 	if (!response.ok) {
-		// 		console.error("Failed to create event");
-		// 		return;
-		// 	}
+			if (!response.ok) {
+				new Toast({
+					text: "Failed to create event",
+				});
+				return;
+			}
 
-		// 	const responseData = await response.json();
+			const responseData = await response.json();
 
-		// 	console.log("Event created successfully!");
+			new Toast({
+				text: "Event created successfully!",
+			});
 
-		// 	console.log(responseData);
+			console.log(responseData);
 
-		// 	goToPage("/dashboard/current");
-		// } catch (error) {
-		// 	console.error("Error creating an event", error);
-		// }
+			goToPage("/dashboard/current");
+		} catch (error) {
+			new Toast({
+				text: "Error creating an event",
+			});
+
+			console.error(error);
+		}
 	};
 
 	const buttonContainer = addComponent({

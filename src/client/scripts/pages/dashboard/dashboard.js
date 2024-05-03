@@ -55,6 +55,18 @@ export const loadDashboardPage = (element) => {
 		element.appendChild(modalElem);
 	}
 
+	let toastContainer = document.querySelector("#toastContainer");
+	if (!toastContainer) {
+		toastContainer = addComponent({
+			type: "div",
+			props: {
+				id: "toastContainer",
+			},
+		});
+
+		element.appendChild(toastContainer);
+	}
+
 	const headerContainerElem = headerComponent({
 		rightSideContent: null,
 	});

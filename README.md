@@ -60,3 +60,7 @@ _API:_
 
 -   [x] Geolocation (Map) - [Leaflet](https://leafletjs.com/)
 -   [ ] Geolocation (Tracker)
+
+_Misc_:
+
+-   [x] Alert system (toast)
