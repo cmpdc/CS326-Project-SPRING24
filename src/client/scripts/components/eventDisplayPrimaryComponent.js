@@ -28,6 +28,7 @@ const eventDisplayElemComponent = (eventData) => {
 			classList: ["dateComponent", "row"],
 			children: [
 				{
+					id: "date",
 					type: "div",
 					props: {
 						classList: ["icon"],
@@ -62,6 +63,7 @@ const eventDisplayElemComponent = (eventData) => {
 	const locationComponent = addComponent({
 		type: "div",
 		props: {
+			id: "location",
 			classList: ["locationComponent", "row"],
 			children: [
 				{
@@ -92,6 +94,7 @@ const eventDisplayElemComponent = (eventData) => {
 	const inviteComponent = addComponent({
 		type: "div",
 		props: {
+			id: "invite",
 			classList: ["invitesComponent", "row"],
 			children: [
 				{
@@ -126,6 +129,7 @@ const eventDisplayElemComponent = (eventData) => {
 	const trackingComponent = addComponent({
 		type: "div",
 		props: {
+			id: "tracking",
 			classList: ["trackingComponent", "row"],
 			children: [
 				{
@@ -143,7 +147,7 @@ const eventDisplayElemComponent = (eventData) => {
 							{
 								type: "span",
 								props: {
-									textContent: eventData.tracking ? "Yes" : "No",
+									textContent: eventData.tracking ? "Finding Friends" : "Not Finding Friends",
 								},
 							},
 						],
@@ -156,6 +160,7 @@ const eventDisplayElemComponent = (eventData) => {
 	const descriptionComponent = addComponent({
 		type: "div",
 		props: {
+			id: "description",
 			classList: ["descriptionComponent", "row"],
 			children: [
 				{
@@ -179,6 +184,7 @@ const eventDisplayElemComponent = (eventData) => {
 	const elem = addComponent({
 		type: "div",
 		props: {
+			id: "map",
 			classList: ["primaryEvent", "default-event"],
 			children: [
 				{
@@ -186,7 +192,7 @@ const eventDisplayElemComponent = (eventData) => {
 					ref: mapRef,
 					props: {
 						id: `map-${eventData.id}`,
-						classList: ["left"],
+						classList: ["left", "map"],
 					},
 				},
 				{

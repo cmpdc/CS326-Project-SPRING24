@@ -1,4 +1,3 @@
-import { goToPage } from "../../app.js";
 import { descriptionIcon, guestsIcon, locationIcon, locationPinIcon, maximizeIcon, minimizeIcon, timeIcon, trackingIcon } from "../icons.js";
 import { geocode } from "../location.js";
 import { addComponent, createRef, debounce, insertModal, removeModalComponent } from "../utils.js";
@@ -12,11 +11,14 @@ const eventElementContent = (element) => {
 	const iconClassName = "event-icon";
 
 	const today = new Date();
+	today.setMinutes(0);
+	today.setSeconds(0);
+
 	let eventStartGlobal = new Date();
 	eventStartGlobal.setHours(today.getHours() + 1, 0, 0, 0);
 
-	let eventEndGlobal = new Date();
-	eventEndGlobal.setHours(today.getHours() + 2, 0, 0, 0);
+	let eventEndGlobal = eventStartGlobal;
+	eventEndGlobal.setHours(eventStartGlobal.getHours() + 1, 0, 0, 0);
 
 	let locationSelection = null;
 	const debouncedGeocode = debounce(geocode, 500);
@@ -657,30 +659,43 @@ const eventElementContent = (element) => {
 			description: descriptionComponent.querySelector("#description").value,
 		};
 
-		try {
-			const response = await fetch("http://127.0.0.1:3001/events", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-			});
-
-			if (!response.ok) {
-				console.error("Failed to create event");
-				return;
-			}
-
-			const responseData = await response.json();
-
-			console.log("Event created successfully!");
-
-			console.log(responseData);
-
-			goToPage("/dashboard/current");
-		} catch (error) {
-			console.error("Error creating an event", error);
+		if (data.title === "") {
+			console.log(`Cannot create event with an empty title.`);
+			return;
 		}
+
+		if (eventStartGlobal === eventEndGlobal) {
+			console.log(`Both "from" and "to" time are the same. Cannot create ${data.title}`);
+
+			return;
+		}
+
+		console.log(data);
+
+		// try {
+		// 	const response = await fetch("http://127.0.0.1:3001/events", {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify(data),
+		// 	});
+
+		// 	if (!response.ok) {
+		// 		console.error("Failed to create event");
+		// 		return;
+		// 	}
+
+		// 	const responseData = await response.json();
+
+		// 	console.log("Event created successfully!");
+
+		// 	console.log(responseData);
+
+		// 	goToPage("/dashboard/current");
+		// } catch (error) {
+		// 	console.error("Error creating an event", error);
+		// }
 	};
 
 	const buttonContainer = addComponent({

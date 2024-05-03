@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 :root {
+    --topBannerHeight: 60px;
     --tealColor: #058484;
 }
 
@@ -476,6 +477,10 @@ body {
     }
 }
 
+.primaryContainer.eventPage #map {
+    flex-flow: column;
+}
+
 .primaryEvent .right {
     min-height: 100%;
     margin: 0 20px;
@@ -483,6 +488,12 @@ body {
     flex-flow: column;
     align-items: flex-start;
     justify-content: flex-start;
+}
+
+#map .row {
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
 }
 
 @media screen and (max-width: 800px) {
@@ -1728,7 +1739,7 @@ body:has(#modal > .accountSettingsModal) #app:before {
     opacity: 0.6;
 }
 
-
+/* Leaflet */
 .leaflet-marker-icon.leaflet-interactive {
     pointer-events: none !important;
 }
@@ -1867,3 +1878,25 @@ body:has(#modal > .accountSettingsModal) #app:before {
 }
 
 /* end css for "access" (login/registration) */
+
+.primaryEvent .above {
+    width: 100%;
+    height: calc(var(--topBannerHeight) + 600px);
+    min-height: 500px;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primaryEvent .below {
+    width: 100%;
+    min-height: 100%;
+    margin: 0 20px;
+    padding-top: 15px;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}

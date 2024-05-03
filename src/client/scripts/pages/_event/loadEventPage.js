@@ -14,12 +14,13 @@ export const loadEventPage = (event) => {
 	const primaryElem = addComponent({
 		type: "div",
 		props: {
-			classList: ["primaryContainer"],
+			classList: ["primaryContainer", "eventPage"],
 			children: [
 				{
 					type: "div",
 					ref: primaryContainerRef,
 					props: {
+						id: "primary",
 						classList: ["primary"],
 						children: [eventDisplayPrimaryComponent(event)],
 					},
@@ -28,7 +29,21 @@ export const loadEventPage = (event) => {
 		},
 	});
 
-	// primaryContainerRef.getElementByClass("icon").style.height = "20px";
+	const map = primaryElem.querySelector(".left");
+
+	if (map) {
+		map.classList.remove("left");
+		map.classList.add("above");
+	}
+
+	const info = primaryElem.querySelector(".right");
+
+	if (info) {
+		info.classList.remove("right");
+		info.classList.add("below");
+	}
+
+	primaryElem.querySelector(".primaryEvent").style.flexFlow = "column";
 
 	// const locationComponent = addComponent({
 	// 	type: "div",

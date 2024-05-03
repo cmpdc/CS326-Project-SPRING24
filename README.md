@@ -14,16 +14,32 @@ To run and view this project's progress, execute `npm run milestone-02`.
 
 In this milestone, the files can be located in the `client` folder.
 
+## Milestone #03 (Back-End)
+
+With the addition of the backend, we use `concurrently` dependency.
+Frontend runs on `3000` port, while backend runs on `3001` port.
+
+Because of this changes, do `npm install` or `npm i` beforehand.
+
+To run and view this project's progress, execute `npm run start`. This `start` script should both execute `npm run milestone-02` and `npm run milestone-03`.
+
 ### Tasks List:
 
 _Server:_
 
--   [ ] Properly implement the use **PouchDB**
+-   [x] Properly implement the use **PouchDB**
+-   [x] Express
+    -   [x] Added routes for events and user
+    -   [x] Implement a fully functional account system.
+        -   [x] Login
+        -   [x] Register
+        -   [ ] With the ability to change password
+        -   [ ] Verification system?
 
 _Pages:_
 
 -   [x] SPA implementation for each pages
--   [ ] Window history manager
+-   [x] Window history manager
 -   [x] Landing page - `client/initial` folder (Annanta)
     -   [x] should work when accessing the `/` route or without any subsequent paths.
 -   [x] Login/Registration page - `client/access` folder (Jason)
@@ -32,7 +48,7 @@ _Pages:_
     -   [x] `/dashboard` route
     -   [x] Dynamic pages for each selected event (This should only be accessible inside `/dashboard` route)
     -   [x] Current page - should be in `/current` route.
-        -   [ ] Should update when new events are created. Use PouchDB.
+        -   [x] Should update when new events are created. Use PouchDB.
     -   [ ] A way to "logout" once users are inside the the `/dashboard` route — perhaps backend?
 
 _Components:_
@@ -44,5 +60,3 @@ _API:_
 
 -   [x] Geolocation (Map) - [Leaflet](https://leafletjs.com/)
 -   [ ] Geolocation (Tracker)
-
-## Milestone #03 (Back-End)
