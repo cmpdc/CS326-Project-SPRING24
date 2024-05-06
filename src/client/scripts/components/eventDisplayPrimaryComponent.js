@@ -1,8 +1,14 @@
-import { descriptionIcon, guestsIcon, locationIcon, timeIcon, trackingIcon } from "../icons.js";
+import { goToPage } from "../app.js";
+import { deleteEvent, editEvent } from "../events.js";
+import { descriptionIcon, guestsIcon, locationIcon, timeIcon, trackingIcon, userIcon } from "../icons.js";
+import { loadEventPage } from "../pages/_event/loadEventPage.js";
 import { addComponent, createRef, formatAMPM, getDateWithSuffix, getDayName } from "../utils.js";
 
-const eventDisplayElemComponent = (eventData) => {
+const eventDisplayElemComponent = (eventData, mapSettings) => {
 	if (!eventData) return null;
+
+	const currentUser = localStorage.getItem("username");
+	const isOwner = JSON.parse(currentUser) === JSON.parse(eventData.creator);
 
 	const titleComponent = addComponent({
 		type: "h2",
@@ -11,24 +17,31 @@ const eventDisplayElemComponent = (eventData) => {
 		},
 	});
 
-	const fromDate = new Date(eventData.dateTime.from);
-	const toDate = new Date(eventData.dateTime.to);
+	const eventFromDate = new Date(eventData.dateTime.from);
+	const eventToDate = new Date(eventData.dateTime.to);
 
-	const dayName = getDayName(fromDate);
-	const dateWithSuffix = getDateWithSuffix(fromDate);
-	const formattedDate = `${dayName}, ${fromDate.toLocaleString("default", { month: "long" })} ${dateWithSuffix}`;
+	const eventDayName = getDayName(eventFromDate);
+	const eventDateWithSuffix = getDateWithSuffix(eventFromDate);
+	const eventFormattedDate = `${eventDayName}, ${eventFromDate.toLocaleString("default", { month: "long" })} ${eventDateWithSuffix}`;
 
-	const formattedFromTime = formatAMPM(fromDate);
-	const formattedToTime = formatAMPM(toDate);
-	const formattedTime = `${formattedFromTime} — ${formattedToTime}`;
+	const eventFormattedFromTime = formatAMPM(eventFromDate);
+	const eventFormattedToTime = formatAMPM(eventToDate);
+	const eventFormattedTime = `${eventFormattedFromTime} — ${eventFormattedToTime}`;
+
+	const eventCreationDate = new Date(eventData.createdDateTime);
+	const eventCreationName = getDayName(eventCreationDate);
+	const eventCreationDateWithSuffix = getDateWithSuffix(eventCreationDate);
+	const eventCreationFormattedDate = `${eventCreationName}, ${eventCreationDate.toLocaleString("default", { month: "long" })} ${eventCreationDateWithSuffix}`;
+
+	const eventCreationFormattedTime = formatAMPM(eventCreationDate);
 
 	const dateTimeComponent = addComponent({
 		type: "div",
 		props: {
+			id: "date",
 			classList: ["dateComponent", "row"],
 			children: [
 				{
-					id: "date",
 					type: "div",
 					props: {
 						classList: ["icon"],
@@ -38,19 +51,86 @@ const eventDisplayElemComponent = (eventData) => {
 				{
 					type: "div",
 					props: {
-						classList: ["info", "row"],
+						classList: ["info"],
 						children: [
 							{
 								type: "span",
 								props: {
-									textContent: formattedDate,
+									textContent: eventFormattedDate,
 								},
 							},
 							{ type: "span", props: { textContent: "•" } },
 							{
 								type: "span",
 								props: {
-									textContent: formattedTime,
+									textContent: eventFormattedTime,
+								},
+							},
+						],
+					},
+				},
+			],
+		},
+	});
+
+	const userComponent = addComponent({
+		type: "div",
+		props: {
+			id: "user",
+			classList: ["userComponent", "row"],
+			children: [
+				{
+					type: "div",
+					props: {
+						classList: ["icon"],
+						children: [userIcon],
+					},
+				},
+				{
+					type: "div",
+					props: {
+						classList: ["info"],
+						children: [
+							{
+								type: "div",
+								props: {
+									classList: ["creator"],
+									children: [
+										{
+											type: "span",
+											props: {
+												textContent: `Created by:`,
+											},
+										},
+										{
+											type: "span",
+											props: {
+												textContent: JSON.parse(eventData.creator),
+											},
+										},
+									],
+								},
+							},
+							{
+								type: "div",
+								props: {
+									classList: ["createdTime"],
+									children: [
+										{ type: "span", props: { textContent: "When:" } },
+										{
+											type: "span",
+											props: {
+												textContent: eventCreationFormattedDate,
+											},
+										},
+										{ type: "span", props: { textContent: "•" } },
+										{
+											type: "span",
+											props: {
+												textContent: eventCreationFormattedTime,
+											},
+										},
+									],
 								},
 							},
 						],
@@ -147,7 +227,7 @@ const eventDisplayElemComponent = (eventData) => {
 							{
 								type: "span",
 								props: {
-									textContent: eventData.tracking ? "Finding Friends" : "Not Finding Friends",
+									textContent: eventData.tracking ? "Tracking Enabled" : "Tracking Disabled",
 								},
 							},
 						],
@@ -173,10 +253,67 @@ const eventDisplayElemComponent = (eventData) => {
 				{
 					type: "span",
 					props: {
-						textContent: eventData.description ? eventData.description : "None",
+						textContent: eventData.description ? eventData.description : "No description added",
 					},
 				},
 			],
+		},
+	});
+
+	const viewDetailsButton = addComponent({
+		type: "div",
+		props: {
+			textContent: "View Details",
+			classList: ["button", "details"],
+			onClick: (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				const eventPath = encodeURIComponent(eventData.title);
+
+				goToPage(`/dashboard/event/${eventPath}`);
+
+				loadEventPage(eventData);
+			},
+		},
+	});
+
+	const editButton = addComponent({
+		type: "div",
+		props: {
+			textContent: "Edit",
+			classList: ["button", "edit"],
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				editEvent(eventData);
+			},
+		},
+	});
+
+	const deleteButton = addComponent({
+		type: "div",
+		props: {
+			textContent: "Delete",
+			classList: ["button", "delete"],
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				const eventID = eventData._id;
+				await deleteEvent(eventID);
+
+				goToPage("/dashboard/current");
+			},
+		},
+	});
+
+	const buttonContainerComponent = addComponent({
+		type: "div",
+		props: {
+			classList: ["buttonContainer"],
+			children: [viewDetailsButton, isOwner ? editButton : void 0, isOwner ? deleteButton : void 0],
 		},
 	});
 
@@ -202,10 +339,12 @@ const eventDisplayElemComponent = (eventData) => {
 						children: [
 							titleComponent,
 							dateTimeComponent,
-							locationComponent,
+							userComponent,
+							eventData.location ? locationComponent : void 0,
 							eventData.invites.length ? inviteComponent : null,
 							trackingComponent,
 							descriptionComponent,
+							buttonContainerComponent,
 						],
 					},
 				},
@@ -216,14 +355,7 @@ const eventDisplayElemComponent = (eventData) => {
 	setTimeout(() => {
 		if (mapRef.current) {
 			try {
-				const map = L.map(mapRef.current.id, {
-					center: true,
-					dragging: false,
-					touchZoom: false,
-					scrollWheelZoom: false,
-					doubleClickZoom: false,
-					boxZoom: false,
-				}).setView([eventData.location.geometry.lat, eventData.location.geometry.lng], 13);
+				const map = L.map(mapRef.current.id, mapSettings).setView([eventData.location.geometry.lat, eventData.location.geometry.lng], 13);
 
 				L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
@@ -235,14 +367,25 @@ const eventDisplayElemComponent = (eventData) => {
 	return elem;
 };
 
-export const eventDisplayPrimaryComponent = (data) => {
+const initialMapSettings = {
+	center: true,
+	dragging: false,
+	touchZoom: false,
+	scrollWheelZoom: false,
+	doubleClickZoom: false,
+	boxZoom: false,
+};
+
+export const eventDisplayPrimaryComponent = (data, mapSettings) => {
+	const elemComponent = eventDisplayElemComponent(data, !mapSettings ? initialMapSettings : mapSettings);
+
 	const elem = addComponent({
 		type: "div",
 		props: {
 			classList: ["primaryEventContainer"],
 			children: [
-				eventDisplayElemComponent(data)
-					? eventDisplayElemComponent(data)
+				elemComponent
+					? elemComponent
 					: {
 							type: "div",
 							props: {

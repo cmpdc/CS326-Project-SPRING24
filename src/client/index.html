@@ -5,14 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeetUp</title>
-    <script type="module" src="/app.js"></script> <!-- Intentional; we need an absolute path for our SPA to work -->
-    <link rel="stylesheet" href="/styles.css"> <!-- Intentional; we need an absolute path for our SPA to work -->
+    <link rel="stylesheet" href="/styles/main.css"> <!-- Intentional; we need an absolute path for our SPA to work -->
+    <link rel="stylesheet" href="/styles/pickers.css">
+    <link rel="stylesheet" href="/styles/newEvent.css">
+    <link rel="stylesheet" href="/styles/eventPage.css">
+    <link rel="stylesheet" href="/styles/editEventModal.css">
 
+    <script type="module" src="/scripts/app.js"></script>
     <script src="//cdn.jsdelivr.net/npm/pouchdb@8.0.1/dist/pouchdb.min.js"></script>
-    <!-- Why?! whats the purpose of installing PouchDB as a node module dependency?-->
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 
 <body>

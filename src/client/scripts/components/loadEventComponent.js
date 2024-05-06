@@ -1,3 +1,4 @@
+import { goToPage } from "../app.js";
 import { descriptionIcon, guestsIcon, locationIcon, locationPinIcon, maximizeIcon, minimizeIcon, timeIcon, trackingIcon } from "../icons.js";
 import { geocode } from "../location.js";
 import { addComponent, createRef, debounce, insertModal, removeModalComponent } from "../utils.js";
@@ -16,7 +17,7 @@ const eventElementContent = (element) => {
 	today.setSeconds(0);
 
 	let eventStartGlobal = new Date();
-	eventStartGlobal.setHours(today.getHours() + 1, 0, 0, 0);
+	eventStartGlobal.setHours(eventStartGlobal.getHours() + 1, 0, 0, 0);
 
 	let eventEndGlobal = eventStartGlobal;
 	eventEndGlobal.setHours(eventStartGlobal.getHours() + 1, 0, 0, 0);
@@ -356,7 +357,7 @@ const eventElementContent = (element) => {
 						hideCalendar();
 					},
 					renderTime: dateTimeComponentRendererRef.current,
-					disablePast: true,
+					disablePast: false,
 					onTimeSelect: (selectedTime) => {
 						const newTime = new Date(selectedTime);
 
@@ -373,7 +374,7 @@ const eventElementContent = (element) => {
 					renderButtonClick: (event) => {
 						hideCalendar();
 					},
-					disablePast: true,
+					disablePast: false,
 					renderTime: dateTimeComponentRendererRef.current,
 					onTimeSelect: (selectedTime) => {
 						const newDate = new Date(selectedTime);
@@ -648,16 +649,23 @@ const eventElementContent = (element) => {
 		e.stopPropagation();
 		e.preventDefault();
 
+		const eventCreator = () => {
+			return localStorage.getItem("username");
+		};
+
 		const data = {
 			title: titleComponent.querySelector("#title").value,
 			dateTime: {
 				from: eventStartGlobal,
 				to: eventEndGlobal,
 			},
+			createdDateTime: new Date(),
 			invites: inviteComponent.getInviteList(),
+			accepted: [],
 			location: locationSelection,
 			tracking: trackingSelection,
 			description: descriptionComponent.querySelector("#description").value,
+			creator: eventCreator(),
 		};
 
 		if (data.title === "") {

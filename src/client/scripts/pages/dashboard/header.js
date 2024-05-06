@@ -1,4 +1,4 @@
-import { goToPage } from "../../../app.js";
+import { goToPage } from "../../app.js";
 import { logoIcon, searchIcon, userIcon } from "../../icons.js";
 import { addComponent, createRef, insertModal } from "../../utils.js";
 import { accountSettingsPopup } from "./accountSettings.js";

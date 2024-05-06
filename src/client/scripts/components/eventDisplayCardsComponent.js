@@ -1,9 +1,13 @@
-import { goToPage } from "../../app.js";
+import { goToPage } from "../app.js";
+import { deleteEvent, editEvent } from "../events.js";
 import { loadEventPage } from "../pages/_event/loadEventPage.js";
 import { addComponent, createRef, formatAMPM, getDateWithSuffix, getDayName } from "../utils.js";
 
 const eventDisplayCardComponent = (data, index) => {
 	const mapRef = createRef();
+
+	const currentUser = localStorage.getItem("username");
+	const isOwner = JSON.parse(currentUser) === JSON.parse(data.creator);
 
 	const locationComponent = addComponent({
 		type: "div",
@@ -79,7 +83,7 @@ const eventDisplayCardComponent = (data, index) => {
 		},
 	});
 
-	const saveButton = addComponent({
+	const viewButton = addComponent({
 		type: "div",
 		props: {
 			classList: ["button", "details"],
@@ -96,11 +100,17 @@ const eventDisplayCardComponent = (data, index) => {
 		},
 	});
 
-	const postponeButton = addComponent({
+	const editButton = addComponent({
 		type: "div",
 		props: {
-			classList: ["button", "postpone"],
-			textContent: "Postpone",
+			classList: ["button", "edit"],
+			textContent: "Edit",
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				editEvent(data);
+			},
 		},
 	});
 
@@ -112,22 +122,6 @@ const eventDisplayCardComponent = (data, index) => {
 			onClick: async (e) => {
 				e.stopPropagation();
 				e.preventDefault();
-
-				const deleteEvent = async (eventId) => {
-					try {
-						const response = await fetch(`http://127.0.0.1:3001/events/${eventId}`, {
-							method: "DELETE",
-						});
-
-						if (response.ok) {
-							console.log("Event deleted successfully");
-						} else {
-							throw new Error("Failed to delete event");
-						}
-					} catch (error) {
-						console.error("Error deleting event:", error);
-					}
-				};
 
 				const eventID = data._id;
 				await deleteEvent(eventID);
@@ -184,7 +178,7 @@ const eventDisplayCardComponent = (data, index) => {
 					type: "div",
 					props: {
 						classList: ["buttons"],
-						children: [saveButton, !isExpiredEvent ? postponeButton : null, deleteButton],
+						children: [viewButton, isOwner || !isExpiredEvent ? editButton : null, isOwner ? deleteButton : null],
 					},
 				},
 			],

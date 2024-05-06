@@ -22,7 +22,16 @@ export const loadEventPage = (event) => {
 					props: {
 						id: "primary",
 						classList: ["primary"],
-						children: [eventDisplayPrimaryComponent(event)],
+						children: [
+							eventDisplayPrimaryComponent(event, {
+								center: true,
+								dragging: true,
+								touchZoom: true,
+								scrollWheelZoom: true,
+								doubleClickZoom: false,
+								boxZoom: false,
+							}),
+						],
 					},
 				},
 			],
@@ -32,6 +41,8 @@ export const loadEventPage = (event) => {
 	const map = primaryElem.querySelector(".left");
 
 	if (map) {
+		map.parentElement.parentElement.parentElement.classList.add("eventSolo");
+
 		map.classList.remove("left");
 		map.classList.add("above");
 	}
@@ -44,6 +55,11 @@ export const loadEventPage = (event) => {
 	}
 
 	primaryElem.querySelector(".primaryEvent").style.flexFlow = "column";
+
+	const viewDetailsButton = primaryElem.querySelector(".button.details");
+	if (viewDetailsButton) {
+		viewDetailsButton.remove();
+	}
 
 	// const locationComponent = addComponent({
 	// 	type: "div",

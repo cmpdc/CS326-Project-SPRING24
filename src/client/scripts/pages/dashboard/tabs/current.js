@@ -35,7 +35,10 @@ const resultElem = (list) => {
 				{
 					type: "h2",
 					props: {
-						textContent: new Date(comingSoonEvent.dateTime.from) < today ? "Coming Soon" : "Happening Now",
+						textContent:
+							new Date(comingSoonEvent.dateTime.from) > today && new Date(comingSoonEvent.dateTime.to) > today
+								? "Coming Soon"
+								: "Happening Now",
 					},
 				},
 				{

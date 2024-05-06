@@ -1,4 +1,4 @@
-import { goToPage } from "../../../app.js";
+import { goToPage } from "../../app.js";
 import { addComponent } from "../../utils.js";
 import { headerComponent } from "../dashboard/header.js";
 

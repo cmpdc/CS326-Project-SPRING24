@@ -86,7 +86,7 @@ export class DayPicker {
 			type: "span",
 			props: {
 				textContent: "Confirm",
-				classList: ["confirm-button", "disabled"],
+				classList: ["confirm-button", "disabled", "button"],
 				onClick: (e) => {
 					e.stopPropagation();
 					e.preventDefault();

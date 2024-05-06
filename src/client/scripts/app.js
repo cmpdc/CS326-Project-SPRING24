@@ -1,9 +1,9 @@
-import { loadAccessPage } from "./scripts/pages/access/access.js";
-import { loadDashboardPage } from "./scripts/pages/dashboard/dashboard.js";
-import { currentTab } from "./scripts/pages/dashboard/tabs/current.js";
-import { pendingTab } from "./scripts/pages/dashboard/tabs/pending.js";
-import { sharedTab } from "./scripts/pages/dashboard/tabs/shared.js";
-import { loadInitialPage } from "./scripts/pages/initial/initial.js";
+import { loadAccessPage } from "./pages/access/access.js";
+import { loadDashboardPage } from "./pages/dashboard/dashboard.js";
+import { currentTab } from "./pages/dashboard/tabs/current.js";
+import { pendingTab } from "./pages/dashboard/tabs/pending.js";
+import { sharedTab } from "./pages/dashboard/tabs/shared.js";
+import { loadInitialPage } from "./pages/initial/initial.js";
 
 /**
  * A function that can be use as an anchor between pages/tabs
@@ -104,5 +104,35 @@ export const updateDashboardContent = (path) => {
 	contentWrapper.appendChild(elemToAppend);
 };
 
-window.addEventListener("DOMContentLoaded", navigate);
+const setTheme = () => {
+	const currentTheme = localStorage.getItem("theme");
+
+	switch (currentTheme) {
+		case "light":
+			if (document.body.classList.contains("dark-theme")) {
+				document.body.classList.remove("dark-theme");
+			}
+
+			document.body.classList.add("light-theme");
+
+			break;
+		case "dark":
+			if (document.body.classList.contains("light-theme")) {
+				document.body.classList.remove("light-theme");
+			}
+
+			document.body.classList.add("dark-theme");
+
+			break;
+		default:
+			document.body.classList.add("light-theme");
+			break;
+	}
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+	setTheme();
+	navigate();
+});
+
 window.addEventListener("hashchange", navigate);

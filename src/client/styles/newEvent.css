@@ -1,0 +1,479 @@
+.eventContainer {
+    width: 410px;
+    height: auto;
+    max-height: calc(100% - 100px);
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.eventContainerInner {
+    --handleHeight: 35px;
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.eventContainerHandle {
+    width: 100%;
+    min-height: var(--handleHeight);
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.eventContainerHandle.isDragging {
+    cursor: grabbing;
+}
+
+.eventHandleButtons {
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    inset: 0 0 auto auto;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.eventHandleButtons span {
+    width: 30px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 100ms linear;
+    cursor: pointer;
+}
+
+.eventHandleButtons span:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.eventHandleButtons span svg {
+    width: 60%;
+    height: 60%;
+}
+
+.eventHandleButtons span#max svg {
+    width: 40%;
+    height: 40%;
+}
+
+.eventContent {
+    --height: calc(100% - var(--handleHeight));
+    --iconWidth: 20px;
+    --iconGap: 20px;
+    --rightSidePaddingRight: 20px;
+    width: 100%;
+    font-family: "Roboto", sans-serif;
+    position: relative;
+    flex: 1;
+    overflow: auto;
+}
+
+.eventContent>div {
+    width: 100%;
+}
+
+.eventContent .wide {
+    width: 100%;
+    position: relative;
+}
+
+.eventContent .wide>div {
+    width: 100%;
+    height: 30px;
+    padding: 0 var(--rightSidePaddingRight) 0 calc((var(--iconGap) * 2) + 30px);
+    position: absolute;
+    inset: 50% auto auto 0;
+    transform: translate(0, -50%);
+}
+
+.eventContent .wide .eventInputWrapper {
+    background-color: transparent !important;
+}
+
+.eventContent .column {
+    min-height: 40px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    margin: 5px 0 0 0;
+    display: flex;
+    flex-flow: row;
+    gap: var(--iconGap);
+    transition: border-color 100ms linear;
+    user-select: none;
+}
+
+.eventContent .column.revealed {
+    --borderRevealColor: rgba(0, 0, 0, 0.15);
+    user-select: text;
+}
+
+.eventContent .column.revealed .eventInputWrapper {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.eventContent .column.revealed .spanBorder {
+    background-color: transparent;
+}
+
+.eventContent .titleContainer {
+    min-height: 60px;
+}
+
+.eventContent .column .event-icon {
+    width: var(--iconWidth);
+    min-width: var(--iconWidth);
+    height: var(--iconWidth);
+    color: var(--tealColor);
+    margin: 10px 0 0 var(--iconGap);
+}
+
+.eventContent .event-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.eventContent .column .rightSide {
+    border-radius: 5px;
+    padding: 10px 0 10px 10px;
+    margin: 0 var(--rightSidePaddingRight) 0 0;
+    flex: 1;
+    transition: background-color 100ms linear;
+}
+
+.eventContent .column .default span {
+    position: relative;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.eventContent .column .default span:after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    inset: auto auto -1px 0;
+    pointer-events: none;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 150ms linear;
+}
+
+.eventContent .column .default span:hover:after {
+    transform: scale(1);
+}
+
+.eventContent .rightSide span:not(.button) {
+    color: rgb(95, 99, 104);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.eventContent .rightSide span.button {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.eventContent .rightSide.default>* {
+    user-select: none;
+    pointer-events: none;
+}
+
+.eventContent #title {
+    height: 100%;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 24px;
+    font-weight: 500;
+    padding: 0 !important;
+}
+
+.eventContent #title::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.eventContent .eventInputWrapper {
+    position: relative;
+    border-radius: 5px;
+    transition:
+        background-color 100ms linear,
+        border-radius 100ms linear;
+}
+
+.eventContent .eventInputWrapper:focus-within {
+    border-radius: 5px 5px 0 0;
+}
+
+.eventContent .eventInputWrapper>*:is(:focus, :not(:placeholder-shown))~.spanBorder:before {
+    height: 2px;
+    transform: scale(1) translate(-50%, 0);
+}
+
+.eventContent .eventInputWrapper>*:is(textarea, input) {
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    font-family: "Roboto";
+    background-color: transparent;
+    padding: 5px;
+    border: none;
+    outline: none;
+    appearance: none;
+}
+
+.eventContent .eventInputWrapper .spanBorder {
+    width: 100%;
+    height: 0.5px;
+    background-color: gray;
+    position: absolute;
+    inset: auto 0 0 auto;
+    display: block;
+    z-index: 1;
+}
+
+.eventContent .eventInputWrapper .spanBorder:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    position: absolute;
+    inset: 0 auto auto 50%;
+    transform: scale(0) translate(-50%, 0);
+    transform-origin: left;
+    pointer-events: none;
+    transition: transform 300ms linear;
+}
+
+.eventContent #invites {
+    position: relative;
+}
+
+.eventContent #invites ul {
+    margin: 0 0 10px 0;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.eventContent #invites ul:empty {
+    display: none;
+}
+
+.eventContent #invites .email-item {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 5px 8px;
+    display: flex;
+    flex-flow: row;
+    gap: 5px;
+    transition: background-color 100ms linear;
+    user-select: none;
+}
+
+.eventContent #invites .email-item:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.eventContent #invites .delete-button {
+    width: 15px;
+    height: 15px;
+    color: rgb(143, 23, 23);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.eventContent #invites .delete-button svg {
+    width: 100%;
+    height: 100%;
+}
+
+.eventContent textarea {
+    width: 100%;
+    min-height: 80px !important;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 5px !important;
+    resize: none;
+}
+
+.eventContent .dateTimeComponentInner {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.eventContent .dateTimeComponentInner>div {
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.eventContent .dateTimeComponentInner>div:first-child {
+    min-width: 120px;
+}
+
+.eventContent .dateTimeComponentInner .title {
+    width: 100%;
+    text-align: center;
+    user-select: none;
+}
+
+.eventContent .dateComponent,
+.eventContent .timeComponent {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+}
+
+.eventContent .buttonContainer {
+    height: 40px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eventContent .saveButton {
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: var(--tealColor);
+    border-radius: 5px;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 100ms linear;
+}
+
+.eventContent .saveButton:is(:disabled, .disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.eventContent .locationsResults {
+    margin: 5px 0 0 0;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.eventContent .locationsResults:empty {
+    display: none;
+}
+
+.eventContent .locationsResults>*:is(.result, .info) {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 5px 8px;
+    transition: background-color 100ms linear;
+    cursor: pointer;
+}
+
+.eventContent .locationsResults .info {
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.eventContent .locationsResults .result {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.eventContent .locationsResults .result:first-child {
+    margin-top: 5px;
+}
+
+.eventContent .locationsResults .result:only-child {
+    border-radius: 5px;
+}
+
+.eventContent .locationsResults .result:not(:first-child):not(:last-child) {
+    border-top: none;
+}
+
+.eventContent .locationsResults .result:first-child:not(:only-child) {
+    border-radius: 5px 5px 0 0;
+}
+
+.eventContent .locationsResults .result:last-child:not(:only-child) {
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+
+.eventContent .locationsResults>*:is(.result, .info):hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.eventContent .locationsResults .icon {
+    min-width: 25px;
+    height: 25px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eventContent .locationsResults .icon svg {
+    width: 80%;
+    height: 80%;
+}
+
+.eventContent .trackingContainer {
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    user-select: none;
+}
+
+.eventContent .trackingContainer.revealed span {
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 5px 10px;
+    transition: background-color 100ms linear;
+    cursor: pointer;
+}
+
+.eventContent .trackingContainer.revealed span:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.eventContent .trackingContainer.revealed span.active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.eventContent .trackingContainer.revealed span:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.eventContent .trackingContainer.revealed span:last-child {
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}

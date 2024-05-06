@@ -1,0 +1,168 @@
+body:has(#modal > .editEventModal) #app:before {
+    content: "";
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    inset: 0 auto auto auto;
+    pointer-events: all;
+    z-index: 1000;
+}
+
+.editEventModal {
+    width: 450px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 5px;
+    position: fixed;
+    inset: 50% auto auto 50%;
+    display: flex;
+    flex-flow: column;
+    transform: translate(-50%, -50%);
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 1001;
+}
+
+.editEventModalInner {
+    width: 100%;
+    padding: 30px;
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.editEventModalInner h1 {
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 0;
+    position: sticky;
+    top: 0px;
+    z-index: 9;
+}
+
+
+.editEventModalInner .fieldRow {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+}
+
+.editEventModalInner .fieldRowCenter {
+    align-items: center;
+    justify-content: center;
+}
+
+.editEventModalInner .fieldInner {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.editEventModalInner div:where(#createdDateTimeRow, #dateTimeRow) .fieldInner .value {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 5px;
+}
+
+.editEventModalInner .fieldRowSingle .fieldInner {
+    width: 100%;
+}
+
+.editEventModalInner .fieldRowDouble {
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.editEventModalInner .fieldRowCenter .fieldInner {
+    align-items: center;
+    justify-content: center;
+}
+
+.editEventModalInner .fieldRowDouble>* {
+    flex: 1;
+}
+
+.editEventModalInner .fieldInner .title {
+    color: rgba(0, 0, 0, 0.8);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.editEventModalInner .fieldInner .value {
+    width: 100%;
+    position: relative;
+}
+
+.editEventModalInner .fieldInner .value:has(> input):before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    border-radius: 5px;
+    position: absolute;
+    inset: 0 auto auto 0;
+    opacity: 0.2;
+    transition: opacity 100ms linear;
+    z-index: -1;
+}
+
+.editEventModalInner .fieldInner .value:focus-within:before {
+    opacity: 0.4;
+}
+
+.editEventModalInner .fieldInner input {
+    width: 100%;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+    appearance: none;
+}
+
+.editEventModalInner .editButtonContainer {
+    max-width: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    user-select: none;
+}
+
+.editEventModalInner button {
+    width: 60px;
+    height: 30px;
+    color: white;
+    background-color: var(--tealColor);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    padding: 8px 12px;
+    appearance: none;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 100ms linear, transform 100ms linear;
+}
+
+.editEventModalInner button:hover {
+    opacity: 1;
+}
+
+.editEventModalInner button.danger {
+    background-color: #c11818;
+    padding: 0;
+}
+
+.editEventModalInner button:active {
+    transform: translateY(2px);
+}
+
+.editEventModalInner button:disabled {
+    opacity: 0.6;
+}

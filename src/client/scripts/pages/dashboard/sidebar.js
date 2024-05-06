@@ -1,4 +1,4 @@
-import { goToPage } from "../../../app.js";
+import { goToPage } from "../../app.js";
 import { loadEventComponent } from "../../components/loadEventComponent.js";
 import { addComponent, createRef } from "../../utils.js";
 

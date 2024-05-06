@@ -1,4 +1,4 @@
-import { goToPage } from "../../../app.js";
+import { goToPage } from "../../app.js";
 import Toast from "../../components/toast.js";
 
 // NOTE: don't forget that when importing modules, there needs to have ".js" at the end

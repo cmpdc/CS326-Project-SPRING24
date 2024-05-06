@@ -1,0 +1,322 @@
+/* Calendar */
+.day-picker-toggle {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.day-picker-toggle.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.calendar {
+    width: var(--width);
+    max-width: var(--width);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0 0 0;
+    position: relative;
+    --width: 310px;
+    --spacing: 5px;
+}
+
+.calendar .save-container {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 0 0 0;
+    margin: 10px 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar:is(.monthViewRevealed, .yearViewRevealed) .save-container {
+    display: none;
+}
+
+.calendar .save-container span {
+    color: #fff;
+    background-color: var(--tealColor);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+    user-select: none;
+    cursor: pointer;
+    transition:
+        transform 100ms linear,
+        opacity 100ms linear;
+}
+
+.calendar .save-container span:active {
+    transform: translate(0, 2px);
+}
+
+.calendar .save-container .confirm-button.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.calendar .calendar-header,
+.calendar .day-names-row,
+.calendar .date-grid,
+.calendar .date-week {
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar .day-names-row,
+.calendar .date-week {
+    flex-flow: row wrap;
+    gap: calc(var(--spacing) / 2);
+}
+
+.calendar .calendar-header,
+.calendar .day-names-row,
+.calendar .date-grid {
+    margin-bottom: 5px;
+}
+
+.calendar .date-grid {
+    margin: var(--spacing) 0 0 0;
+    flex-flow: column;
+    gap: calc(var(--spacing) / 2);
+}
+
+.calendar .date-week {
+    flex-flow: row;
+}
+
+.calendar .day,
+.calendar .day-name {
+    width: 30px;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+    user-select: none;
+}
+
+.calendar .day-name {
+    font-weight: 600;
+}
+
+.calendar .current-view {
+    display: block;
+}
+
+.calendar:is(.monthViewRevealed, .yearViewRevealed) .current-view {
+    display: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.calendar-header {
+    height: 30px;
+    padding: 0 var(--spacing);
+    flex-flow: row;
+    align-items: center;
+}
+
+.calendar-header .month-year {
+    flex: 1;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.calendar-header .month-year>* {
+    color: rgba(0, 0, 0, 1) !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    cursor: pointer;
+    user-select: none;
+}
+
+.calendar-header .month-year>*:hover {
+    text-decoration: underline;
+}
+
+.calendar-header .month-year .year {
+    margin: 0 0 0 5px;
+}
+
+.calendar-header .buttonContainer {
+    width: 60px;
+    min-width: 60px;
+    height: 20px;
+    margin: 0;
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-header .buttonContainer>div {
+    width: 20px;
+    height: 20px;
+    flex: 1;
+    transition: opacity 100ms linear;
+    transform: none;
+    cursor: pointer;
+}
+
+.calendar-header .buttonContainer>div:active {
+    transform: translate(0, 2px);
+}
+
+.calendar-header .buttonContainer>div.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.calendar-header .buttonContainer svg {
+    width: 100%;
+    height: 100%;
+}
+
+.calendar .day {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.calendar .day.disabled {
+    opacity: 0.2 !important;
+}
+
+.calendar .day:not(.disabled) {
+    font-weight: 500;
+}
+
+.calendar .day.selected {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.calendar .day.outside {
+    opacity: 0.5;
+}
+
+.month-view,
+.year-view {
+    padding: calc(var(--spacing) * 2);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: calc(var(--spacing) * 3);
+    place-items: center;
+}
+
+.month-view .month,
+.year-view .year {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: calc(var(--spacing) * 2);
+    cursor: pointer;
+    transition:
+        border-color 100ms linear,
+        background-color 100ms linear;
+}
+
+.month-view .month:hover,
+.year-view .year:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.year-view .year {
+    font-size: 14px !important;
+}
+
+.month-view .month.current,
+.year-view .year.current {
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.month-view .month.selected,
+.year-view .year.selected {
+    font-weight: 600;
+}
+
+.month-view .month.disabled,
+.year-view .year.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.day-picker-toggle,
+.time-picker-button {
+    user-select: none;
+}
+
+
+/* Time Picker */
+.time-picker-button {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.time-picker-button.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.time-picker-container {
+    width: 310px;
+    height: 200px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.time-picker-container .time-picker-hour-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    place-items: center;
+    gap: 10px;
+}
+
+.time-picker-container .time-picker-option {
+    width: 100px;
+    height: 30px;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 100ms linear;
+}
+
+.time-picker-container .time-picker-option:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.time-picker-container .time-picker-option.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
