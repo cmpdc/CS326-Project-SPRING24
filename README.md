@@ -49,6 +49,7 @@ _Pages:_
     -   [x] Dynamic pages for each selected event (This should only be accessible inside `/dashboard` route)
     -   [x] Current page - should be in `/current` route.
         -   [x] Should update when new events are created. Use PouchDB.
+    -   [ ] Initiated a way to edit events - `editEventComponent.js`
     -   [ ] A way to "logout" once users are inside the the `/dashboard` route — perhaps backend?
 
 _Components:_

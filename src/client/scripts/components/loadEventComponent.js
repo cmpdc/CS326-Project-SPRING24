@@ -27,7 +27,7 @@ const eventElementContent = (element) => {
 
 	let trackingSelection = false;
 
-	const inviteComponent = new InviteComponent();
+	const inviteComponent = new InviteComponent({ emailList: [] });
 
 	const dateTimeWrapperRef = createRef();
 	const dateTimeComponentRendererRef = createRef();

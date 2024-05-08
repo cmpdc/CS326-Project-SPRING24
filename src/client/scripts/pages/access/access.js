@@ -88,7 +88,7 @@ const login = async () => {
 			const data = await response.json();
 
 			if (response.status === 200) {
-				localStorage.setItem("username", JSON.stringify(data.user.username));
+				localStorage.setItem("username", data.user.username);
 
 				console.log("Login successful for user:", username);
 

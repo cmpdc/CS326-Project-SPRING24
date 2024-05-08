@@ -24,7 +24,23 @@ class Events {
 	}
 
 	static async update(eventId, eventData) {
-		return db.update(eventId, eventData);
+		try {
+			const existingDoc = await db.read(eventId);
+			if (!existingDoc) {
+				throw new Error("Document not found");
+			}
+
+			const updatedDoc = {
+				...existingDoc,
+				...eventData,
+				_rev: existingDoc._rev,
+			};
+
+			return await db.update(eventId, updatedDoc);
+		} catch (error) {
+			console.error("Error updating event:", error);
+			throw new Error(error.message);
+		}
 	}
 
 	static async delete(eventId) {

@@ -8,7 +8,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 	if (!eventData) return null;
 
 	const currentUser = localStorage.getItem("username");
-	const isOwner = JSON.parse(currentUser) === JSON.parse(eventData.creator);
+	const isOwner = currentUser === eventData.creator;
 
 	const titleComponent = addComponent({
 		type: "h2",
@@ -105,7 +105,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 										{
 											type: "span",
 											props: {
-												textContent: JSON.parse(eventData.creator),
+												textContent: eventData.creator,
 											},
 										},
 									],

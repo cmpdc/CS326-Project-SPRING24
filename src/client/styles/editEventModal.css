@@ -10,8 +10,8 @@ body:has(#modal > .editEventModal) #app:before {
 }
 
 .editEventModal {
-    width: 450px;
-    height: 500px;
+    width: 70%;
+    height: 80%;
     background-color: #fff;
     border-radius: 5px;
     position: fixed;
@@ -24,6 +24,12 @@ body:has(#modal > .editEventModal) #app:before {
     z-index: 1001;
 }
 
+@media screen and (max-width: 680px) {
+    .editEventModal {
+        width: 450px;
+    }
+}
+
 .editEventModalInner {
     width: 100%;
     padding: 30px;
@@ -33,7 +39,7 @@ body:has(#modal > .editEventModal) #app:before {
     flex-flow: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 15px;
 }
 
 .editEventModalInner h1 {
@@ -65,24 +71,19 @@ body:has(#modal > .editEventModal) #app:before {
     gap: 5px;
 }
 
-.editEventModalInner div:where(#createdDateTimeRow, #dateTimeRow) .fieldInner .value {
-    display: flex;
-    flex-flow: row wrap;
-    gap: 5px;
-}
 
 .editEventModalInner .fieldRowSingle .fieldInner {
     width: 100%;
 }
 
-.editEventModalInner .fieldRowDouble {
-    justify-content: space-between;
-    gap: 25px;
-}
-
 .editEventModalInner .fieldRowCenter .fieldInner {
     align-items: center;
     justify-content: center;
+}
+
+.editEventModalInner .fieldRowDouble {
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .editEventModalInner .fieldRowDouble>* {
@@ -95,12 +96,16 @@ body:has(#modal > .editEventModal) #app:before {
     text-transform: uppercase;
 }
 
-.editEventModalInner .fieldInner .value {
+.editEventModalInner .fieldInner>.value {
+    width: 100%;
+}
+
+.editEventModalInner .fieldInner div:where(.propInput, .locationContainerInput) {
     width: 100%;
     position: relative;
 }
 
-.editEventModalInner .fieldInner .value:has(> input):before {
+.editEventModalInner .fieldInner div:where(.propInput, .locationContainerInput):has(> input):before {
     content: "";
     width: 100%;
     height: 100%;
@@ -113,7 +118,7 @@ body:has(#modal > .editEventModal) #app:before {
     z-index: -1;
 }
 
-.editEventModalInner .fieldInner .value:focus-within:before {
+.editEventModalInner .fieldInner div:where(.propInput, .locationContainerInput):focus-within:before {
     opacity: 0.4;
 }
 
@@ -127,18 +132,23 @@ body:has(#modal > .editEventModal) #app:before {
     appearance: none;
 }
 
-.editEventModalInner .editButtonContainer {
-    max-width: 80px;
+.editEventModalInner .buttonContainer {
+    max-width: 70px;
     display: flex;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: flex-end;
+    gap: 5px;
     user-select: none;
 }
 
+.editEventModalInner .fieldRow:has(.trackingContainer) .buttonContainer {
+    max-width: 125px;
+}
+
 .editEventModalInner button {
-    width: 60px;
     height: 30px;
     color: white;
+    text-align: center;
     background-color: var(--tealColor);
     border: none;
     border-radius: 5px;
@@ -156,7 +166,6 @@ body:has(#modal > .editEventModal) #app:before {
 
 .editEventModalInner button.danger {
     background-color: #c11818;
-    padding: 0;
 }
 
 .editEventModalInner button:active {
@@ -165,4 +174,241 @@ body:has(#modal > .editEventModal) #app:before {
 
 .editEventModalInner button:disabled {
     opacity: 0.6;
+}
+
+.editEventModalInner div:where(#createdDateTimeRow, #dateTimeRow) .fieldInner .value {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 5px;
+}
+
+.editEventModalInner .dateTimeComponent {
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+}
+
+.editEventModalInner #dateTime-input {
+    width: 100%;
+}
+
+.editEventModalInner .dateComponent {
+    height: 35px;
+}
+
+.editEventModalInner .timeComponent {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+}
+
+.editEventModalInner .timeComponent>div {
+    flex: 1;
+}
+
+.editEventModalInner .fieldRow:has(.propInput, .dateTimeComponent, .inviteContainer, .locationContainer, .textareaValue) {
+    width: 100%;
+    flex-flow: column;
+}
+
+.editEventModalInner .fieldRow:has(.propInput, .dateTimeComponent, .inviteContainer, .locationContainer, .textareaValue) .buttonContainer {
+    max-width: 100%;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.editEventModalInner #invites {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+}
+
+.editEventModalInner #invitesRow .email-list {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 5px;
+}
+
+.editEventModalInner #invitesRow .email-item {
+    height: 30px;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px 8px;
+    display: flex;
+    gap: 5px;
+    transition: background-color 100ms linear;
+}
+
+.editEventModalInner #invitesRow:has(.delete-button:hover) .email-item {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.editEventModalInner #invitesRow .delete-button {
+    width: 18px;
+    height: 18px;
+    color: var(--redColor);
+    display: block;
+    cursor: pointer;
+}
+
+.editEventModalInner #invitesRow .delete-button svg {
+    width: 100%;
+    height: 100%;
+}
+
+.editEventModalInner #invites .eventInputWrapper {
+    position: relative;
+    z-index: 1;
+}
+
+.editEventModalInner #invites .eventInputWrapper:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    border-radius: 5px;
+    position: absolute;
+    inset: 0 auto auto 0;
+    opacity: 0.2;
+    transition: opacity 100ms linear;
+    z-index: -1;
+}
+
+.editEventModalInner #invites .eventInputWrapper:has(input:focus):before {
+    opacity: 0.4;
+}
+
+.editEventModal .locationsResults {
+    width: 100%;
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-flow: column;
+}
+
+.editEventModal .locationsResults .result {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+}
+
+.editEventModal .locationsResults .result:only-child {
+    border-radius: 5px;
+}
+
+.editEventModal .locationsResults .result:not(:only-child):first-child {
+    border-radius: 5px 5px 0 0;
+    border-bottom: none;
+}
+
+
+.editEventModal .locationsResults .result:not(:only-child):last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+.editEventModal .locationsResults .result:not(:only-child) {
+    border-radius: 0;
+}
+
+.editEventModal .locationsResults .result:not(:only-child):not(:first-child):not(:last-child) {
+    border-bottom: none;
+}
+
+.editEventModal .locationsResults .icon {
+    min-width: 20px;
+    height: 20px;
+}
+
+.editEventModal .locationsResults svg {
+    width: 100%;
+    height: 100%;
+}
+
+.editEventModal .trackingContainer {
+    margin-top: 5px;
+    display: flex;
+    flex-flow: row;
+}
+
+.editEventModal .trackingContainer span {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.editEventModal .trackingContainer span:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.editEventModal .trackingContainer span:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.editEventModal .trackingContainer span:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    position: absolute;
+    inset: 0 0 auto auto;
+    opacity: 0.4;
+    transition: opacity 100ms linear;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.editEventModal .trackingContainer span:where(:hover, .selected):before {
+    opacity: 0.6;
+}
+
+.editEventModal .textareaValue {
+    margin: 5px 0 0 0;
+    position: relative;
+    z-index: 1;
+}
+
+.editEventModal .textareaValue:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    border-radius: 5px;
+    position: absolute;
+    inset: 0 auto auto 0;
+    opacity: 0.2;
+    transition: opacity 100ms linear;
+    z-index: -1;
+}
+
+.editEventModal .textareaValue textarea {
+    width: 100%;
+    height: 15ch;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    padding: 5px;
+    appearance: none;
+    resize: none;
+}
+
+.editEventModal .dateTimeComponentRenderer {
+    height: initial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -1,3 +1,4 @@
+import Toast from "../../components/toast.js";
 import { addComponent, createRef, insertModal, removeModalComponent } from "../../utils.js";
 
 const fetchUser = async () => {
@@ -39,35 +40,55 @@ const accountSettingsModal = () => {
 	});
 
 	const propertyDisplaySetting = ({ name, key, prop, allowEditing = false }) => {
+		const propContainerElemRef = createRef();
 		const propElemRef = createRef();
-		const buttonElemRef = createRef();
+		const buttonContainerElemRef = createRef();
+		const editButtonElemRef = createRef();
+		const cancelEditButtonRef = createRef();
 
-		const handleEditButton = (e) => {
+		const initialValueProp = () => {
+			return key === "joinedDate"
+				? `${new Date(prop).toLocaleDateString(undefined, {
+						weekday: "long",
+						year: "numeric",
+						month: "long",
+						day: "2-digit",
+					})}`
+				: prop;
+		};
+
+		const handleEditButtonClick = (e) => {
 			e.target.disabled = true;
 			e.target.style.pointerEvents = "none";
 			e.target.textContent = "Save";
 
-			propElemRef.current.innerHTML = "";
+			if (propElemRef.current) {
+				propElemRef.current.innerHTML = "";
 
-			const propElemInput = addComponent({
-				type: "input",
-				props: {
-					classList: ["propInput"],
-					id: `${key}-input`,
-					value: prop,
-					onkeyup: (changeEvent) => {
-						const isTheSame = changeEvent.target.value === prop;
+				const propElemInput = addComponent({
+					type: "input",
+					props: {
+						classList: ["propInput"],
+						id: `${key}-input`,
+						value: prop,
+						onkeyup: (changeEvent) => {
+							const isTheSame = changeEvent.target.value === prop;
 
-						e.target.disabled = isTheSame;
-						e.target.style.pointerEvents = isTheSame ? "none" : "all";
+							e.target.disabled = isTheSame;
+							e.target.style.pointerEvents = isTheSame ? "none" : "all";
+						},
 					},
-				},
-			});
+				});
 
-			propElemRef.current.appendChild(propElemInput);
+				propElemRef.current.appendChild(propElemInput);
+			}
+
+			if (buttonContainerElemRef.current) {
+				buttonContainerElemRef.current.appendChild(cancelEditButtonElem);
+			}
 		};
 
-		const handleSaveButton = async (e) => {
+		const handleSaveButtonClick = async (e) => {
 			const inputElem = propElemRef.current.querySelector("input");
 			const updatedValue = inputElem.value;
 
@@ -85,8 +106,10 @@ const accountSettingsModal = () => {
 				});
 
 				if (response.ok) {
-					// Update userData with new value
-					userData.current[key] = updatedValue;
+					userData.current[key] = updatedValue; // Update userData with new value
+					prop = updatedValue;
+
+					localStorage.setItem("username", `${userData.current.username}`);
 
 					// Update UI to reflect the new value
 					propElemRef.current.textContent = updatedValue;
@@ -95,14 +118,58 @@ const accountSettingsModal = () => {
 					e.target.disabled = false;
 					e.target.style.pointerEvents = "all";
 
-					console.log("Update successful");
+					new Toast({
+						text: "Update successful",
+					});
+
+					if (cancelEditButtonRef.current) {
+						cancelEditButtonRef.current.remove();
+					}
 				} else {
+					new Toast({
+						text: "Failed to update!",
+					});
+
 					throw new Error("Failed to update user");
 				}
 			} catch (error) {
 				console.error("Error updating user:", error);
 			}
 		};
+
+		const handleSaveToEditClick = () => {
+			editButtonElemRef.current.textContent = "Edit";
+			editButtonElemRef.current.disabled = false;
+			editButtonElemRef.current.style.pointerEvents = "all";
+
+			if (propElemRef.current) {
+				propElemRef.current.innerHTML = "";
+				propElemRef.current.textContent = initialValueProp();
+			}
+		};
+
+		const handleCancelButtonClick = async (e) => {
+			e.stopPropagation();
+			e.preventDefault();
+
+			if (cancelEditButtonRef.current) {
+				cancelEditButtonRef.current.remove();
+			}
+
+			handleSaveToEditClick();
+		};
+
+		const cancelEditButtonElem = addComponent({
+			type: "button",
+			ref: cancelEditButtonRef,
+			props: {
+				type: "button",
+				textContent: "Cancel",
+				onClick: (e) => {
+					handleCancelButtonClick(e);
+				},
+			},
+		});
 
 		return addComponent({
 			type: "div",
@@ -112,6 +179,7 @@ const accountSettingsModal = () => {
 				children: [
 					addComponent({
 						type: "div",
+						ref: propContainerElemRef,
 						props: {
 							classList: ["fieldInner"],
 							children: [
@@ -127,15 +195,7 @@ const accountSettingsModal = () => {
 									ref: propElemRef,
 									props: {
 										classList: ["value"],
-										textContent:
-											key === "joinedDate"
-												? `${new Date(prop).toLocaleDateString(undefined, {
-														weekday: "long",
-														year: "numeric",
-														month: "long",
-														day: "2-digit",
-													})}`
-												: prop,
+										textContent: initialValueProp(),
 									},
 								}),
 							],
@@ -144,12 +204,13 @@ const accountSettingsModal = () => {
 					allowEditing
 						? addComponent({
 								type: "div",
+								ref: buttonContainerElemRef,
 								props: {
-									classList: ["editButtonContainer"],
+									classList: ["buttonContainer"],
 									children: [
 										addComponent({
 											type: "button",
-											ref: buttonElemRef,
+											ref: editButtonElemRef,
 											props: {
 												type: "button",
 												textContent: "Edit",
@@ -158,11 +219,11 @@ const accountSettingsModal = () => {
 													e.preventDefault();
 
 													if (e.target.textContent === "Edit") {
-														handleEditButton(e);
+														handleEditButtonClick(e);
 													}
 
 													if (e.target.textContent === "Save") {
-														await handleSaveButton(e);
+														await handleSaveButtonClick(e);
 													}
 												},
 											},
@@ -176,14 +237,14 @@ const accountSettingsModal = () => {
 		});
 	};
 
-	const handleCancelButtonClick = (e) => {
+	const handleCloseButtonClick = (e) => {
 		e.stopPropagation();
 		e.preventDefault();
 
 		removeModalComponent(elemRef.current);
 	};
 
-	const cancelButtonContainer = addComponent({
+	const closeModalButtonContainer = addComponent({
 		type: "div",
 		props: {
 			classList: ["fieldRow", "fieldRowSingle", "fieldRowCenter"],
@@ -199,9 +260,9 @@ const accountSettingsModal = () => {
 								props: {
 									type: "button",
 									classList: ["danger"],
-									textContent: "Cancel",
+									textContent: "Close",
 									onClick: (e) => {
-										handleCancelButtonClick(e);
+										handleCloseButtonClick(e);
 									},
 								},
 							}),
@@ -229,7 +290,7 @@ const accountSettingsModal = () => {
 							propertyDisplaySetting({ name: "First Name", key: "firstName", prop: userData.current.firstName, allowEditing: true }),
 							propertyDisplaySetting({ name: "Last Name", key: "lastName", prop: userData.current.lastName, allowEditing: true }),
 							propertyDisplaySetting({ name: "EMail", key: "email", prop: userData.current.email, allowEditing: true }),
-							cancelButtonContainer,
+							closeModalButtonContainer,
 						],
 					},
 				}),

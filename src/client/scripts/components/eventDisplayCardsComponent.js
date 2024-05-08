@@ -7,7 +7,7 @@ const eventDisplayCardComponent = (data, index) => {
 	const mapRef = createRef();
 
 	const currentUser = localStorage.getItem("username");
-	const isOwner = JSON.parse(currentUser) === JSON.parse(data.creator);
+	const isOwner = currentUser === data.creator;
 
 	const locationComponent = addComponent({
 		type: "div",
