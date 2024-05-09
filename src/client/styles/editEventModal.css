@@ -12,7 +12,7 @@ body:has(#modal > .editEventModal) #app:before {
 .editEventModal {
     width: 70%;
     height: 80%;
-    background-color: #fff;
+    background-color: var(--floatingBackgroundColor);
     border-radius: 5px;
     position: fixed;
     inset: 50% auto auto 50%;
@@ -44,7 +44,7 @@ body:has(#modal > .editEventModal) #app:before {
 
 .editEventModalInner h1 {
     width: 100%;
-    background-color: #fff;
+    background-color: var(--floatingBackgroundColor);
     padding: 10px 0;
     position: sticky;
     top: 0px;
@@ -165,7 +165,7 @@ body:has(#modal > .editEventModal) #app:before {
 }
 
 .editEventModalInner button.danger {
-    background-color: #c11818;
+    background-color: var(--redColor);
 }
 
 .editEventModalInner button:active {

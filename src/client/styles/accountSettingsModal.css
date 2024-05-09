@@ -12,7 +12,7 @@ body:has(#modal > .accountSettingsModal) #app:before {
 .accountSettingsModal {
     width: 400px;
     height: 400px;
-    background-color: #fff;
+    background-color: var(--floatingBackgroundColor);
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     position: fixed;
@@ -140,7 +140,7 @@ body:has(#modal > .accountSettingsModal) #app:before {
 }
 
 .accountSettingsModal button.danger {
-    background-color: #c11818;
+    background-color: var(--redColor);
 }
 
 .accountSettingsModal button:active {

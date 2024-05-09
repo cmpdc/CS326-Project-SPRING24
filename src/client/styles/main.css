@@ -42,11 +42,37 @@ h6 {
 
 body {
     font-family: "Roboto";
+    color: var(--fontColor);
+    background-color: var(--backgroundColor);
     padding: 0;
     margin: 0;
     position: relative;
     overflow: hidden auto;
     --headerHeight: 60px;
+}
+
+body.light-theme {
+    --fontColor: rgba(0, 0, 0, 1);
+    --fontColor-2: rgba(0, 0, 0, 0.8);
+    --fontColor-3: rgba(0, 0, 0, 0.6);
+    --backgroundColor: rgba(255, 255, 255, 1);
+    --backgroundColor-2: rgba(0, 0, 0, 0.05);
+    --headerBorderColor: rgba(0, 0, 0, 0.2);
+    --floatingBackgroundColor: rgba(255, 255, 255, 1);
+    --searchResultItemBackgroundColor: rgba(0, 0, 0, 0.1);
+    --searchResultItemHoverBackgroundColor: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme {
+    --fontColor: rgba(255, 255, 255, 1);
+    --fontColor-2: rgba(255, 255, 255, 0.8);
+    --fontColor-2: rgba(255, 255, 255, 0.6);
+    --backgroundColor: rgba(30, 31, 34, 1);
+    --backgroundColor-2: rgba(49, 51, 56, 0.3);
+    --headerBorderColor: rgba(255, 255, 255, 0.2);
+    --floatingBackgroundColor: rgba(43, 45, 49, 1);
+    --searchResultItemBackgroundColor: rgba(255, 255, 255, 0.1);
+    --searchResultItemHoverBackgroundColor: rgba(255, 255, 255, 0.2);
 }
 
 #app {
@@ -58,7 +84,7 @@ body {
 .app-header {
     width: 100%;
     height: var(--headerHeight);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--headerBorderColor);
     position: sticky;
     inset: 0 auto auto 0;
     display: flex;
@@ -199,6 +225,7 @@ body {
 .app-header #searchInput {
     width: calc(100% - 25px);
     height: 30px;
+    color: var(--fontColor);
     font-family: "Ubuntu";
     font-size: 16px;
     font-weight: 500;
@@ -212,15 +239,12 @@ body {
     appearance: none;
 }
 
+.app-header .searchComponent:is(:focus-within) #searchInput::placeholder {
+    color: var(--fontColor);
+}
+
 .app-header #searchInput::placeholder {
     font-weight: 500;
-}
-
-.app-header .searchComponent:is(:focus-within) #searchInput::placeholder {
-    color: rgba(0, 0, 0, 0.8);
-}
-
-.app-header #searchInput::placeholder {
     user-select: none;
 }
 
@@ -270,7 +294,7 @@ body {
 /* Search Results */
 .searchResults {
     height: auto;
-    background-color: #fff;
+    background-color: var(--backgroundColor);
     border-radius: 0 0 5px 5px;
     position: fixed;
     display: flex;
@@ -304,7 +328,7 @@ body {
 
 .searchResults span:where(.searchingPlaceholder, .resultMessage) {
     width: 100%;
-    color: rgba(0, 0, 0, 0.8);
+    color: var(--fontColor-2);
     font-size: 14px;
     font-weight: 600;
     text-align: center;
@@ -315,10 +339,9 @@ body {
 
 .searchResults .searchResultItem {
     width: 100%;
-    color: rgba(0, 0, 0, 0.8);
+    color: var(--fontColor-2);
     font-size: 14px;
-    font-weight: 600;
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: var(--searchResultItemBackgroundColor);
     border-radius: 5px;
     padding: 10px;
     display: flex;
@@ -330,7 +353,7 @@ body {
 }
 
 .searchResults .searchResultItem:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--searchResultItemHoverBackgroundColor);
 }
 
 .searchResults .searchResultItem .itemRow {
@@ -340,7 +363,8 @@ body {
 }
 
 .searchResults .itemRow span:first-child {
-    color: rgba(0, 0, 0, 0.7);
+    color: var(--fontColor-3);
+    font-weight: 600;
 }
 
 .containerWrapper {
@@ -594,7 +618,7 @@ body {
 }
 
 .primaryEvent:has(.right) .right {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--backgroundColor-2);
 }
 
 @media screen and (max-width: 800px) {
@@ -963,7 +987,7 @@ body {
 .account-popup {
     width: 200px;
     height: 140px;
-    background-color: #fff;
+    background-color: var(--floatingBackgroundColor);
     border: 1px solid rgba(0, 0, 0, 0.4);
     border-radius: 5px;
     position: fixed;
