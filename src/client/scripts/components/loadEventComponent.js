@@ -6,7 +6,7 @@ import { DayPicker } from "./dayPicker.js";
 import { InviteComponent } from "./inviteComponent.js";
 import { TimePicker } from "./timePicker.js";
 import Toast from "./toast.js";
-
+//TODO: Jason study this code
 const eventContainerClassName = "eventContainer";
 
 const eventElementContent = (element) => {

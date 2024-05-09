@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import Database from "./database.js";
 
 const db = new Database("events");
-
+//TODO: Jason adds database functions for
 class Events {
 	constructor() {}
 
