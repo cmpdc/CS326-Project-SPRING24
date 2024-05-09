@@ -270,7 +270,7 @@ const editModalComponent = (data) => {
 							});
 						};
 
-						newData.current.invites = !isTheSame() ? inviteListData : null;
+						newData.current.invites = !isTheSame() ? [...inviteListData, ...data.invites] : null;
 
 						editSaveButtonElemRef.current.disabled = isTheSame();
 						editSaveButtonElemRef.current.style.pointerEvents = isTheSame() ? "none" : "all";
@@ -644,7 +644,7 @@ const editModalComponent = (data) => {
 
 			// backend here
 			try {
-				const response = await fetch(`http://127.0.0.1:3001/events/${newData.current._id}`, {
+				const response = await fetch(`http://127.0.0.1:3001/events/${newData.current.eventId}`, {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",

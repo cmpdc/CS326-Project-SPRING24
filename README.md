@@ -25,6 +25,11 @@ To run and view this project's progress, execute `npm run start`. This `start` s
 
 ### Tasks List:
 
+_FrontEnd:_
+
+-   [x] Working search bar
+    -   [x] Added event searching route
+
 _Server:_
 
 -   [x] Properly implement the use **PouchDB**
@@ -35,6 +40,7 @@ _Server:_
         -   [x] Register
         -   [ ] With the ability to change password
         -   [ ] Verification system?
+-   [x] Unique IDs for events upon creation
 
 _Pages:_
 
@@ -49,7 +55,7 @@ _Pages:_
     -   [x] Dynamic pages for each selected event (This should only be accessible inside `/dashboard` route)
     -   [x] Current page - should be in `/current` route.
         -   [x] Should update when new events are created. Use PouchDB.
-    -   [ ] Initiated a way to edit events - `editEventComponent.js`
+    -   [x] Initiated a way to edit events - `editEventComponent.js`
     -   [ ] A way to "logout" once users are inside the the `/dashboard` route — perhaps backend?
 
 _Components:_

@@ -125,7 +125,13 @@ app.route("/events")
 
 			res.status(201).send(event);
 		} catch (error) {
-			res.status(500).send({ error: "Failed to create event" });
+			const message = "Failed to create event";
+			console.error(message, error);
+
+			res.status(500).send({
+				error: message,
+				details: error.message,
+			});
 		}
 	})
 	.get(async (req, res) => {
@@ -133,7 +139,13 @@ app.route("/events")
 			const events = await Events.getAll();
 			res.status(200).send(events);
 		} catch (error) {
-			res.status(500).send({ error: "Failed to retrieve events" });
+			const message = "Failed to retrieve events";
+			console.error(message, error);
+
+			res.status(500).send({
+				error: message,
+				details: error.message,
+			});
 		}
 	});
 
@@ -141,10 +153,15 @@ app.route("/events/:id")
 	.get(async (req, res) => {
 		try {
 			const event = await Events.get(req.params.id);
-
 			event ? res.status(200).send(event) : res.status(404).send({ error: "Event not found" });
 		} catch (error) {
-			res.status(500).send({ error: "Failed to retrieve event" });
+			const message = "Failed to retrieve events";
+			console.error(message, error);
+
+			res.status(500).send({
+				error: message,
+				details: error.message,
+			});
 		}
 	})
 	.put(async (req, res) => {
@@ -153,18 +170,49 @@ app.route("/events/:id")
 
 			res.status(200).send(updatedEvent);
 		} catch (error) {
-			res.status(400).send({ error: "Failed to update event" });
+			const message = "Failed to update event";
+			console.error(message, error);
+
+			res.status(400).send({
+				error: message,
+				details: error.message,
+			});
 		}
 	})
 	.delete(async (req, res) => {
 		try {
 			await Events.delete(req.params.id);
-
 			res.status(204).send();
 		} catch (error) {
-			res.status(500).send({ error: "Failed to delete event" });
+			const message = "Failed to delete event";
+			console.error(message, error);
+
+			res.status(500).send({
+				error: message,
+				details: error.message,
+			});
 		}
 	});
+
+app.route("/events-search").get(async (req, res) => {
+	try {
+		const query = req.query.q; // Use a query string parameter for the search term
+		if (!query) {
+			res.status(400).send({ error: "No search query provided" });
+			return;
+		}
+
+		const events = await Events.search(query);
+		res.status(200).send(events);
+	} catch (error) {
+		const message = "Failed to search events";
+		console.error(message, error);
+		res.status(500).send({
+			error: message,
+			details: error.message,
+		});
+	}
+});
 
 // Serve static files
 // Note that we are serving our frontend SPA style

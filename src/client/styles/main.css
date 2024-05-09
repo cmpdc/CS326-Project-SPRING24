@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
     --topBannerHeight: 60px;
@@ -151,6 +152,10 @@ body {
     --searchColor: var(--tealColor);
 }
 
+.app-header .searchComponent:not(.withoutResults) {
+    border-radius: 5px 5px 0 0;
+}
+
 .app-header .searchComponent:before {
     content: "";
     width: 100%;
@@ -173,13 +178,17 @@ body {
     height: 100%;
     color: var(--searchColor);
     position: absolute;
-    inset: 50% auto auto 0;
+    inset: 50% auto auto 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     transform: translate(0, -50%);
     transition: color 100ms linear;
     overflow: hidden;
+}
+
+.app-header .searchComponent:not(.withoutResults) .search-icon {
+    cursor: pointer;
 }
 
 .app-header .search-icon svg {
@@ -256,6 +265,82 @@ body {
 
 .app-header .user-account svg {
     transition: color 100ms linear;
+}
+
+/* Search Results */
+.searchResults {
+    height: auto;
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    position: fixed;
+    display: flex;
+    flex-flow: column;
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.searchResults .searchResultsInner {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    z-index: -1;
+}
+
+.searchResults .searchResultsInner:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    position: absolute;
+    inset: 0 0 auto auto;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.searchResults span:where(.searchingPlaceholder, .resultMessage) {
+    width: 100%;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 10px;
+    user-select: none;
+}
+
+.searchResults .searchResultItem {
+    width: 100%;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-flow: column;
+    gap: 5px;
+    cursor: pointer;
+    transition: background-color 100ms linear;
+    user-select: none;
+}
+
+.searchResults .searchResultItem:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.searchResults .searchResultItem .itemRow {
+    display: flex;
+    flex-flow: row;
+    gap: 5px;
+}
+
+.searchResults .itemRow span:first-child {
+    color: rgba(0, 0, 0, 0.7);
 }
 
 .containerWrapper {
@@ -933,6 +1018,47 @@ body {
 
 .account-popup .settings-links span:hover {
     text-decoration: underline;
+}
+
+/* 404 element */
+.contentWrapper:has(> .noResults) {
+    height: calc(100vh - var(--headerHeight));
+}
+
+.content.noResults {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.content.noResults .noResultsContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.content.noResults .noResultsContainerText {
+    color: var(--tealColor);
+    font-family: "Prompt", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: center;
+    padding: 10px 20px;
+    margin: 10px 0;
+    user-select: none;
+}
+
+.content.noResults .noResultsContainerIcon {
+    width: 350px;
+    height: 350px;
+    background-image: url("../images/404.jpg");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 350px 350px;
 }
 
 /* Leaflet */

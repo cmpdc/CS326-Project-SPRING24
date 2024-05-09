@@ -1,6 +1,5 @@
 import { goToPage } from "../app.js";
 import { deleteEvent, editEvent } from "../events.js";
-import { loadEventPage } from "../pages/_event/loadEventPage.js";
 import { addComponent, createRef, formatAMPM, getDateWithSuffix, getDayName } from "../utils.js";
 
 const eventDisplayCardComponent = (data, index) => {
@@ -91,11 +90,8 @@ const eventDisplayCardComponent = (data, index) => {
 			onClick: (e) => {
 				e.preventDefault();
 
-				const eventPath = encodeURIComponent(data.title);
-
-				goToPage(`/dashboard/event/${eventPath}`);
-
-				loadEventPage(data); // pass the event object here
+				const eventId = encodeURIComponent(data.eventId);
+				goToPage(`/dashboard/event/${eventId}`);
 			},
 		},
 	});

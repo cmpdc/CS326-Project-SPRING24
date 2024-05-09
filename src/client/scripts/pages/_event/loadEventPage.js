@@ -1,7 +1,38 @@
 import { eventDisplayPrimaryComponent } from "../../components/eventDisplayPrimaryComponent.js";
 import { addComponent, createRef } from "../../utils.js";
 
-export const loadEventPage = (event) => {
+const loadEventPageNoResult = (appElement) => {
+	const contentBodyElem = appElement.querySelector(".contentWrapper > .content");
+	if (!contentBodyElem) return;
+
+	contentBodyElem.classList.add("noResults");
+
+	const noResultElem = addComponent({
+		type: "div",
+		props: {
+			classList: ["noResultsContainer"],
+			children: [
+				{
+					type: "div",
+					props: {
+						classList: ["noResultsContainerText"],
+						textContent: "Sorry, but we cannot find that event.",
+					},
+				},
+				{
+					type: "div",
+					props: {
+						classList: ["noResultsContainerIcon"],
+					},
+				},
+			],
+		},
+	});
+
+	contentBodyElem.appendChild(noResultElem);
+};
+
+const loadEventPageWithResult = (event) => {
 	const appElement = document.querySelector("#app");
 	const contentAreaElement = appElement.querySelector(".contentWrapper .content");
 
@@ -156,4 +187,19 @@ export const loadEventPage = (event) => {
 	contentAreaElement.appendChild(primaryElem);
 
 	return primaryElem;
+};
+
+export const loadEventPage = async (eventId, appElement) => {
+	try {
+		const response = await fetch(`http://127.0.0.1:3001/events/${eventId}`);
+
+		if (response.ok) {
+			const eventData = await response.json();
+			loadEventPageWithResult(eventData);
+		} else {
+			loadEventPageNoResult(appElement);
+		}
+	} catch (error) {
+		loadEventPageNoResult(appElement);
+	}
 };

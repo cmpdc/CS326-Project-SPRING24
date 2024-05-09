@@ -1,3 +1,4 @@
+import { loadEventPage } from "./pages/_event/loadEventPage.js";
 import { loadAccessPage } from "./pages/access/access.js";
 import { loadDashboardPage } from "./pages/dashboard/dashboard.js";
 import { currentTab } from "./pages/dashboard/tabs/current.js";
@@ -29,7 +30,9 @@ const navigate = () => {
 	if (!appElement) return;
 
 	if (path.startsWith("/dashboard/event/")) {
+		const eventId = path.split("/")[3];
 		loadDashboardPage(appElement);
+		loadEventPage(eventId, appElement);
 	} else {
 		switch (path) {
 			case "":
@@ -49,6 +52,8 @@ const navigate = () => {
 
 				loadDashboardPage(appElement);
 				updateDashboardContent(path.split("/").pop());
+
+				checkUserAccount();
 				break;
 			default:
 				appElement.innerHTML = "Page Not Found";
@@ -56,6 +61,17 @@ const navigate = () => {
 	}
 
 	updateActiveLink();
+};
+
+const checkUserAccount = () => {
+	// this checks the "username" in localStorage.
+	// when "username" is not found, forcefully redirect
+	// user to access (login/registration) page
+	const username = localStorage.getItem("username");
+
+	if (!username) {
+		goToPage("/access");
+	}
 };
 
 export const updateActiveLink = () => {

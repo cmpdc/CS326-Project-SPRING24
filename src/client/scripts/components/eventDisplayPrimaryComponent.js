@@ -1,7 +1,6 @@
 import { goToPage } from "../app.js";
 import { deleteEvent, editEvent } from "../events.js";
 import { descriptionIcon, guestsIcon, locationIcon, timeIcon, trackingIcon, userIcon } from "../icons.js";
-import { loadEventPage } from "../pages/_event/loadEventPage.js";
 import { addComponent, createRef, formatAMPM, getDateWithSuffix, getDayName } from "../utils.js";
 
 const eventDisplayElemComponent = (eventData, mapSettings) => {
@@ -269,11 +268,8 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 				e.preventDefault();
 				e.stopPropagation();
 
-				const eventPath = encodeURIComponent(eventData.title);
-
-				goToPage(`/dashboard/event/${eventPath}`);
-
-				loadEventPage(eventData);
+				const eventId = encodeURIComponent(eventData.eventId);
+				goToPage(`/dashboard/event/${eventId}`);
 			},
 		},
 	});

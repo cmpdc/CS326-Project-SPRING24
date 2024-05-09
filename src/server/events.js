@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import Database from "./database.js";
 
 const db = new Database("events");
@@ -5,12 +6,36 @@ const db = new Database("events");
 class Events {
 	constructor() {}
 
+	static async generateNumericID() {
+		const uuid = uuidv4();
+
+		let numericID = BigInt("0x" + uuid.replace(/-/g, ""));
+		numericID = numericID % BigInt("10000000000000000000");
+
+		return numericID.toString();
+	}
+
 	static async create(eventData) {
+		const allEvents = await Events.getAll(); // Retrieve all events once
+		let uniqueID = await Events.generateNumericID();
+
+		// Find if the generated uniqueID already exists
+		let existingEvent = allEvents.find((event) => event.eventId === uniqueID);
+
+		// If the ID already exists, generate new ones until a unique ID is found
+		while (existingEvent) {
+			uniqueID = await Events.generateNumericID();
+			existingEvent = allEvents.find((event) => event.eventId === uniqueID);
+		}
+
+		eventData.eventId = uniqueID;
 		return db.create(eventData);
 	}
 
 	static async get(eventId) {
-		return db.read(eventId);
+		const allDocs = await db.db.allDocs({ include_docs: true });
+		const event = allDocs.rows.find((row) => row.doc.eventId === eventId);
+		return event ? event.doc : null;
 	}
 
 	static async getAll() {
@@ -25,18 +50,17 @@ class Events {
 
 	static async update(eventId, eventData) {
 		try {
-			const existingDoc = await db.read(eventId);
-			if (!existingDoc) {
-				throw new Error("Document not found");
+			const existingEvent = await Events.get(eventId);
+			if (!existingEvent) {
+				throw new Error("Event not found");
 			}
 
 			const updatedDoc = {
-				...existingDoc,
+				...existingEvent,
 				...eventData,
-				_rev: existingDoc._rev,
 			};
 
-			return await db.update(eventId, updatedDoc);
+			return db.update(eventId, updatedDoc);
 		} catch (error) {
 			console.error("Error updating event:", error);
 			throw new Error(error.message);
@@ -44,7 +68,24 @@ class Events {
 	}
 
 	static async delete(eventId) {
-		return db.delete(eventId);
+		try {
+			const event = await Events.get(eventId);
+
+			if (event) {
+				return db.delete(eventId);
+			} else {
+				throw new Error("Event not found");
+			}
+		} catch (error) {
+			throw new Error("Error deleting an event.");
+		}
+	}
+
+	static async search(query) {
+		const allEvents = await Events.getAll();
+		return allEvents.filter((event) => {
+			return event.title.toLowerCase().includes(query.toLowerCase()) || event.description.toLowerCase().includes(query.toLowerCase());
+		});
 	}
 }
 
