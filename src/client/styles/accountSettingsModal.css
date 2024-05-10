@@ -10,8 +10,8 @@ body:has(#modal > .accountSettingsModal) #app:before {
 }
 
 .accountSettingsModal {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 500px;
     background-color: var(--floatingBackgroundColor);
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -99,6 +99,91 @@ body:has(#modal > .accountSettingsModal) #app:before {
 
 .accountSettingsModal .fieldInner .value:focus-within:before {
     opacity: 0.4;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow {
+    flex-flow: column;
+    --avatarWidth: 150px;
+    --avatarHeight: 150px;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow .value {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow .avatarEditor {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow #fileInput {
+    width: 100%;
+    height: var(--avatarHeight);
+    border-radius: 50%;
+    position: absolute;
+    inset: auto 0 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 9;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow .dragDrop {
+    width: 100%;
+    height: var(--avatarHeight);
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    margin: 10px 0 0 0;
+    position: relative;
+    inset: 0 auto auto 0;
+    z-index: 2;
+    transition: background-color 100ms linear;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow:has(#fileInput:hover) .dragDrop {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow .dragDrop:before {
+    content: "Drop avatar here";
+    width: 100%;
+    height: var(--avatarHeight);
+    color: var(--fontColor);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountSettingsModal .value:has(#avatar) #avatar {
+    min-width: var(--avatarWidth);
+    width: var(--avatarWidth);
+    height: var(--avatarHeight);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    display: block;
+    z-index: 1;
+}
+
+.accountSettingsModal .fieldRowDouble#avatarRow .buttonContainer {
+    width: 100%;
+    max-width: initial;
+    align-items: center;
+    justify-content: center;
 }
 
 .accountSettingsModal .fieldInner input {

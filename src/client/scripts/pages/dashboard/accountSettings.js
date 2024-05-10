@@ -1,3 +1,4 @@
+import { goToPage } from "../../app.js";
 import Toast from "../../components/toast.js";
 import { addComponent, createRef, insertModal, removeModalComponent } from "../../utils.js";
 
@@ -47,14 +48,24 @@ const accountSettingsModal = () => {
 		const cancelEditButtonRef = createRef();
 
 		const initialValueProp = () => {
-			return key === "joinedDate"
-				? `${new Date(prop).toLocaleDateString(undefined, {
-						weekday: "long",
-						year: "numeric",
-						month: "long",
-						day: "2-digit",
-					})}`
-				: prop;
+			if (key === "avatar") {
+				return addComponent({
+					type: "div",
+					props: {
+						id: "avatar",
+						style: `background-image: url("data:image/jpeg;base64,${prop}");`,
+					},
+				});
+			} else {
+				return key === "joinedDate"
+					? `${new Date(prop).toLocaleDateString(undefined, {
+							weekday: "long",
+							year: "numeric",
+							month: "long",
+							day: "2-digit",
+						})}`
+					: prop;
+			}
 		};
 
 		const handleEditButtonClick = (e) => {
@@ -62,39 +73,116 @@ const accountSettingsModal = () => {
 			e.target.style.pointerEvents = "none";
 			e.target.textContent = "Save";
 
+			if (buttonContainerElemRef.current) {
+				buttonContainerElemRef.current.appendChild(cancelEditButtonElem);
+			}
+
 			if (propElemRef.current) {
 				propElemRef.current.innerHTML = "";
 
-				const propElemInput = addComponent({
-					type: "input",
-					props: {
-						classList: ["propInput"],
-						id: `${key}-input`,
-						value: prop,
-						onkeyup: (changeEvent) => {
-							const isTheSame = changeEvent.target.value === prop;
+				let elem;
+				if (key === "avatar") {
+					const handleFileSelect = async (event) => {
+						event.stopPropagation();
+						event.preventDefault();
 
-							e.target.disabled = isTheSame;
-							e.target.style.pointerEvents = isTheSame ? "none" : "all";
+						const file = event.target.files[0];
+						const maxSize = 100 * 1024;
+
+						if (file) {
+							if (file.size > maxSize) {
+								new Toast({
+									text: "File size exceeds maximum limit of 100KB. Please select a smaller file.",
+								});
+
+								return;
+							}
+
+							const reader = new FileReader();
+							reader.onload = function (loadEvent) {
+								const base64StringResult = loadEvent.target.result; // include full data URL
+								const backgroundImageUrl = `url(${base64StringResult})`;
+
+								const isTheSame = base64StringResult === prop;
+								e.target.disabled = isTheSame;
+								e.target.style.pointerEvents = isTheSame ? "none" : "all";
+
+								propElemRef.current.querySelector("#avatar").style.backgroundImage = backgroundImageUrl;
+							};
+
+							reader.readAsDataURL(file);
+						}
+					};
+
+					const dragDropPlaceholder = addComponent({
+						type: "div",
+						props: {
+							classList: ["dragDrop"],
 						},
-					},
-				});
+					});
 
-				propElemRef.current.appendChild(propElemInput);
-			}
+					const fileInput = addComponent({
+						type: "input",
+						props: {
+							id: "fileInput",
+							type: "file",
+							accept: "image/png, image/jpeg",
+							onChange: handleFileSelect,
+						},
+					});
 
-			if (buttonContainerElemRef.current) {
-				buttonContainerElemRef.current.appendChild(cancelEditButtonElem);
+					elem = addComponent({
+						type: "div",
+						props: {
+							classList: ["avatarEditor"],
+							children: [initialValueProp(), fileInput, dragDropPlaceholder],
+						},
+					});
+				} else {
+					elem = addComponent({
+						type: "input",
+						props: {
+							classList: ["propInput"],
+							id: `${key}-input`,
+							value: prop,
+							onkeyup: (changeEvent) => {
+								const isTheSame = changeEvent.target.value === prop;
+
+								e.target.disabled = isTheSame;
+								e.target.style.pointerEvents = isTheSame ? "none" : "all";
+							},
+						},
+					});
+
+					propElemRef.current.appendChild(elem);
+				}
+
+				propElemRef.current.appendChild(elem);
 			}
 		};
 
 		const handleSaveButtonClick = async (e) => {
-			const inputElem = propElemRef.current.querySelector("input");
-			const updatedValue = inputElem.value;
+			let editElem;
+			let updatedValue;
 
-			if (userData.current[key] === updatedValue) {
-				return;
+			if (key === "avatar") {
+				editElem = propElemRef.current.querySelector("#avatar");
+				updatedValue = editElem.style.backgroundImage;
+
+				const base64Pattern = /^url\("data:image\/[a-zA-Z]+;base64,(.+?)"\)$/;
+				const matches = base64Pattern.exec(updatedValue);
+				if (matches && matches.length > 1) {
+					updatedValue = matches[1]; // The Base64 part of the string
+				}
+
+				if (updatedValue === "") return;
+				if (updatedValue === `url("")`) return;
+			} else {
+				editElem = propElemRef.current.querySelector("input");
+				updatedValue = editElem.value;
 			}
+
+			if (userData.current[key] === updatedValue) return;
 
 			try {
 				const response = await fetch(`http://127.0.0.1:3001/users/${userData.current.username}`, {
@@ -112,7 +200,12 @@ const accountSettingsModal = () => {
 					localStorage.setItem("username", `${userData.current.username}`);
 
 					// Update UI to reflect the new value
-					propElemRef.current.textContent = updatedValue;
+					if (key === "avatar") {
+						propElemRef.current.innerHTML = "";
+						propElemRef.current.appendChild(initialValueProp());
+					} else {
+						propElemRef.current.textContent = updatedValue;
+					}
 
 					e.target.textContent = "Edit";
 					e.target.disabled = false;
@@ -144,7 +237,12 @@ const accountSettingsModal = () => {
 
 			if (propElemRef.current) {
 				propElemRef.current.innerHTML = "";
-				propElemRef.current.textContent = initialValueProp();
+
+				if (key === "avatar") {
+					propElemRef.current.appendChild(initialValueProp());
+				} else {
+					propElemRef.current.textContent = initialValueProp();
+				}
 			}
 		};
 
@@ -195,7 +293,8 @@ const accountSettingsModal = () => {
 									ref: propElemRef,
 									props: {
 										classList: ["value"],
-										textContent: initialValueProp(),
+										textContent: key === "avatar" ? "" : initialValueProp(),
+										children: [key === "avatar" ? initialValueProp() : null],
 									},
 								}),
 							],
@@ -285,6 +384,12 @@ const accountSettingsModal = () => {
 						classList: ["accountSettingsModalInner"],
 						children: [
 							headerElem,
+							propertyDisplaySetting({
+								name: "Avatar",
+								key: "avatar",
+								prop: userData.current.avatar,
+								allowEditing: true,
+							}),
 							propertyDisplaySetting({ name: "Joined Date", key: "joinedDate", prop: userData.current.joinedDate }),
 							propertyDisplaySetting({ name: "Username", key: "username", prop: userData.current.username, allowEditing: true }),
 							propertyDisplaySetting({ name: "First Name", key: "firstName", prop: userData.current.firstName, allowEditing: true }),
@@ -400,6 +505,9 @@ export const accountSettingsPopup = () => {
 						onClick: (e) => {
 							e.preventDefault();
 							e.stopPropagation();
+
+							localStorage.removeItem("username");
+							goToPage("/access");
 						},
 					},
 				}),
