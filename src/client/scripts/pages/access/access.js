@@ -1,4 +1,5 @@
 import { goToPage } from "../../app.js";
+import { themeSwitcherComponent } from "../../components/themeSwitcher.js";
 import Toast from "../../components/toast.js";
 
 // NOTE: don't forget that when importing modules, there needs to have ".js" at the end
@@ -11,13 +12,14 @@ const URL = "http://127.0.0.1:3001";
  * @returns {void}
  */
 
-//author: Jason completed 4/22/2024
+// author: Jason completed 4/22/2024
+// edited: Christian (for CSS, toast, backend endpoints, etc...)
 export const loadAccessPage = (element) => {
 	//html of access page with login form and signup form
 	element.innerHTML = `
         <div class="homepage-background">
             <div id="formsContainer">
-                <h1>Welcome to MeetUp</h1>
+                <h1>Welcome to <span class="appTitle"><span>Meet</span><span>Up</span></span></h1>
                 <div id="loginForm" class="form">
                     <input type="text" id="loginUsername" placeholder="Username" required>
                     <input type="password" id="loginPassword" placeholder="Password" required>
@@ -34,12 +36,44 @@ export const loadAccessPage = (element) => {
                     <p>Already have an account? <span id="showLogin">Log in</span></p>
                 </div>
             </div>
+            <div id="themeSwitcher">
+                <span>Current theme: </span>
+                <div class="button"></div>
+            </div>
         </div>
     `;
 
+	element.querySelector("#themeSwitcher .button").appendChild(themeSwitcherComponent());
+
 	// Add event listeners for form buttons and links
+	const loginElementsByKeyEnter = [document.getElementById("loginUsername"), document.getElementById("loginPassword")];
+
+	loginElementsByKeyEnter.forEach((elem) => {
+		elem.addEventListener("keydown", async (event) => {
+			if (event.key === "Enter") {
+				await login();
+			}
+		});
+	});
+
 	document.getElementById("loginButton").addEventListener("click", async () => {
 		await login();
+	});
+
+	const signUpElementsByKeyEnter = [
+		document.getElementById("firstName"),
+		document.getElementById("lastName"),
+		document.getElementById("signupUsername"),
+		document.getElementById("signupPassword"),
+		document.getElementById("signupEmail"),
+	];
+
+	signUpElementsByKeyEnter.forEach((elem) => {
+		elem.addEventListener("keydown", async (event) => {
+			if (event.key === "Enter") {
+				await createAccount();
+			}
+		});
 	});
 
 	document.getElementById("signupButton").addEventListener("click", async () => {
@@ -57,10 +91,10 @@ function toggleForms(form) {
 
 	if (form === "signup") {
 		loginForm.style.display = "none";
-		signupForm.style.display = "block";
+		signupForm.style.display = "flex"; // block
 	} else {
 		signupForm.style.display = "none";
-		loginForm.style.display = "block";
+		loginForm.style.display = "flex"; // block
 	}
 }
 
@@ -70,7 +104,11 @@ const login = async () => {
 	const password = document.getElementById("loginPassword").value;
 
 	if (!username || !password) {
-		alert("Please enter both username and password.");
+		console.log("");
+		new Toast({
+			text: "Please enter both username and password.",
+		});
+
 		return;
 	}
 
@@ -94,13 +132,17 @@ const login = async () => {
 
 				goToPage("/dashboard");
 			} else {
-				alert(data.error);
+				new Toast({
+					text: `${data.error}`,
+				});
 			}
 		}
 	} catch (error) {
 		console.error("Login failed:", error);
 
-		alert("Login failed. Please try again later.");
+		new Toast({
+			text: "Login failed. Please try again later.",
+		});
 	}
 };
 
@@ -113,7 +155,9 @@ const createAccount = async () => {
 	const lastName = document.getElementById("lastName").value;
 
 	if (!username || !password || !email || !firstName || !lastName) {
-		alert("Please fill all fields to create an account.");
+		new Toast({
+			text: "Please fill all fields to create an account.",
+		});
 
 		return;
 	}

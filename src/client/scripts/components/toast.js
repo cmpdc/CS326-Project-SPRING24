@@ -9,6 +9,7 @@ class Toast {
 		if (!["top left", "top center", "top right", "bottom left", "bottom center", "bottom right"].includes(position)) {
 			throw new Error(`Position must be one of "top left", "top center", "top right", "bottom left", "bottom center", "bottom right"`);
 		}
+
 		if (typeof interval !== "number") throw new Error("Interval must be a number");
 
 		this.text = text;
@@ -91,7 +92,21 @@ class Toast {
 				? `translate(-50%, ${(offset + 10) * Toast.existingToasts.length}px)`
 				: `translateY(${(offset + 10) * Toast.existingToasts.length}px)`;
 
-		const toastContainerElem = document.querySelector("#toastContainer");
+		let toastContainerElem = document.querySelector("#toastContainer");
+
+		if (!toastContainerElem) {
+			const _elem = addComponent({
+				type: "div",
+				props: {
+					id: "toastContainer",
+				},
+			});
+
+			const appElem = document.querySelector("#app");
+			appElem.appendChild(_elem);
+			toastContainerElem = _elem;
+		}
+
 		if (toastContainerElem) {
 			toastContainerElem.appendChild(this.toastElement);
 			Toast.existingToasts.push(this.toastElement);

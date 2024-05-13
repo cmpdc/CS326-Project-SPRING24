@@ -298,7 +298,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 				e.preventDefault();
 				e.stopPropagation();
 
-				const eventID = eventData._id;
+				const eventID = eventData.eventId;
 				await deleteEvent(eventID);
 
 				goToPage("/dashboard/current");

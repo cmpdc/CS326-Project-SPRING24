@@ -13,6 +13,8 @@ const __dirname = path.dirname(__filename);
 const PORT = 3001;
 const app = express();
 
+app.use(express.static("client"));
+
 app.use(
 	cors({
 		origin: "http://127.0.0.1:3000",
@@ -191,6 +193,10 @@ app.route("/events/:id")
 	})
 	.delete(async (req, res) => {
 		try {
+			if (req.params.id) {
+				console.error(`Event "id" not found.`);
+			}
+
 			await Events.delete(req.params.id);
 			res.status(204).send();
 		} catch (error) {

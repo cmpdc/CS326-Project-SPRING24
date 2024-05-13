@@ -119,10 +119,8 @@ const eventDisplayCardComponent = (data, index) => {
 				e.stopPropagation();
 				e.preventDefault();
 
-				const eventID = data._id;
+				const eventID = data.eventId;
 				await deleteEvent(eventID);
-
-				goToPage("/dashboard/current");
 			},
 		},
 	});

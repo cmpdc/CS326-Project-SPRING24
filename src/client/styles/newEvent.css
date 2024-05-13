@@ -11,6 +11,20 @@
 	z-index: 999;
 }
 
+body.light-theme .eventContainer {
+	--inputFontColor: rgba(0, 0, 0, 0.6);
+	--placeholderTextColor: rgb(95, 99, 104);
+	--eventContainerHandle: rgba(0, 0, 0, 0.05);
+	--underlineThinColor: rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .eventContainer {
+	--inputFontColor: rgba(255, 255, 255, 0.6);
+	--placeholderTextColor: rgb(199, 199, 199);
+	--eventContainerHandle: rgba(255, 255, 255, 0.05);
+	--underlineThinColor: rgba(255, 255, 255, 0.5);
+}
+
 .eventContainerInner {
 	--handleHeight: 35px;
 	position: relative;
@@ -25,8 +39,8 @@
 .eventContainerHandle {
 	width: 100%;
 	min-height: var(--handleHeight);
+	background-color: var(--eventContainerHandle);
 	position: relative;
-	background-color: rgba(0, 0, 0, 0.05);
 }
 
 .eventContainerHandle.isDragging {
@@ -162,7 +176,7 @@
 	content: "";
 	width: 100%;
 	height: 1px;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: var(--underlineThinColor);
 	position: absolute;
 	inset: auto auto -1px 0;
 	pointer-events: none;
@@ -177,6 +191,9 @@
 
 .eventContent .rightSide span:not(.button) {
 	color: rgb(95, 99, 104);
+	font-size: 14px;
+	font-weight: 400;
+	color: var(--placeholderTextColor);
 	font-size: 14px;
 	font-weight: 400;
 }
