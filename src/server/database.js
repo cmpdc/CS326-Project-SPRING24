@@ -49,7 +49,6 @@ class Database {
 				...doc,
 				...newData,
 			});
-
 			return response;
 		} catch (error) {
 			console.error("Error updating document:", error);

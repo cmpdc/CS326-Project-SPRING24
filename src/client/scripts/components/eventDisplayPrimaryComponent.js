@@ -314,8 +314,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 			onClick: async (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				// Implement the acceptance logic here
-				alert(`Accepted event: ${eventData.title}`);
+				handleAcceptInvitation(eventData.eventId, currentUser);
 			},
 		},
 	});
@@ -328,12 +327,74 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 			onClick: async (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				// Implement the rejection logic here
-				alert(`Rejected event: ${eventData.title}`);
+				hanldeReject(eventData.eventId, currentUser);
 			},
 		},
 	});
 
+	const handleAcceptInvitation = async (eventId, currentUser) => {
+		try {
+			const eventUrl = `http://127.0.0.1:3001/events/${eventId}`;
+			const response = await fetch(eventUrl);
+			if (!response.ok) {
+				throw new Error("Failed to fetch event data.");
+			}
+			const eventData = await response.json();
+
+			// Remove user from invites and add to accepted if not already there
+			eventData.invites = eventData.invites.filter((user) => user !== currentUser);
+			if (!eventData.accepted.includes(currentUser)) {
+				eventData.accepted.push(currentUser);
+			}
+			console.log(eventData);
+			// Update event data
+			const updateResponse = await fetch(eventUrl, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(eventData),
+			});
+
+			if (updateResponse.ok) {
+				alert("You have successfully accepted the invitation.");
+			} else {
+				throw new Error("Failed to accept the invitation.");
+			}
+		} catch (error) {
+			console.error("Error accepting invitation:", error);
+			alert(error.message);
+		}
+	};
+
+	const handleRejectInvitation = async (eventId, currentUser) => {
+		try {
+			const eventUrl = `http://127.0.0.1:3001/events/${eventId}`;
+			const response = await fetch(eventUrl);
+			if (!response.ok) {
+				throw new Error("Failed to fetch event data.");
+			}
+			const eventData = await response.json();
+
+			// Remove user from invites and accepted
+			eventData.invites = eventData.invites.filter((user) => user !== currentUser);
+			eventData.accepted = eventData.accepted.filter((user) => user !== currentUser);
+
+			// Update event data
+			const updateResponse = await fetch(eventUrl, {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(eventData),
+			});
+
+			if (updateResponse.ok) {
+				alert("You have successfully rejected the invitation.");
+			} else {
+				throw new Error("Failed to reject the invitation.");
+			}
+		} catch (error) {
+			console.error("Error rejecting invitation:", error);
+			alert(error.message);
+		}
+	};
 	// Existing buttonContainerComponent with new buttons added conditionally
 	const buttonContainerComponent = addComponent({
 		type: "div",

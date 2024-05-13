@@ -192,7 +192,7 @@ const loadEventPageWithResult = (event) => {
 export const loadEventPage = async (eventId, appElement) => {
 	try {
 		const response = await fetch(`http://127.0.0.1:3001/events/${eventId}`);
-
+		console.log("this worked");
 		if (response.ok) {
 			const eventData = await response.json();
 			loadEventPageWithResult(eventData);

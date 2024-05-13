@@ -60,8 +60,9 @@ class Events {
 				...existingEvent,
 				...eventData,
 			};
+			console.log(eventData);
 
-			return db.update(eventId, updatedDoc);
+			return db.update(eventData._id, updatedDoc);
 		} catch (error) {
 			console.error("Error updating event:", error);
 			throw new Error(error.message);
