@@ -22,7 +22,7 @@ const sidebarLinks = [
 		},
 	},
 	{
-		name: "Shared",
+		name: "Accepted",
 		click: () => {
 			goToPage("/dashboard/shared");
 		},

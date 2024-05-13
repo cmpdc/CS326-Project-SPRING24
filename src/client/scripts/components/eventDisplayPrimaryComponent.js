@@ -188,23 +188,100 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 					type: "div",
 					props: {
 						classList: ["info"],
+						children: [
+							{
+								type: "div",
+								props: {
+									classList: ["header"],
+									textContent: "Invited",
+								},
+							},
+						],
 					},
 				},
 			],
 		},
 	});
 
-	eventData.invites.forEach((data) => {
-		const inviteElem = addComponent({
+	if (eventData.invites.length > 0) {
+		eventData.invites.forEach((data) => {
+			const inviteElem = addComponent({
+				type: "div",
+				props: {
+					classList: ["invite-item"],
+					textContent: data,
+				},
+			});
+
+			inviteComponent.querySelector(".info").appendChild(inviteElem);
+		});
+	} else {
+		const noInvitesElem = addComponent({
 			type: "div",
 			props: {
 				classList: ["invite-item"],
-				textContent: data,
+				textContent: "No users invited",
 			},
 		});
 
-		inviteComponent.querySelector(".info").appendChild(inviteElem);
+		inviteComponent.querySelector(".info").appendChild(noInvitesElem);
+	}
+
+	const acceptedComponent = addComponent({
+		type: "div",
+		props: {
+			id: "accepted",
+			classList: ["acceptedComponent", "row"],
+			children: [
+				{
+					type: "div",
+					props: {
+						classList: ["icon"],
+						children: [guestsIcon],
+					},
+				},
+				{
+					type: "div",
+					props: {
+						classList: ["info"],
+						children: [
+							{
+								type: "div",
+								props: {
+									classList: ["header"],
+									textContent: "Accepted",
+								},
+							},
+						],
+					},
+				},
+			],
+		},
 	});
+
+	if (eventData.accepted.length > 0) {
+		eventData.accepted.forEach((data) => {
+			const acceptedElem = addComponent({
+				type: "div",
+				props: {
+					classList: ["accepted-item"],
+					textContent: data,
+				},
+			});
+
+			acceptedComponent.querySelector(".info").appendChild(acceptedElem);
+		});
+	} else {
+		const noAcceptedElem = addComponent({
+			type: "div",
+			props: {
+				classList: ["accepted-item"],
+				textContent: "No users accepted",
+			},
+		});
+
+		acceptedComponent.querySelector(".info").appendChild(noAcceptedElem);
+	}
 
 	const trackingComponent = addComponent({
 		type: "div",
@@ -327,7 +404,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 			onClick: async (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				hanldeReject(eventData.eventId, currentUser);
+				handleRejectInvitation(eventData.eventId, currentUser);
 			},
 		},
 	});
@@ -433,6 +510,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 							titleComponent,
 							dateTimeComponent,
 							userComponent,
+							acceptedComponent,
 							eventData.location ? locationComponent : void 0,
 							eventData.invites.length ? inviteComponent : null,
 							trackingComponent,

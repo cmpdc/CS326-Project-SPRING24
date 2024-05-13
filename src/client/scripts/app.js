@@ -3,7 +3,7 @@ import { loadAccessPage } from "./pages/access/access.js";
 import { loadDashboardPage } from "./pages/dashboard/dashboard.js";
 import { currentTab } from "./pages/dashboard/tabs/current.js";
 import { pendingTab } from "./pages/dashboard/tabs/pending.js";
-import { sharedTab } from "./pages/dashboard/tabs/shared.js";
+import { acceptedTab } from "./pages/dashboard/tabs/shared.js";
 import { loadInitialPage } from "./pages/initial/initial.js";
 
 /**
@@ -106,7 +106,7 @@ export const updateDashboardContent = (path) => {
 
 			break;
 		case "shared":
-			elemToAppend = sharedTab();
+			elemToAppend = acceptedTab();
 
 			break;
 		case "pending":
