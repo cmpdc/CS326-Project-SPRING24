@@ -1,0 +1,145 @@
+/* start css for "access" (login/registration) page */
+#app:has(> .homepage-background) {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.homepage-background {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+}
+
+.homepage-background h1 {
+    user-select: none;
+}
+
+.homepage-background .appTitle {
+    color: var(--tealColor);
+    position: relative;
+}
+
+.homepage-background .appTitle span {
+    transition: opacity 100ms linear;
+}
+
+.homepage-background .appTitle span:first-child,
+.homepage-background .appTitle:hover span:last-child {
+    opacity: 1;
+}
+
+.homepage-background .appTitle span:last-child,
+.homepage-background .appTitle:hover span:first-child {
+    opacity: 0.6;
+}
+
+.homepage-background #formsContainer {
+    text-align: center;
+    /* margin-top: 100px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.homepage-background .form {
+    /* Separate forms visually when both are visible */
+    width: 400px;
+    min-height: 250px;
+    text-align: center;
+    background-color: var(--floatingBackgroundColor);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 35px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.homepage-background input[type="text"],
+.homepage-background input[type="password"],
+.homepage-background input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.homepage-background .form button {
+    width: 100%;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    background-color: var(--tealColor);
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 15px;
+    appearance: none;
+    cursor: pointer;
+    transition: transform 100ms linear;
+}
+
+.homepage-background .form button:active {
+    transform: translateY(2px)
+}
+
+.homepage-background .form p {
+    color: var(--fontColor);
+    user-select: none;
+}
+
+.homepage-background p span {
+    font-weight: 600;
+    color: var(--tealColor);
+    cursor: pointer;
+}
+
+.homepage-background p span:hover {
+    text-decoration: underline;
+}
+
+.homepage-background #themeSwitcher {
+    margin-top: 30px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.homepage-background #themeSwitcher .button {
+    color: var(--fontColor);
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 5px 8px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.homepage-background #themeSwitcher .button:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--tealColor);
+    position: absolute;
+    inset: 0 auto auto 0;
+    opacity: 0.2;
+    transition: opacity 100ms linear;
+    z-index: -1;
+}
+
+.homepage-background #themeSwitcher .button:hover:before {
+    opacity: 0.4;
+}
+
+/* end css for "access" (login/registration) */

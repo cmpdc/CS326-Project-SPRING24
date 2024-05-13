@@ -12,7 +12,9 @@ export const deleteEvent = async (eventId) => {
 				text: "Event deleted successfully",
 			});
 		} else {
-			throw new Error("Failed to delete event");
+			new Toast({
+				text: "Failed to delete event",
+			});
 		}
 	} catch (error) {
 		new Toast({

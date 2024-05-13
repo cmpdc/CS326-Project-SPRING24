@@ -65,8 +65,8 @@ body.light-theme {
 
 body.dark-theme {
     --fontColor: rgba(255, 255, 255, 1);
-    --fontColor-2: rgba(255, 255, 255, 0.8);
     --fontColor-2: rgba(255, 255, 255, 0.6);
+    --fontColor-3: rgba(255, 255, 255, 0.8);
     --backgroundColor: rgba(30, 31, 34, 1);
     --backgroundColor-2: rgba(49, 51, 56, 0.3);
     --headerBorderColor: rgba(255, 255, 255, 0.2);
@@ -312,6 +312,7 @@ body.dark-theme {
     flex-flow: column;
     align-items: flex-start;
     justify-content: flex-start;
+    gap: 5px;
     z-index: -1;
 }
 
@@ -652,15 +653,18 @@ body.dark-theme {
     height: 90%;
 }
 
-.primaryEvent .right .row {
-    margin-bottom: 15px;
+.primaryEvent div:where(.right, .below) .row {
     display: flex;
     flex-flow: row;
     align-items: center;
     gap: 15px;
 }
 
-.primaryEvent .right .row.dateComponent .info {
+.primaryEvent .right .row {
+    margin-bottom: 15px;
+}
+
+.primaryEvent div:where(.right, .below) .row.dateComponent .info {
     display: flex;
     gap: 10px;
 }
@@ -733,16 +737,26 @@ body.dark-theme {
     background-color: var(--redColor);
 }
 
-.currentTab .primaryEvent .invite-item {
-    border: 1px solid rgba(0, 0, 0, 0.2);
+.primaryEvent .invite-item {
+    border: 1px solid var(--borderLineColor);
     border-radius: 5px;
     padding: 5px 8px;
     transition: background-color 100ms linear;
     cursor: pointer;
 }
 
-.currentTab .primaryEvent .invite-item:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+body.light-theme .primaryEvent .invite-item {
+    --backgroundColorHover: rgba(0, 0, 0, 0.05);
+    --borderLineColor: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .primaryEvent .invite-item {
+    --backgroundColorHover: rgba(255, 255, 255, 0.05);
+    --borderLineColor: rgba(255, 255, 255, 0.3);
+}
+
+.primaryEvent .invite-item:hover {
+    background-color: var(--backgroundColorHover);
 }
 
 .currentTab .grid-list {
@@ -806,7 +820,7 @@ body.dark-theme {
 .event-cards .grid-item .middle {
     width: 250px;
     height: 35px;
-    background-color: #fff;
+    background-color: var(--floatingBackgroundColor);
     border-radius: 10px 10px 0 0;
     padding: 5px 10px;
     inset: var(--topDivide) auto auto 50%;
@@ -835,6 +849,7 @@ body.dark-theme {
 .event-cards .grid-item .bottom {
     width: 100%;
     height: calc(100% - var(--topDivide));
+    background-color: var(--floatingBackgroundColor);
     box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
     inset: auto auto 0 0;
     z-index: 1;
@@ -921,7 +936,7 @@ body.dark-theme {
 
 #toastContainer .toast {
     padding: 15px 20px;
-    background-color: #fff;
+    background-color: var(--floatingBackgroundColor);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -1144,6 +1159,7 @@ body.dark-theme {
     margin: 0;
     /* Adjust margin as needed */
     border: 1px solid #ddd;
+    border-radius: 5px;
     font-size: 1rem;
 
     grid-column: span 1;
@@ -1181,46 +1197,3 @@ body.dark-theme {
     border-radius: 5px;
     cursor: pointer;
 }
-
-
-/* start css for "access" (login/registration) page */
-.homepage-background #formsContainer {
-    text-align: center;
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.homepage-background .form {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    margin-top: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-    margin-bottom: 10px;
-    /* Separate forms visually when both are visible */
-}
-
-.homepage-background input[type="text"],
-.homepage-background input[type="password"],
-.homepage-background input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.homepage-background #formsContainer span {
-    color: #0275d8;
-    cursor: pointer;
-}
-
-.homepage-background #formsContainer span:hover {
-    text-decoration: underline;
-}
-
-/* end css for "access" (login/registration) */

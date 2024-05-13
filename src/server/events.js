@@ -3,6 +3,7 @@ import Database from "./database.js";
 
 const db = new Database("events");
 //TODO: Jason adds database functions for
+
 class Events {
 	constructor() {}
 
@@ -72,7 +73,7 @@ class Events {
 			const event = await Events.get(eventId);
 
 			if (event) {
-				return db.delete(eventId);
+				return db.delete(event._id);
 			} else {
 				throw new Error("Event not found");
 			}

@@ -1,4 +1,5 @@
 import { goToPage } from "../../app.js";
+import { themeSwitcherComponent } from "../../components/themeSwitcher.js";
 import Toast from "../../components/toast.js";
 import { addComponent, createRef, insertModal, removeModalComponent } from "../../utils.js";
 
@@ -409,17 +410,6 @@ const accountSettingsModal = () => {
 export const accountSettingsPopup = () => {
 	const usernameElemRef = createRef();
 	const popoutElemRef = createRef();
-	const themeSwitcherElemRef = createRef();
-
-	const currentTheme = () => {
-		const selectedTheme = localStorage.getItem("theme");
-
-		if (!selectedTheme) {
-			return "Light Theme";
-		}
-
-		return selectedTheme === "light" ? "Light Theme" : "Dark Theme";
-	};
 
 	fetchUser().then((res) => {
 		usernameElemRef.current.textContent = `${res.firstName}!`;
@@ -475,29 +465,7 @@ export const accountSettingsPopup = () => {
 						},
 					},
 				}),
-				addComponent({
-					type: "span",
-					ref: themeSwitcherElemRef,
-					props: {
-						textContent: currentTheme(),
-						onClick: (e) => {
-							e.preventDefault();
-							e.stopPropagation();
-
-							const isLightTheme = themeSwitcherElemRef.current.textContent === "Light Theme";
-							themeSwitcherElemRef.current.textContent = isLightTheme ? "Dark Theme" : "Light Theme";
-							localStorage.setItem("theme", isLightTheme ? "dark" : "light");
-
-							if (isLightTheme) {
-								document.body.classList.remove("light-theme");
-								document.body.classList.add("dark-theme");
-							} else {
-								document.body.classList.remove("dark-theme");
-								document.body.classList.add("light-theme");
-							}
-						},
-					},
-				}),
+				themeSwitcherComponent(),
 				addComponent({
 					type: "span",
 					props: {
