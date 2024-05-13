@@ -126,6 +126,35 @@ const eventDisplayCardComponent = (data, index) => {
 			},
 		},
 	});
+	const isInvited = data.invites.includes(currentUser);
+
+	const acceptButton = addComponent({
+		type: "button",
+		props: {
+			textContent: "Accept",
+			classList: ["button", "accept"],
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				// Implement the acceptance logic here
+				alert(`Accepted event: ${eventData.title}`);
+			},
+		},
+	});
+
+	const rejectButton = addComponent({
+		type: "button",
+		props: {
+			textContent: "Reject",
+			classList: ["button", "reject"],
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				// Implement the rejection logic here
+				alert(`Rejected event: ${eventData.title}`);
+			},
+		},
+	});
 
 	const detailsComponent = addComponent({
 		type: "div",
@@ -174,7 +203,12 @@ const eventDisplayCardComponent = (data, index) => {
 					type: "div",
 					props: {
 						classList: ["buttons"],
-						children: [viewButton, isOwner || !isExpiredEvent ? editButton : null, isOwner ? deleteButton : null],
+						children: [
+							viewButton,
+							isOwner || !isExpiredEvent ? editButton : null,
+							isOwner ? deleteButton : null,
+							...(!isOwner && isInvited ? [acceptButton, rejectButton] : []),
+						],
 					},
 				},
 			],

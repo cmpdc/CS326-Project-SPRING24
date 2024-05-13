@@ -8,6 +8,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 
 	const currentUser = localStorage.getItem("username");
 	const isOwner = currentUser === eventData.creator;
+	const isInvited = eventData.invites.includes(currentUser);
 
 	const titleComponent = addComponent({
 		type: "h2",
@@ -305,11 +306,46 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 		},
 	});
 
+	const acceptButton = addComponent({
+		type: "button",
+		props: {
+			textContent: "Accept",
+			classList: ["button", "accept"],
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				// Implement the acceptance logic here
+				alert(`Accepted event: ${eventData.title}`);
+			},
+		},
+	});
+
+	const rejectButton = addComponent({
+		type: "button",
+		props: {
+			textContent: "Reject",
+			classList: ["button", "reject"],
+			onClick: async (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				// Implement the rejection logic here
+				alert(`Rejected event: ${eventData.title}`);
+			},
+		},
+	});
+
+	// Existing buttonContainerComponent with new buttons added conditionally
 	const buttonContainerComponent = addComponent({
 		type: "div",
 		props: {
 			classList: ["buttonContainer"],
-			children: [viewDetailsButton, isOwner ? editButton : void 0, isOwner ? deleteButton : void 0],
+			children: [
+				viewDetailsButton,
+				isOwner ? editButton : null,
+				isOwner ? deleteButton : null,
+				isInvited && !isOwner ? acceptButton : null,
+				isInvited && !isOwner ? rejectButton : null,
+			].filter(Boolean), // Filters out null values
 		},
 	});
 

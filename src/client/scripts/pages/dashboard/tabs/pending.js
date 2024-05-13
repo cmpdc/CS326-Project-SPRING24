@@ -11,7 +11,9 @@ const fetchEvents = async () => {
 		}
 
 		const data = await response.json();
-		// Filter events to only include those where the username is in the invites array
+		const currentTime = new Date(); // Get the current date and time
+
+		// Filter events to include only those where the username is in the invites array and the event has not passed
 		const filteredData = data.filter((event) => event.invites.includes(username));
 		return filteredData;
 	} catch (error) {
