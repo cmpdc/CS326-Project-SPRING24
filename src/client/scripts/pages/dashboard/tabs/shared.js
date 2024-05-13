@@ -113,6 +113,39 @@ const acceptedEventsResultElem = (list) => {
 	return elem;
 };
 
+const noResultElem = () => {
+	const elem = addComponent({
+		type: "div",
+		props: {
+			classList: ["noResult-message"],
+			children: [
+				addComponent({
+					type: "h1",
+					props: {
+						textContent: "Accepted",
+					},
+				}),
+				addComponent({
+					type: "div",
+					props: {
+						classList: ["noResult-content"],
+						children: [
+							addComponent({
+								type: "h2",
+								props: {
+									textContent: "No Accepted Events",
+								},
+							}),
+						],
+					},
+				}),
+			],
+		},
+	});
+
+	return elem;
+};
+
 const updateAcceptedTabContent = async (childRef) => {
 	try {
 		const results = await fetchAcceptedEvents();
@@ -144,6 +177,7 @@ const updateAcceptedTabContent = async (childRef) => {
 export const acceptedTab = () => {
 	const childRef = createRef();
 	console.log(localStorage.getItem("username"));
+
 	const elem = addComponent({
 		type: "div",
 		ref: childRef,

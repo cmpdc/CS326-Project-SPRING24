@@ -46,7 +46,7 @@ const navigate = () => {
 				goToPage("/dashboard/current");
 				break;
 			case "/dashboard/current":
-			case "/dashboard/shared":
+			case "/dashboard/accepted":
 			case "/dashboard/pending":
 				appElement.innerHTML = "";
 
@@ -105,7 +105,7 @@ export const updateDashboardContent = (path) => {
 			elemToAppend = currentTab();
 
 			break;
-		case "shared":
+		case "accepted":
 			elemToAppend = acceptedTab();
 
 			break;

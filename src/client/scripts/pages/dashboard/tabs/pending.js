@@ -122,7 +122,7 @@ const noResultElem = () => {
 				addComponent({
 					type: "h1",
 					props: {
-						textContent: "Events",
+						textContent: "Pending",
 					},
 				}),
 				addComponent({
@@ -133,7 +133,7 @@ const noResultElem = () => {
 							addComponent({
 								type: "h2",
 								props: {
-									textContent: "No Events",
+									textContent: "No Pending Events",
 								},
 							}),
 						],
