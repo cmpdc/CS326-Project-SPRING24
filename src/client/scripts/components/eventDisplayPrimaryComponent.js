@@ -440,6 +440,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 			console.error("Error accepting invitation:", error);
 			alert(error.message);
 		}
+		goToPage("/dashboard/pending");
 	};
 
 	const handleRejectInvitation = async (eventId, currentUser) => {
@@ -471,6 +472,7 @@ const eventDisplayElemComponent = (eventData, mapSettings) => {
 			console.error("Error rejecting invitation:", error);
 			alert(error.message);
 		}
+		goToPage("/dashboard/pending");
 	};
 	// Existing buttonContainerComponent with new buttons added conditionally
 	const buttonContainerComponent = addComponent({

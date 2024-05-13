@@ -183,7 +183,7 @@ const eventDisplayCardComponent = (data, index) => {
 			}
 		} catch (error) {
 			console.error("Error accepting invitation:", error);
-			alert(error.message);
+			goToPage("/dashboard/pending");
 		}
 	};
 
@@ -216,6 +216,7 @@ const eventDisplayCardComponent = (data, index) => {
 			console.error("Error rejecting invitation:", error);
 			alert(error.message);
 		}
+		goToPage("/dashboard/pending");
 	};
 	const detailsComponent = addComponent({
 		type: "div",
