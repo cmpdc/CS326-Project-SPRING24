@@ -5,7 +5,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Events from "./events.js";
 import Users from "./users.js";
-//TODO: Jason study this code
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
